@@ -6,4 +6,7 @@
 
 <resources>
 
+    <string name="alert_button_ok">Ok</string>
+    <string name="demo_title">Demo</string>
+    <string name="demo_hello_world">Hello world</string>
 </resources>

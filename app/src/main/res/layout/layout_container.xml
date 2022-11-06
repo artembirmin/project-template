@@ -2,13 +2,15 @@
 <!--
   ~ ProjectTemplate
   ~
-  ~ Created by artembirmin on 3/11/2022.
+  ~ Created by artembirmin on 6/11/2022.
   -->
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".app.AppActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </androidx.fragment.app.FragmentContainerView>
+</layout>

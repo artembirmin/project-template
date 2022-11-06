@@ -22,5 +22,5 @@ dependencyResolutionManagement {
         jcenter()
     }
 }
-rootProject.name = "ProjectTemplate"
+rootProject.name = "projecttemplate"
 include ':app'
