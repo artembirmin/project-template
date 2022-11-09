@@ -1,10 +1,10 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 6/11/2022.
+ * Created by artembirmin on 9/11/2022.
  */
 
-package com.incetro.projecttemplate.presentation.base.adapter.databindingdiff
+package com.incetro.projecttemplate.presentation.base.adapter
 
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding

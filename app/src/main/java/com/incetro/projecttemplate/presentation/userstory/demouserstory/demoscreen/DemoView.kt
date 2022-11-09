@@ -4,7 +4,7 @@
  * Created by artembirmin on 6/11/2022.
  */
 
-package com.incetro.projecttemplate.presentation.userstory.demo
+package com.incetro.projecttemplate.presentation.userstory.demouserstory.demoscreen
 
 import com.incetro.projecttemplate.presentation.base.BaseView
 import moxy.viewstate.strategy.AddToEndSingleStrategy

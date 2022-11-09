@@ -20,7 +20,6 @@ import com.incetro.projecttemplate.common.di.componentmanager.ComponentManager
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsStore
 import com.incetro.projecttemplate.entity.errors.AppError
 import com.incetro.projecttemplate.presentation.base.BaseView
-import com.incetro.projecttemplate.presentation.base.HasBottomNavigation
 import com.incetro.projecttemplate.presentation.base.messageshowing.ErrorHandler
 import moxy.MvpAppCompatFragment
 import javax.inject.Inject
@@ -40,7 +39,6 @@ abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(),
 
     /** Layout id from res/layout. */
     abstract val layoutRes: Int
-    open val hasTabs: Boolean = false
 
     /**
      * True, when [onSaveInstanceState] called.
@@ -78,20 +76,6 @@ abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(),
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layoutRes, container, false)
         return binding.root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        changeTabVisibility(hasTabs)
-    }
-
-    private fun changeTabVisibility(isVisible: Boolean) {
-        val parent = parentFragment
-        if (parent != null) {
-            if (parent is HasBottomNavigation) parent.showTabs(isVisible)
-            else (parentFragment as? BaseFragment<*>)?.changeTabVisibility(isVisible)
-        }
     }
 
     override fun onResume() {

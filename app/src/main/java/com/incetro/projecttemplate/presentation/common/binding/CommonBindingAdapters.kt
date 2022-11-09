@@ -4,7 +4,7 @@
  * Created by artembirmin on 5/11/2022.
  */
 
-package com.incetro.projecttemplate.presentation.base.binding
+package com.incetro.projecttemplate.presentation.common.binding
 
 import android.view.View
 import androidx.databinding.BindingAdapter

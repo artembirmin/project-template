@@ -9,7 +9,7 @@
 package com.incetro.projecttemplate.common.navigation
 
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import com.incetro.projecttemplate.presentation.userstory.demo.DemoFragment
+import com.incetro.projecttemplate.presentation.userstory.demouserstory.demoscreen.DemoFragment
 
 /**
  * App screens for navigation with Cicerone.

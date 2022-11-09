@@ -4,7 +4,7 @@
  * Created by artembirmin on 6/11/2022.
  */
 
-package com.incetro.projecttemplate.presentation.base.adapter.databindingdiff
+package com.incetro.projecttemplate.presentation.base.adapter
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
