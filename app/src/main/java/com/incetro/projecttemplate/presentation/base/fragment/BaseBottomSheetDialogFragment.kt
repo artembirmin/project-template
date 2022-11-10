@@ -109,7 +109,7 @@ abstract class BaseBottomSheetDialogFragment<Binding : ViewDataBinding> :
 
     private val isRealRemoving: Boolean =
         (isRemoving && !isInstanceStateSaved) //because isRemoving == true for fragment in backstack on screen rotation
-                || ((parentFragment as? BaseFragment<*>)?.isRealRemoving ?: false)
+                || ((parentFragment as? BaseFragment<*>)?.isRealRemoving() ?: false)
 
     override fun showError(error: Throwable) {
         showError(AppError(error))

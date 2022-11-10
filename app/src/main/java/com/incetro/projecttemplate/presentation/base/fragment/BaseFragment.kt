@@ -102,15 +102,15 @@ abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(),
         when {
             activity?.isChangingConfigurations == true -> false
             activity?.isFinishing == true -> true
-            else -> isRealRemoving
+            else -> isRealRemoving()
         }
 
     /**
      * `True` if current fragment removing now.
      */
-    val isRealRemoving: Boolean =
+    fun isRealRemoving(): Boolean =
         (isRemoving && !isInstanceStateSaved) //because isRemoving == true for fragment in backstack on screen rotation
-                || ((parentFragment as? BaseFragment<*>)?.isRealRemoving ?: false)
+                || ((parentFragment as? BaseFragment<*>)?.isRealRemoving() ?: false)
 
     override fun showError(error: Throwable) {
         showError(AppError(error))
