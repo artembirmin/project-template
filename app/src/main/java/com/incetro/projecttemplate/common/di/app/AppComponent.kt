@@ -13,8 +13,11 @@ import com.incetro.projecttemplate.app.AppLauncher
 import com.incetro.projecttemplate.common.di.app.module.AppModule
 import com.incetro.projecttemplate.common.di.app.module.AppNavigationModule
 import com.incetro.projecttemplate.common.di.app.module.CommonAppModule
+import com.incetro.projecttemplate.common.di.app.module.DatabaseModule
 import com.incetro.projecttemplate.common.manager.ResourcesManager
 import com.incetro.projecttemplate.common.navigation.AppRouter
+import com.incetro.projecttemplate.model.database.AppDatabase
+import com.incetro.projecttemplate.model.database.demo.DemoDao
 import dagger.Component
 import javax.inject.Singleton
 
@@ -24,6 +27,7 @@ import javax.inject.Singleton
         AppModule::class,
         CommonAppModule::class,
         AppNavigationModule::class,
+        DatabaseModule::class,
     ]
 )
 interface AppComponent {
@@ -39,6 +43,10 @@ interface AppComponent {
     // AppNavigationModule
     fun provideNavigationHolder(): NavigatorHolder
     fun provideAppRouter(): AppRouter
+
+    // Database module
+    fun provideAppDatabase(): AppDatabase
+    fun provideDemoDao(): DemoDao
 
     // Other
     fun provideResourcesManager(): ResourcesManager

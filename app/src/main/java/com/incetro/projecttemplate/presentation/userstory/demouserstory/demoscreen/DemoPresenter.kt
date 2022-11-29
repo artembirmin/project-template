@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @InjectViewState
 class DemoPresenter @Inject constructor(
-    private val router: AppRouter
+    private val router: AppRouter,
 ) : BasePresenter<DemoView>() {
 
     override fun onFirstViewAttach() {

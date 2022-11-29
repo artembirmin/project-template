@@ -14,6 +14,8 @@ import com.incetro.projecttemplate.common.di.componentmanager.ComponentsManager
 import com.incetro.projecttemplate.common.di.scope.ActivityScope
 import com.incetro.projecttemplate.common.manager.ResourcesManager
 import com.incetro.projecttemplate.common.navigation.AppRouter
+import com.incetro.projecttemplate.model.database.AppDatabase
+import com.incetro.projecttemplate.model.database.demo.DemoDao
 import dagger.Component
 
 @ActivityScope
@@ -31,6 +33,10 @@ interface ActivityComponent {
 
     // AppNavigationModule from AppComponent
     fun provideAppRouter(): AppRouter
+
+    // Database module
+    fun provideAppDatabase(): AppDatabase
+    fun provideDemoDao(): DemoDao
 
     // Other
     fun provideResourcesManager(): ResourcesManager
