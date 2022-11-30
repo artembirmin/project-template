@@ -6,6 +6,7 @@
 
 package com.incetro.projecttemplate.presentation.base.messageshowing
 
+import android.widget.Toast
 import androidx.annotation.StringRes
 import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.entity.errors.AppError
@@ -27,5 +28,13 @@ interface MessageView {
         onPositiveButtonClick: (() -> Unit)? = null,
         onNegativeButtonClick: (() -> Unit)? = null,
         onDismiss: (() -> Unit)? = null
+    )
+
+    fun showMessageByToast(
+        @StringRes message: Int, duration: Int = Toast.LENGTH_SHORT
+    )
+
+    fun showMessageByToast(
+        message: String, duration: Int = Toast.LENGTH_SHORT
     )
 }
