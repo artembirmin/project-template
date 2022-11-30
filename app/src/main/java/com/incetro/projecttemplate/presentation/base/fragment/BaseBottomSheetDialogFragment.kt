@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -138,5 +139,13 @@ abstract class BaseBottomSheetDialogFragment<Binding : ViewDataBinding> :
             .setOnDismissListener { onDismiss?.invoke() }
             .create()
             .show()
+    }
+
+    override fun showMessageByToast(message: Int, duration: Int) {
+        Toast.makeText(requireContext(), message, duration).show()
+    }
+
+    override fun showMessageByToast(message: String, duration: Int) {
+        Toast.makeText(requireContext(), message, duration).show()
     }
 }
