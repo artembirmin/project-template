@@ -4,14 +4,14 @@
  * Created by artembirmin on 6/11/2022.
  */
 
-package com.incetro.projecttemplate.presentation.userstory.demouserstory.demoscreen
+package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
 
 import android.os.Bundle
 import android.view.View
 import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.databinding.FragmentDemoBinding
 import com.incetro.projecttemplate.presentation.base.fragment.BaseFragment
-import com.incetro.projecttemplate.presentation.userstory.demouserstory.di.DemoComponent
+import com.incetro.projecttemplate.presentation.userstory.demo.di.DemoComponent
 import moxy.presenter.InjectPresenter
 import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
