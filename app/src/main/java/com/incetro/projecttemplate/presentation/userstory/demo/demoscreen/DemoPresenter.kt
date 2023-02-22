@@ -4,7 +4,7 @@
  * Created by artembirmin on 6/11/2022.
  */
 
-package com.incetro.projecttemplate.presentation.userstory.demouserstory.demoscreen
+package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
 
 import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.presentation.base.fragment.BasePresenter
