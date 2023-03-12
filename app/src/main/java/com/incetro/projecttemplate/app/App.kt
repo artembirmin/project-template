@@ -9,6 +9,7 @@ package com.incetro.projecttemplate.app
 import android.app.Application
 import com.incetro.projecttemplate.BuildConfig
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsManager
+import com.incetro.projecttemplate.utils.FileLoggingTree
 import timber.log.Timber
 
 class App : Application() {
@@ -20,6 +21,7 @@ class App : Application() {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+            Timber.plant(FileLoggingTree(this))
         }
     }
 
