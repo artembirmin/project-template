@@ -119,6 +119,9 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
 
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.9'
+
     // Permissions
     implementation 'com.github.tbruyelle:rxpermissions:0.12'
 
