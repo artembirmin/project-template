@@ -13,6 +13,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.incetro.projecttemplate.R
 import com.mapbox.android.core.location.LocationEngine
 import com.mapbox.android.core.permissions.PermissionsListener
@@ -32,7 +33,6 @@ import com.mapbox.mapboxsdk.style.layers.Property
 import com.mapbox.mapboxsdk.style.layers.Property.ICON_PITCH_ALIGNMENT_MAP
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.*
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer
-import com.mapbox.mapboxsdk.utils.BitmapUtils
 
 /**
  * Turn a conical gradient drawable as a [SymbolLayer]'s icon and rotate the icon
@@ -52,7 +52,8 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
 
         // Mapbox access token is configured here. This needs to be called either in your application
         // object or in the same activity which contains the mapview.
-        Mapbox.getInstance(this, getString(R.string.access_token))
+        Mapbox.getInstance(this,
+            getString(R.string.access_token))
 
         // This contains the MapView in XML and needs to be called after the access token is configured.
         setContentView(R.layout.activity_lab_spinning_radar)
@@ -76,9 +77,12 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
 
                 // Activate the LocationComponent with options
                 activateLocationComponent(LocationComponentActivationOptions
-                    .builder(this@SpinningRadarActivity, loadedMapStyle)
-                    .locationComponentOptions(LocationComponentOptions.builder(this@SpinningRadarActivity)
-                        .accuracyAnimationEnabled(false)
+                    .builder(this@SpinningRadarActivity,
+                        loadedMapStyle)
+                    .locationComponentOptions(LocationComponentOptions.builder(
+                        this@SpinningRadarActivity)
+                        .accuracyAnimationEnabled(
+                            false)
                         .accuracyAlpha(0f)
                         .enableStaleState(false)
                         .build())
@@ -94,28 +98,41 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
                 renderMode = RenderMode.NORMAL
 
                 // Add the conical gradient drawable as a Bitmap
+
+                val radarBitmap by lazy {
+                    ContextCompat.getDrawable(
+                        applicationContext,
+                        R.drawable.ic_radar)
+                        ?.toBitmap(width = 1000, height = 1000)
+                }
+
                 loadedMapStyle.addImage(SPINNING_RADAR_IMAGE_ID,
-                    BitmapUtils.getBitmapFromDrawable(ContextCompat.getDrawable(
-                        applicationContext, R.drawable.spinning_radar_gradient))
-                    !!
+                    radarBitmap!!
                 )
 
                 /**
                  * Create the gradient radar image's SymbolLayer and place is below the
                  * Maps SDK's LocationComponent.
                  */
-                loadedMapStyle.addLayerBelow(SymbolLayer(SPINNING_RADAR_LAYER_ID, LOCATION_SOURCE)
+                val layer = SymbolLayer(SPINNING_RADAR_LAYER_ID,
+                    LOCATION_SOURCE)
                     .withProperties(
+                        visibility(Property.VISIBLE),
                         iconImage(SPINNING_RADAR_IMAGE_ID),
                         iconSize(1f),
                         iconOpacity(.7f),
-
                         iconIgnorePlacement(true),
                         iconAllowOverlap(true),
+                        textAllowOverlap(true),
                         iconRotationAlignment(Property.ICON_PITCH_ALIGNMENT_MAP),
-                        iconPitchAlignment(ICON_PITCH_ALIGNMENT_MAP)),
-                    "mapbox-location-pulsing-circle-layer")
+                        iconPitchAlignment(ICON_PITCH_ALIGNMENT_MAP)
+                    ).apply {
+                        minZoom = 0f
+                    }
 
+                loadedMapStyle.addLayerBelow(
+                    layer,
+                    "mapbox-location-pulsing-circle-layer")
                 startSpinningRadarAnimation()
             }
         } else {
@@ -133,7 +150,7 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
     private fun startSpinningRadarAnimation() {
         iconSpinningAnimator?.cancel()
         iconSpinningAnimator = ValueAnimator.ofFloat(0f, 360f).also {
-            it.duration = SPINNING_RADAR_IMAGE_SECONDS_PER_SPIN * 100000.toLong()
+            it.duration = SPINNING_RADAR_IMAGE_SECONDS_PER_SPIN * 400.toLong()
             it.interpolator = LinearInterpolator()
             it.repeatCount = ValueAnimator.INFINITE
             it.addUpdateListener { valueAnimator -> // Retrieve the new animation number to use as the map camera bearing value
