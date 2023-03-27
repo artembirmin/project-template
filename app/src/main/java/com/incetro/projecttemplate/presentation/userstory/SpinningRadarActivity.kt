@@ -76,7 +76,7 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
     }
 
     val radarRadiusInMeters = 100
-    var olfRadarRadiusPx = 100
+    var oldRadarRadiusPx = 100
 
     @SuppressLint("MissingPermission")
     private fun enableLocationComponent(loadedMapStyle: Style) {
@@ -85,11 +85,11 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
 
             mapboxMap.addOnCameraMoveListener {
 
-                val newRad = getRadarRadiusPx()
-                val coef = newRad.toFloat() / olfRadarRadiusPx
+                val newRad = getRadarRadiusPx() * 2
+                val coef = newRad.toFloat() / oldRadarRadiusPx
                 Timber.d("RADAR addOnCameraIdleListener" +
                         " newRad = $newRad," +
-                        " olfRadarRadiusPx = $olfRadarRadiusPx," +
+                        " olfRadarRadiusPx = $oldRadarRadiusPx," +
                         " coef = $coef," +
                         "")
 
@@ -129,22 +129,24 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
                 // Add the conical gradient drawable as a Bitmap
 
                 val radarBitmap by lazy {
-                    olfRadarRadiusPx = 1000
+                    oldRadarRadiusPx = 500 * 2
                     ContextCompat.getDrawable(
                         applicationContext,
                         R.drawable.ic_radar)
-                        ?.toBitmap(width = olfRadarRadiusPx, height = olfRadarRadiusPx)
+                        ?.toBitmap(width = oldRadarRadiusPx, height = oldRadarRadiusPx)
                 }
+                Timber.d("RADAR radarBitmap = ${radarBitmap!!.width}")
                 val radarDrawable by lazy {
                     ContextCompat.getDrawable(
                         applicationContext,
                         R.drawable.ic_radar
                     )
                 }
-
+                Timber.d("RADAR radarDrawable = ${radarDrawable!!.intrinsicWidth}")
+                oldRadarRadiusPx = radarDrawable!!.intrinsicWidth
 
                 loadedMapStyle.addImage(SPINNING_RADAR_IMAGE_ID,
-                    radarBitmap!!
+                    radarDrawable!!
                 )
 
 //                mapboxMap.getStyle { style ->
@@ -172,10 +174,8 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
                     .withProperties(
                         visibility(Property.VISIBLE),
                         iconImage(SPINNING_RADAR_IMAGE_ID),
-                        iconSize(1f),
                         iconOpacity(.7f),
                         iconIgnorePlacement(true),
-                        iconAllowOverlap(true),
                         textAllowOverlap(true),
                         iconRotationAlignment(Property.ICON_PITCH_ALIGNMENT_MAP),
                         iconPitchAlignment(ICON_PITCH_ALIGNMENT_MAP)
@@ -201,10 +201,13 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
 
         val nePointll = coordinateBoundsForCamera.latLngBounds.northEast
         val swPointll = coordinateBoundsForCamera.latLngBounds.southWest
+
         val nePoint = Point.fromLngLat(nePointll.longitude, nePointll.latitude)
         val swPoint = Point.fromLngLat(swPointll.longitude, swPointll.latitude)
+
         val mapViewDiagonalPx =
                 kotlin.math.sqrt(mapView.width.toDouble().pow(2) + mapView.height.toDouble().pow(2))
+        Timber.d("RADAR mapViewDiagonalPx = $mapViewDiagonalPx, mapView.height = ${mapView.height}, mapView.width = ${mapView.width}")
         val mapViewDiagonalMeters =
                 TurfMeasurement.distance(nePoint, swPoint, TurfConstants.UNIT_METERS)
         val pixelMeter = mapViewDiagonalPx / mapViewDiagonalMeters
@@ -220,7 +223,7 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
     private fun startSpinningRadarAnimation() {
         iconSpinningAnimator?.cancel()
         iconSpinningAnimator = ValueAnimator.ofFloat(0f, 360f).also {
-            it.duration = SPINNING_RADAR_IMAGE_SECONDS_PER_SPIN * 40000.toLong()
+            it.duration = SPINNING_RADAR_IMAGE_SECONDS_PER_SPIN * 4000.toLong()
             it.interpolator = LinearInterpolator()
             it.repeatCount = ValueAnimator.INFINITE
             it.addUpdateListener { valueAnimator -> // Retrieve the new animation number to use as the map camera bearing value
@@ -228,7 +231,7 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
 //                Log.d("iconSpinningAnimator addUpdateListener", "newIconRotateValue: " + newIconRotateValue)
                 mapboxMap.getStyle { style ->
                     val locationComponentRadarBackgroundLayer =
-                        style.getLayerAs<Layer>(SPINNING_RADAR_LAYER_ID)
+                            style.getLayerAs<Layer>(SPINNING_RADAR_LAYER_ID)
                     locationComponentRadarBackgroundLayer?.setProperties(
                         iconRotate(newIconRotateValue)
                     )
