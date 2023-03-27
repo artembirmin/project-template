@@ -4,7 +4,6 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 
 
-
 android {
     compileSdkVersion 32
     defaultConfig {
@@ -136,11 +135,12 @@ dependencies {
     // Gson
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.github.tbruyelle:rxpermissions:0.12'
-    //todo update mapbox to v10 and check this dependency
 
+    //Mapbox
+//        implementation "com.mapbox.maps:android:10.3.0"
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.0'
-    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:5.5.0'
-    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:5.5.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:5.8.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:5.8.0'
 
     // DateTime
     implementation 'net.danlew:android.joda:2.10.14'

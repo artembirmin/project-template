@@ -18,6 +18,7 @@ import com.incetro.projecttemplate.R
 import com.mapbox.android.core.location.LocationEngine
 import com.mapbox.android.core.permissions.PermissionsListener
 import com.mapbox.android.core.permissions.PermissionsManager
+import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.Mapbox
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions
 import com.mapbox.mapboxsdk.location.LocationComponentConstants.LOCATION_SOURCE
@@ -33,6 +34,11 @@ import com.mapbox.mapboxsdk.style.layers.Property
 import com.mapbox.mapboxsdk.style.layers.Property.ICON_PITCH_ALIGNMENT_MAP
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.*
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer
+import com.mapbox.turf.TurfConstants
+import com.mapbox.turf.TurfMeasurement
+import timber.log.Timber
+import kotlin.math.pow
+import kotlin.math.roundToInt
 
 /**
  * Turn a conical gradient drawable as a [SymbolLayer]'s icon and rotate the icon
@@ -69,10 +75,33 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
         }
     }
 
+    val radarRadiusInMeters = 100
+    var olfRadarRadiusPx = 100
+
     @SuppressLint("MissingPermission")
     private fun enableLocationComponent(loadedMapStyle: Style) {
         // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(this)) {
+
+            mapboxMap.addOnCameraMoveListener {
+
+                val newRad = getRadarRadiusPx()
+                val coef = newRad.toFloat() / olfRadarRadiusPx
+                Timber.d("RADAR addOnCameraIdleListener" +
+                        " newRad = $newRad," +
+                        " olfRadarRadiusPx = $olfRadarRadiusPx," +
+                        " coef = $coef," +
+                        "")
+
+                mapboxMap.getStyle { style ->
+                    val locationComponentRadarBackgroundLayer =
+                            style.getLayerAs<Layer>(SPINNING_RADAR_LAYER_ID)
+                    locationComponentRadarBackgroundLayer?.setProperties(
+                        iconSize(coef)
+                    )
+                }
+            }
+
             mapboxMap.locationComponent.apply {
 
                 // Activate the LocationComponent with options
@@ -100,15 +129,39 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
                 // Add the conical gradient drawable as a Bitmap
 
                 val radarBitmap by lazy {
+                    olfRadarRadiusPx = 1000
                     ContextCompat.getDrawable(
                         applicationContext,
                         R.drawable.ic_radar)
-                        ?.toBitmap(width = 1000, height = 1000)
+                        ?.toBitmap(width = olfRadarRadiusPx, height = olfRadarRadiusPx)
                 }
+                val radarDrawable by lazy {
+                    ContextCompat.getDrawable(
+                        applicationContext,
+                        R.drawable.ic_radar
+                    )
+                }
+
 
                 loadedMapStyle.addImage(SPINNING_RADAR_IMAGE_ID,
                     radarBitmap!!
                 )
+
+//                mapboxMap.getStyle { style ->
+//                    val newRad = getRadarRadiusPx()
+//                    val coef = newRad.toFloat() / olfRadarRadiusPx
+//                    Timber.d("RADAR init" +
+//                            " newRad = $newRad," +
+//                            " olfRadarRadiusPx = $olfRadarRadiusPx," +
+//                            " coef = $coef," +
+//                            "")
+//                    olfRadarRadiusPx = newRad
+//                    val locationComponentRadarBackgroundLayer =
+//                            style.getLayerAs<Layer>(SPINNING_RADAR_LAYER_ID)
+//                    locationComponentRadarBackgroundLayer?.setProperties(
+//                        iconSize(coef)
+//                    )
+//                }
 
                 /**
                  * Create the gradient radar image's SymbolLayer and place is below the
@@ -142,6 +195,23 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
         }
     }
 
+    private fun getRadarRadiusPx(): Int {
+        val coordinateBoundsForCamera =
+                mapboxMap.getLatLngBoundsZoomFromCamera(mapboxMap.cameraPosition)
+
+        val nePointll = coordinateBoundsForCamera.latLngBounds.northEast
+        val swPointll = coordinateBoundsForCamera.latLngBounds.southWest
+        val nePoint = Point.fromLngLat(nePointll.longitude, nePointll.latitude)
+        val swPoint = Point.fromLngLat(swPointll.longitude, swPointll.latitude)
+        val mapViewDiagonalPx =
+                kotlin.math.sqrt(mapView.width.toDouble().pow(2) + mapView.height.toDouble().pow(2))
+        val mapViewDiagonalMeters =
+                TurfMeasurement.distance(nePoint, swPoint, TurfConstants.UNIT_METERS)
+        val pixelMeter = mapViewDiagonalPx / mapViewDiagonalMeters
+        return (radarRadiusInMeters * pixelMeter).roundToInt()
+    }
+
+
     /**
      * Set up and start the spinning radar animation. The Android system ValueAnimator emits a new value, which is
      * used as the radar gradient image's rotation value. The value is animated from 0 to 360 because of the
@@ -150,7 +220,7 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
     private fun startSpinningRadarAnimation() {
         iconSpinningAnimator?.cancel()
         iconSpinningAnimator = ValueAnimator.ofFloat(0f, 360f).also {
-            it.duration = SPINNING_RADAR_IMAGE_SECONDS_PER_SPIN * 400.toLong()
+            it.duration = SPINNING_RADAR_IMAGE_SECONDS_PER_SPIN * 40000.toLong()
             it.interpolator = LinearInterpolator()
             it.repeatCount = ValueAnimator.INFINITE
             it.addUpdateListener { valueAnimator -> // Retrieve the new animation number to use as the map camera bearing value
