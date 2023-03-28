@@ -223,7 +223,7 @@ class SpinningRadarActivity : AppCompatActivity(), OnMapReadyCallback, Permissio
     private fun startSpinningRadarAnimation() {
         iconSpinningAnimator?.cancel()
         iconSpinningAnimator = ValueAnimator.ofFloat(0f, 360f).also {
-            it.duration = SPINNING_RADAR_IMAGE_SECONDS_PER_SPIN * 4000.toLong()
+            it.duration = SPINNING_RADAR_IMAGE_SECONDS_PER_SPIN * 500.toLong()
             it.interpolator = LinearInterpolator()
             it.repeatCount = ValueAnimator.INFINITE
             it.addUpdateListener { valueAnimator -> // Retrieve the new animation number to use as the map camera bearing value
