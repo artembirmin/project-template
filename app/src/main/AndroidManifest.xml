@@ -27,7 +27,7 @@
         android:theme="@style/Theme.ProjectTemplate"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.userstory.SpinningRadarActivity"
+            android:name=".presentation.userstory.SpinningRadarPointAnnotationActivityV10"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

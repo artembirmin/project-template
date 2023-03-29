@@ -129,8 +129,8 @@ dependencies {
     implementation 'net.danlew:android.joda:2.10.14'
 
     //Mapbox
-//        implementation "com.mapbox.maps:android:10.3.0"
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.0'
+        implementation 'com.mapbox.maps:android:10.3.0'
+//    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:5.8.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:5.8.0'
 }

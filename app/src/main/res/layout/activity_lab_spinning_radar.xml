@@ -4,10 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.mapbox.mapboxsdk.maps.MapView
+    <com.mapbox.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        mapbox:mapbox_cameraZoom="12" />
+        mapbox:mapbox_attributionEnabled="false"
+        mapbox:mapbox_cameraZoom="14"
+        mapbox:mapbox_compassEnabled="true"
+        mapbox:mapbox_compassGravity="end|bottom"
+        mapbox:mapbox_compassMarginRight="16dp"
+        mapbox:mapbox_logoGravity="center_horizontal|bottom"
+        mapbox:mapbox_scaleBarEnabled="false" />
 
 </FrameLayout>
