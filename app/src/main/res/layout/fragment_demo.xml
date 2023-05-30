@@ -5,7 +5,8 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -22,7 +23,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/white">
+                android:background="@color/colorWhite">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -34,16 +35,54 @@
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
+        <com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.FreerideSpeedometerView
+            android:id="@+id/speedometer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="32dp"
+            app:bgCircleColor="?SpeedometerBGColor"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appbar"
+            app:sv_centerCircleColor="@color/colorTransparent"
+            app:sv_endDegree="395"
+            app:sv_indicator="NoIndicator"
+            app:sv_indicatorColor="@color/colorBlack"
+            app:sv_markColor="@color/colorTransparent"
+            app:sv_markWidth="0dp"
+            app:sv_maxSpeed="8"
+            app:sv_speedTextColor="?android:textColorPrimary"
+            app:sv_speedTextPosition="CENTER"
+            app:sv_speedTextSize="0sp"
+            app:sv_speedometerWidth="24dp"
+            app:sv_startDegree="145"
+            app:sv_textColor="@color/colorWhite"
+            app:sv_textSize="12sp"
+            app:sv_tickNumber="10"
+            app:sv_tickPadding="14dp"
+            app:sv_tickRotation="false"
+            app:sv_unit="km/h"
+            app:sv_unitSpeedInterval="4dp"
+            app:sv_unitTextSize="0sp"
+            app:sv_unitUnderSpeedText="true"
+            app:sv_withTremble="false" />
+
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tvSpeed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/demo_hello_world"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:lineSpacingExtra="-2dp"
+            android:textSize="42sp"
+            app:layout_constraintBottom_toBottomOf="@+id/speedometer"
+            app:layout_constraintEnd_toEndOf="@+id/speedometer"
+            app:layout_constraintStart_toStartOf="@+id/speedometer"
+            app:layout_constraintTop_toTopOf="@+id/speedometer"
+            tools:text="12.5" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

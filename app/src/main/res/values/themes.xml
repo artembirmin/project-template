@@ -18,5 +18,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="SpeedometerTubeColor">@color/speedometerTubeColorLight</item>
+        <item name="SpeedometerBGColor">@color/colorLight2</item>
     </style>
 </resources>

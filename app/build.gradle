@@ -124,4 +124,6 @@ dependencies {
 
     // DateTime
     implementation 'net.danlew:android.joda:2.10.14'
+    
+    implementation 'com.github.anastr:speedviewlib:1.6.0'
 }

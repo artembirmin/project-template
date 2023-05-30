@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="SpeedometerBGColor" format="reference" />
+    <attr name="SpeedometerTubeColor" format="reference" />
+
+    <declare-styleable name="FreerideSpeedometerView" parent="Speedometer">
+        <attr name="sv_centerCircleColor" />
+        <attr name="sv_centerCircleRadius" />
+        <attr name="sv_sectionStyle" />
+        <attr name="bgCircleColor" format="color" />
+
+    </declare-styleable>
+
+</resources>

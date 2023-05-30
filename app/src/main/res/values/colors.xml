@@ -1,11 +1,65 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ ProjectTemplate
   ~
   ~ Created by artembirmin on 3/11/2022.
   -->
 
 <resources>
+
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWhiteTransparent38">#61FFFFFF</color>
+    <color name="colorWhiteTransparent50">#80FFFFFF</color>
+    <color name="colorLight1">@color/colorWhite</color>
+    <color name="colorLight2">#F2F2F7</color>
+    <color name="colorLight3">#D1D1D5</color>
+    <color name="colorGrayBackground">#E2E2E8</color>
+    <color name="colorGray">#8A8A8F</color>
+    <color name="colorGrayTransparent60">#998A8A8F</color>
+    <color name="colorGray2">#1c1c1e</color>
+    <color name="colorGray3">#2C2C2D</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorBlackTransparent15">#26000000</color>
+    <color name="colorBlackTransparent38">#61000000</color>
+    <color name="colorBlackTransparent62">#9E000000</color>
+    <color name="colorDark1">@color/colorBlack</color>
+    <color name="colorDark2">#1c1c1e</color>
+    <color name="colorDark3">#2C2C2D</color>
+
+    <color name="colorBlue">#168AF6</color>
+    <color name="colorYellow">#FFCC00</color>
+    <color name="colorViolet">#5E5CE6</color>
+    <color name="colorYellow1">#FFCD29</color>
+    <color name="colorRed">#DA2F20</color>
+    <color name="colorRedTransparent60">#99D8232A</color>
+    <color name="colorRedTransparent38">#61D8232A</color>
+    <color name="colorRedTransparent16">#29D8232A</color>
+    <color name="colorRedComment">#F1B0AA</color>
+
+    <color name="colorGreen">#34C759</color>
+
+    <color name="colorTransparentToolbarLight">#03FFFFFF</color>
+    <color name="colorTransparentToolbarDark">#03000000</color>
+    <color name="colorTransparent">#00FFFFFF</color>
+
+    <color name="colorDividerLight">#C6C6C8</color>
+    <color name="colorDividerDark">#323234</color>
+
+    <color name="speedometerTubeColorLight">#D1D1D5</color>
+    <color name="speedometerTubeColorDark">#3D3D3F</color>
+    <color name="speedometerBGColorDark">#2D2C2F</color>
+
+    <color name="colorGreenLight">#2CA94C</color>
+    <color name="colorGreenDark">#04D86F</color>
+    <color name="colorOrange">#FF9500</color>
+    <color name="colorEndurance">#FFA100</color>
+    <color name="colorEnduranceTransparent">#21C57400</color>
+
+    <color name="chibiHealth4">#32D74B</color>
+    <color name="chibiHealth3">#FFCC00</color>
+    <color name="chibiHealth2">#FFA100</color>
+    <color name="chibiHealth1">#DA2F20</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -14,4 +68,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray_500">#3A3A3A</color>
+
+
 </resources>
