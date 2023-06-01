@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
+import android.text.Layout
+import android.text.StaticLayout
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
 import com.github.anastr.speedviewlib.Speedometer
@@ -161,10 +163,63 @@ open class FreerideSpeedometerView @JvmOverloads constructor(
         drawMarks(c)
 
         if (tickNumber > 0)
-            drawTicks(c)
+            drawTicksMy(c)
         else
             drawDefMinMaxSpeedPosition(c)
     }
+
+    fun drawTicksMy(canvas: Canvas) {
+        if (ticks.isEmpty())
+            return
+
+        textPaint.textAlign = Paint.Align.LEFT
+
+        val range = getEndDegree() - getStartDegree()
+        ticks.forEachIndexed { index, tick ->
+            val degree = getStartDegree() + range * tick
+            canvas.save()
+            canvas.rotate(degree + 90f, size * .5f, size * .5f)
+
+            // for tick without rotation
+            canvas.rotate(
+                -(degree + 90f),
+                size * .5f,
+                initTickPadding
+                        + textPaint.textSize
+                        * 0.71f // multiplier for good padding of ticks in view
+                        + padding.toFloat()
+                        + tickPadding.toFloat()
+            )
+
+            var tickCharSeq: CharSequence? = null
+            if (onPrintTickLabel != null)
+                tickCharSeq = onPrintTickLabel!!.invoke(index, getSpeedAtDegree(degree))
+
+            if (tickCharSeq == null)
+                tickCharSeq = "%.0f".format(locale, getSpeedAtDegree(degree))
+
+            canvas.translate(0f, initTickPadding + padding.toFloat() + tickPadding.toFloat())
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                StaticLayout.Builder.obtain(tickCharSeq, 0, tickCharSeq.length, textPaint, size)
+                    .setAlignment(Layout.Alignment.ALIGN_CENTER)
+                    .build()
+                    .draw(canvas)
+            } else {
+                @Suppress("DEPRECATION")
+                StaticLayout(tickCharSeq,
+                    textPaint,
+                    size,
+                    Layout.Alignment.ALIGN_CENTER,
+                    1f,
+                    0f,
+                    true)
+                    .draw(canvas)
+            }
+
+            canvas.restore()
+        }
+    }
+
 
     fun setSpeed(speed: Float, moveDuration: Long = 500L) {
         speedTo(speed, moveDuration)

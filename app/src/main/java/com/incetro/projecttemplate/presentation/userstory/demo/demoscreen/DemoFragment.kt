@@ -49,19 +49,19 @@ class DemoFragment : BaseFragment<FragmentDemoBinding>(), DemoView {
 
     private fun initSpeedometer(binding: FragmentDemoBinding) {
         val minSpeed = 1f
-        val maxSpeed = 7f
+        val maxSpeed = 70f
         val speedDiapason = (maxSpeed - minSpeed).toInt()
-        val tickNumber = if (speedDiapason > 10) 11 else speedDiapason + 1
+//        val tickNumber = if (speedDiapason > 10) 11 else speedDiapason + 1
 
-        binding.speedometer.tickNumber = tickNumber
+        binding.speedometer.tickNumber = 30
         binding.speedometer.maxSpeed = maxSpeed
         binding.speedometer.minSpeed = minSpeed
     }
 
     private fun setSpeedRange(binding: FragmentDemoBinding) {
-        val maxGoodSpeed = 6f
-        val minGoodSpeed = 2f
-        val speedometerMaxSpeed = 7f
+        val maxGoodSpeed = 60f
+        val minGoodSpeed = 10f
+        val speedometerMaxSpeed = 70f
         val speedometerMinSpeed = 1f
         val context = binding.root.context
 
