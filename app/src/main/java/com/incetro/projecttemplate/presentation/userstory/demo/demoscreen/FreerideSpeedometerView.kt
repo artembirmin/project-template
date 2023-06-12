@@ -186,17 +186,17 @@ open class FreerideSpeedometerView @JvmOverloads constructor(
                 size * .5f,
                 initTickPadding
                         + textPaint.textSize
-                        * 0.71f // multiplier for good padding of ticks in view
+                        * 0.76f // multiplier for good padding of ticks in view
                         + padding.toFloat()
                         + tickPadding.toFloat()
             )
 
-            var tickCharSeq: CharSequence? = null
-            if (onPrintTickLabel != null)
-                tickCharSeq = onPrintTickLabel!!.invoke(index, getSpeedAtDegree(degree))
-
-            if (tickCharSeq == null)
-                tickCharSeq = "%.0f".format(locale, getSpeedAtDegree(degree))
+            var tickCharSeq: CharSequence = "0"
+//            if (onPrintTickLabel != null)
+//                tickCharSeq = onPrintTickLabel!!.invoke(index, getSpeedAtDegree(degree))
+//
+//            if (tickCharSeq == null)
+//                tickCharSeq = "%.0f".format(locale, getSpeedAtDegree(degree))
 
             canvas.translate(0f, initTickPadding + padding.toFloat() + tickPadding.toFloat())
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
