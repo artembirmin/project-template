@@ -10,18 +10,27 @@ import com.incetro.projecttemplate.presentation.userstory.demo.di.DemoComponent
 import com.incetro.projecttemplate.utils.ext.lazyViewModel
 import javax.inject.Inject
 
-class MvvmFragment : BaseMVVMFragment<FragmentDemoBinding>() {
+sealed class DemoFragmentEvent {
+
+}
+
+data class DemoFragmentViewState(
+    val counter: Int = 0,
+    val numberFact: String = ""
+)
+
+class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
 
     override val layoutRes = R.layout.fragment_demo
 
     @Inject
-    lateinit var viewModelFactory: MvvmViewModel.Factory
+    lateinit var viewModelFactory: DemoViewModel.Factory
 
-    private val viewModel: MvvmViewModel by lazyViewModel {
+    private val viewModel: DemoViewModel by lazyViewModel {
         viewModelFactory.create()
     }
 
-    override fun getViewModel(): BaseViewModel = viewModel
+    override fun getViewModel(): BaseViewModel<DemoFragmentEvent> = viewModel
 
     override fun inject() = DemoComponent.Manager.getComponent().inject(this)
 
@@ -39,6 +48,6 @@ class MvvmFragment : BaseMVVMFragment<FragmentDemoBinding>() {
     }
 
     companion object {
-        fun newInstance() = MvvmFragment()
+        fun newInstance() = DemoFragment()
     }
 }

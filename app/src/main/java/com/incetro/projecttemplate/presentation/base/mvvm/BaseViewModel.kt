@@ -9,11 +9,12 @@ import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.entity.errors.AppError
 import com.incetro.projecttemplate.presentation.base.messageshowing.StylishDialogParams
 import com.incetro.projecttemplate.presentation.base.messageshowing.ToastMessageParams
+import com.incetro.projecttemplate.presentation.base.mvi.EventHandler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 
 
-abstract class BaseViewModel : ViewModel(), BaseViewModelBinding {
+abstract class BaseViewModel<Event> : ViewModel(), EventHandler<Event>, BaseViewModelBinding {
 
     protected val compositeDisposable = CompositeDisposable()
 

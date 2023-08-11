@@ -9,7 +9,7 @@
 package com.incetro.projecttemplate.common.navigation
 
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.MvvmFragment
+import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.DemoFragment
 
 /**
  * App screens for navigation with Cicerone.
@@ -17,6 +17,6 @@ import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.MvvmFr
 object Screens {
     fun DemoScreen(): FragmentScreen =
         FragmentScreen() {
-            MvvmFragment.newInstance()
+            DemoFragment.newInstance()
         }
 }

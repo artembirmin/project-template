@@ -10,7 +10,7 @@ import com.incetro.projecttemplate.common.di.activity.ActivityComponent
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentManager
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsManager
 import com.incetro.projecttemplate.common.di.scope.FeatureScope
-import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.MvvmFragment
+import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.DemoFragment
 import dagger.Component
 
 @FeatureScope
@@ -21,7 +21,7 @@ import dagger.Component
     ]
 )
 interface DemoComponent {
-    fun inject(demoFragment: MvvmFragment)
+    fun inject(demoFragment: DemoFragment)
 
     @Component.Builder
     interface Builder {
