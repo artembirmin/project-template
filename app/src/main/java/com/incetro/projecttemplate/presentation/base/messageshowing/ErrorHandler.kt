@@ -53,7 +53,7 @@ class ErrorHandler @Inject constructor(
         AlertDialog.Builder(context)
             .setTitle(errorDate)
             .setMessage(message)
-            .setPositiveButton(R.string.alert_button_ok) { _, _ -> }
+            .setPositiveButton(R.string.ok) { _, _ -> }
             .create().show()
     }
 }

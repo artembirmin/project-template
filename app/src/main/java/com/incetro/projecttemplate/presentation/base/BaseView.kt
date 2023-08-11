@@ -6,12 +6,13 @@
 
 package com.incetro.projecttemplate.presentation.base
 
+import com.incetro.projecttemplate.presentation.base.messageshowing.HasLoadingIndicator
 import com.incetro.projecttemplate.presentation.base.messageshowing.MessageView
 import moxy.MvpView
 
 /**
  * MvpView extension. Here you can place methods for all MvpViews in project.
  */
-interface BaseView : MvpView, MessageView {
+interface BaseView : MvpView, MessageView, HasLoadingIndicator {
 
 }

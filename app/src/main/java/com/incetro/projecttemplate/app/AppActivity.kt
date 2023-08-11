@@ -13,7 +13,7 @@ import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.common.di.activity.ActivityComponent
-import com.incetro.projecttemplate.presentation.base.fragment.BaseFragment
+import com.incetro.projecttemplate.presentation.base.mvvm.BaseFragment
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import javax.inject.Inject
