@@ -5,12 +5,13 @@
       <map>
         <entry key="..\:/Users/petra/INCETRO/ProjectTemplate/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/petra/INCETRO/ProjectTemplate/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="..\:/Users/petra/INCETRO/ProjectTemplate/app/src/main/res/layout/fragment_demo.xml" value="0.2" />
+        <entry key="..\:/Users/petra/INCETRO/ProjectTemplate/app/src/main/res/drawable/ic_speedometer_indicator.xml" value="0.118" />
+        <entry key="..\:/Users/petra/INCETRO/ProjectTemplate/app/src/main/res/layout/fragment_demo.xml" value="0.38657407407407407" />
         <entry key="..\:/Users/petra/INCETRO/ProjectTemplate/app/src/main/res/layout/layout_container.xml" value="0.3138888888888889" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" default="true" project-jdk-name="15" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
