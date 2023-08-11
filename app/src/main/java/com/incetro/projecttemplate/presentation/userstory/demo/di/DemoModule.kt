@@ -6,8 +6,16 @@
 
 package com.incetro.projecttemplate.presentation.userstory.demo.di
 
+import com.incetro.projecttemplate.common.di.scope.FeatureScope
+import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.NumberFactRepository
+import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.NumberFactRepositoryImpl
+import dagger.Binds
 import dagger.Module
 
 @Module
 abstract class DemoModule {
+
+    @Binds
+    @FeatureScope
+    abstract fun provideNumberFactRepository(numberFactRepositoryImpl: NumberFactRepositoryImpl): NumberFactRepository
 }

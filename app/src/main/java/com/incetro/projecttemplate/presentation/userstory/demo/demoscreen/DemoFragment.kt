@@ -2,16 +2,21 @@ package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.databinding.FragmentDemoBinding
 import com.incetro.projecttemplate.presentation.base.mvvm.BaseMVVMFragment
 import com.incetro.projecttemplate.presentation.base.mvvm.BaseViewModel
 import com.incetro.projecttemplate.presentation.userstory.demo.di.DemoComponent
 import com.incetro.projecttemplate.utils.ext.lazyViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 sealed class DemoFragmentEvent {
-
+    object IncreaseCounter : DemoFragmentEvent()
+    object DecreaseCounter : DemoFragmentEvent()
 }
 
 data class DemoFragmentViewState(
@@ -38,12 +43,27 @@ class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.getViewState().collect {
+                    with(binding) {
+                        tvCounter.text = it.counter.toString()
+                        tvNumberFact.text = it.numberFact
+                    }
+                }
+            }
+        }
         initViews()
     }
 
     private fun initViews() {
         with(binding) {
-
+            btnIncrease.setOnClickListener {
+                viewModel.obtainEvent(DemoFragmentEvent.IncreaseCounter)
+            }
+            btnDecrease.setOnClickListener {
+                viewModel.obtainEvent(DemoFragmentEvent.DecreaseCounter)
+            }
         }
     }
 
