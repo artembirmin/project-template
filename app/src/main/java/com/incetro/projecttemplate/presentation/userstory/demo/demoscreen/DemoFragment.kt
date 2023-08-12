@@ -14,16 +14,6 @@ import com.incetro.projecttemplate.utils.ext.lazyViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-sealed class DemoFragmentEvent {
-    object IncreaseCounter : DemoFragmentEvent()
-    object DecreaseCounter : DemoFragmentEvent()
-}
-
-data class DemoFragmentViewState(
-    val counter: Int = 0,
-    val numberFact: String = ""
-)
-
 class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
 
     override val layoutRes = R.layout.fragment_demo
