@@ -17,6 +17,7 @@ android {
     buildFeatures {
         dataBinding true
         buildConfig true
+        compose true
     }
 
     defaultConfig {
@@ -62,7 +63,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.4.1'
+    }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
@@ -84,6 +87,15 @@ dependencies {
     def lifecycle_version = "2.6.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+//     Compose
+    def compose_ui_version = "1.2.0"
+    implementation "androidx.compose.ui:ui:$compose_ui_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
+    implementation "androidx.compose.material:material:$compose_ui_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
     // Cicerone
     implementation "com.github.terrakok:cicerone:7.1"
