@@ -97,6 +97,28 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
+    // Choose one of the following:
+    // Material Design 3
+    implementation 'androidx.compose.material3:material3:1.1.1'
+    // or Material Design 2
+    // or skip Material Design and build directly on top of foundational components
+
+
+    // Optional - Included automatically by material, only add when you need
+    // the icons but not the material library (e.g. when using Material3 or a
+    // custom design system based on Foundation)
+    implementation 'androidx.compose.material:material-icons-core:1.2.0'
+    // Optional - Add full set of material icons
+    implementation 'androidx.compose.material:material-icons-extended:1.2.0'
+    // Optional - Add window size utils
+    implementation 'androidx.compose.material3:material3-window-size-class:1.1.1'
+
+    // Optional - Integration with activities
+    implementation 'androidx.activity:activity-compose:1.7.2'
+    // Optional - Integration with ViewModels
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
+
+
     // Cicerone
     implementation "com.github.terrakok:cicerone:7.1"
 

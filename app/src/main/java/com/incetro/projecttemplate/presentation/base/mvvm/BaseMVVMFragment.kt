@@ -12,7 +12,7 @@ abstract class BaseMVVMFragment<TBinding : ViewDataBinding> : BaseFragment<TBind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = viewLifecycleOwner
+//        binding.lifecycleOwner = viewLifecycleOwner
 //        getViewModel().showDialog()
 //            .observe(viewLifecycleOwner) { it?.let { showMessageByAlertDialog(it) } }
         getViewModel().isLoading().observe(viewLifecycleOwner) {
