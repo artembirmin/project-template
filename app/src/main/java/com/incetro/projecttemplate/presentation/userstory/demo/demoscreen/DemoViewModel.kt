@@ -33,19 +33,29 @@ class DemoViewModel @AssistedInject constructor(
     private var debounceNumberFactJob: Job? = null
     private fun reduce(event: DemoFragmentEvent) {
         when (event) {
-            DemoFragmentEvent.IncreaseCounter -> viewState.update { it.copy(counter = it.counter + 1) }
-            DemoFragmentEvent.DecreaseCounter -> viewState.update { it.copy(counter = it.counter - 1) }
-        }
-        when (event) {
-            DemoFragmentEvent.DecreaseCounter, DemoFragmentEvent.IncreaseCounter -> {
-                debounceNumberFactJob?.cancel()
-                debounceNumberFactJob = viewModelScope.launch {
-                    delay(300)
-                    val fact = numberFactRepository.getNumberFact(currentState.counter).text
-                    withContext(Dispatchers.Main) {
-                        viewState.update { it.copy(numberFact = fact) }
-                    }
+            DemoFragmentEvent.IncreaseCounter -> {
+                viewState.update {
+                    it.copy(counter = it.counter + 1)
                 }
+                fetchNumberFact()
+            }
+
+            DemoFragmentEvent.DecreaseCounter -> {
+                viewState.update {
+                    it.copy(counter = it.counter - 1)
+                }
+                fetchNumberFact()
+            }
+        }
+    }
+
+    private fun fetchNumberFact() {
+        debounceNumberFactJob?.cancel()
+        debounceNumberFactJob = viewModelScope.launch {
+            delay(300)
+            val fact = numberFactRepository.getNumberFact(currentState.counter).text
+            withContext(Dispatchers.Main) {
+                viewState.update { it.copy(numberFact = fact) }
             }
         }
     }
