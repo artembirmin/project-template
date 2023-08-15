@@ -18,7 +18,7 @@ class App : Application() {
         super.onCreate()
 
         inject()
-
+        Timber.tag("TAG").e("BuildConfig.DEBUG= " + BuildConfig.DEBUG)
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
             Timber.plant(FileLoggingTree(this))

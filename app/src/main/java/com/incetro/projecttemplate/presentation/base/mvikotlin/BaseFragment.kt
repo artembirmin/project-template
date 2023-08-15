@@ -1,10 +1,10 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 11/8/2023.
+ * Created by artembirmin on 15/8/2023.
  */
 
-package com.incetro.projecttemplate.presentation.base.mvvm
+package com.incetro.projecttemplate.presentation.base.mvikotlin
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -20,6 +20,7 @@ import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.app.AppActivity
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentManager
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsStore
+import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.entity.errors.AppError
 import com.incetro.projecttemplate.presentation.base.BaseView
 import com.incetro.projecttemplate.presentation.base.messageshowing.ErrorHandler
@@ -40,6 +41,9 @@ abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(),
 
     @Inject
     lateinit var errorHandler: ErrorHandler
+
+    @Inject
+    lateinit var router: AppRouter
 
     /** Layout id from res/layout. */
     abstract val layoutRes: Int
@@ -97,9 +101,11 @@ abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(),
     override fun onDestroy() {
         super.onDestroy()
         if (needCloseScope()) {
+            onCloseScope()
             release()
         }
     }
+
 
     /**
      * Checks if the component needs to be released.
@@ -117,6 +123,8 @@ abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(),
     fun isRealRemoving(): Boolean =
         (isRemoving && !isInstanceStateSaved) //because isRemoving == true for fragment in backstack on screen rotation
                 || ((parentFragment as? BaseFragment<*>)?.isRealRemoving() ?: false)
+
+    protected open fun onCloseScope() {}
 
     override fun showError(error: Throwable) {
         showError(AppError(error))

@@ -170,4 +170,19 @@ dependencies {
     implementation 'net.danlew:android.joda:2.10.14'
 
     implementation 'com.github.GrenderG:Toasty:1.5.2'
+
+    // MVIKotlin
+    def mviKotlinVersion = '3.1.0'
+    implementation "com.arkivanov.mvikotlin:mvikotlin:$mviKotlinVersion"
+    implementation "com.arkivanov.mvikotlin:mvikotlin-main:$mviKotlinVersion"
+    implementation "com.arkivanov.mvikotlin:mvikotlin-logging:$mviKotlinVersion"
+    implementation "com.arkivanov.mvikotlin:mvikotlin-timetravel:$mviKotlinVersion"
+    implementation "com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines:$mviKotlinVersion"
+    implementation "com.arkivanov.mvikotlin:mvikotlin-extensions-reaktive:$mviKotlinVersion"
+    implementation "com.arkivanov.mvikotlin:rx:$mviKotlinVersion"
+    implementation "com.arkivanov.mvikotlin:rx-internal:$mviKotlinVersion"
+    implementation "com.arkivanov.mvikotlin:utils-internal-android-debug:$mviKotlinVersion"
+
+    implementation 'com.arkivanov.essenty:lifecycle:0.9.0'
+    implementation 'com.arkivanov.essenty:state-keeper-android:0.9.0'
 }

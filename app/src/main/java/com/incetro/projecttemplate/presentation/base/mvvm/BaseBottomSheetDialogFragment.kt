@@ -20,6 +20,7 @@ import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.entity.errors.AppError
 import com.incetro.projecttemplate.presentation.base.BaseView
 import com.incetro.projecttemplate.presentation.base.messageshowing.ErrorHandler
+import com.incetro.projecttemplate.presentation.base.mvikotlin.BaseFragment
 import es.dmoral.toasty.Toasty
 import moxy.MvpDelegate
 import moxy.MvpDelegateHolder

@@ -30,33 +30,31 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.arkivanov.mvikotlin.core.instancekeeper.getStore
+import com.arkivanov.mvikotlin.core.store.Store
+import com.arkivanov.mvikotlin.core.store.StoreFactory
+import com.arkivanov.mvikotlin.extensions.coroutines.states
 import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.databinding.FragmentDemoBinding
-import com.incetro.projecttemplate.presentation.base.mvvm.BaseMVVMFragment
-import com.incetro.projecttemplate.presentation.base.mvvm.BaseViewModel
+import com.incetro.projecttemplate.presentation.base.mvikotlin.BaseStoreFragment
+import com.incetro.projecttemplate.presentation.base.mvikotlin.CommonLabel
 import com.incetro.projecttemplate.presentation.userstory.demo.di.DemoComponent
+import com.incetro.projecttemplate.utils.ext.createStoreSimple
 import com.incetro.projecttemplate.utils.ext.lazyViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
+class DemoFragment : BaseStoreFragment<FragmentDemoBinding>() {
 
     override val layoutRes = R.layout.fragment_demo
 
-    @Inject
-    lateinit var viewModelFactory: DemoViewModel.Factory
-
-    private val viewModel: DemoViewModel by lazyViewModel {
-        viewModelFactory.create()
-    }
-
-    override fun getViewModel(): BaseViewModel<DemoFragmentEvent> = viewModel
+    override lateinit var store: DemoStore
+    override val storeName = DemoStore.NAME
 
     override fun inject() = DemoComponent.Manager.getComponent().inject(this)
 
@@ -70,12 +68,36 @@ class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                val viewState: DemoFragmentViewState by viewModel.getViewState()
-                    .collectAsStateWithLifecycle(DemoFragmentViewState())
+                val viewState: DemoStore.State by store.states
+                    .collectAsStateWithLifecycle(DemoStore.State())
                 MaterialTheme() {
                     Counter(viewState)
                 }
             }
+        }
+    }
+
+    @Inject
+    fun createStore(
+        storeFactory: StoreFactory,
+        reducer: DemoStoreReducer,
+        executor: DemoStoreExecutor
+    ) {
+        Timber.d("CREATE STORE")
+        store = storeInstanceKeeper.getStore(key = storeName) {
+            object : DemoStore(),
+                Store<DemoStore.Intent, DemoStore.State, CommonLabel>
+                by storeFactory.createStoreSimple(
+                    name = storeName,
+                    initialState = State(),
+                    reducer = reducer,
+                    executor = executor
+                ) {}
+                .also {
+                    stateKeeper.register(key = storeName) {
+                        it.state
+                    }
+                }
         }
     }
 
@@ -85,7 +107,7 @@ class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
     )
     @Composable
     fun Counter(
-        viewState: DemoFragmentViewState = DemoFragmentViewState(
+        viewState: DemoStore.State = DemoStore.State(
             counter = 12,
             numberFact = "qqqqkqqqqqqqqqqqqqqqqq2wqqqqqq"
         )
@@ -115,13 +137,13 @@ class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
 
                 Row() {
                     Button(
-                        onClick = { viewModel.obtainEvent(DemoFragmentEvent.DecreaseCounter) },
+                        onClick = { store.accept(DemoStore.Intent.DecreaseCounter) },
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
                         Text(text = "-")
                     }
                     Button(
-                        onClick = { viewModel.obtainEvent(DemoFragmentEvent.IncreaseCounter) },
+                        onClick = {store.accept(DemoStore.Intent.IncreaseCounter)  },
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
                         Text(text = "+")
@@ -163,32 +185,6 @@ class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
                 } else withContext(context) {
                     this@collectAsStateWithLifecycle.collect { this@produceState.value = it }
                 }
-            }
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getViewState().collect {
-//                    with(binding) {
-//                        tvCounter.text = it.counter.toString()
-//                        tvNumberFact.text = it.numberFact
-//                    }
-                }
-            }
-        }
-//        initViews()
-    }
-
-    private fun initViews() {
-        with(binding) {
-            btnIncrease.setOnClickListener {
-                viewModel.obtainEvent(DemoFragmentEvent.IncreaseCounter)
-            }
-            btnDecrease.setOnClickListener {
-                viewModel.obtainEvent(DemoFragmentEvent.DecreaseCounter)
             }
         }
     }

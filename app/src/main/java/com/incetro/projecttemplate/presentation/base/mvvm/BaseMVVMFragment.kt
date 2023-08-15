@@ -3,6 +3,7 @@ package com.incetro.projecttemplate.presentation.base.mvvm
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.ViewDataBinding
+import com.incetro.projecttemplate.presentation.base.mvikotlin.BaseFragment
 import es.dmoral.toasty.Toasty
 
 
