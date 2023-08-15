@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -71,10 +72,9 @@ class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
             setContent {
                 val viewState: DemoFragmentViewState by viewModel.getViewState()
                     .collectAsStateWithLifecycle(DemoFragmentViewState())
-                Surface(modifier = Modifier.padding(16.dp)) {
+                MaterialTheme() {
                     Counter(viewState)
                 }
-
             }
         }
     }
@@ -90,47 +90,49 @@ class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
             numberFact = "qqqqkqqqqqqqqqqqqqqqqq2wqqqqqq"
         )
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            Card(
-                elevation = 8.dp,
-                modifier = Modifier.padding(bottom = 16.dp),
-                shape = RoundedCornerShape(8.dp),
-                backgroundColor = Color.Magenta,
+        Surface(modifier = Modifier.padding(16.dp)) {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
+                Card(
+                    elevation = 8.dp,
+                    modifier = Modifier.padding(bottom = 16.dp),
+                    shape = RoundedCornerShape(8.dp),
+                    backgroundColor = Color.Magenta,
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .defaultMinSize(minWidth = 120.dp),
+                        text = viewState.counter.toString(),
+                        color = Color.White,
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                Row() {
+                    Button(
+                        onClick = { viewModel.obtainEvent(DemoFragmentEvent.DecreaseCounter) },
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        Text(text = "-")
+                    }
+                    Button(
+                        onClick = { viewModel.obtainEvent(DemoFragmentEvent.IncreaseCounter) },
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        Text(text = "+")
+                    }
+                }
                 Text(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .defaultMinSize(minWidth = 120.dp),
-                    text = viewState.counter.toString(),
-                    color = Color.White,
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    text = viewState.numberFact,
                     textAlign = TextAlign.Center
                 )
             }
-
-            Row() {
-                Button(
-                    onClick = { viewModel.obtainEvent(DemoFragmentEvent.DecreaseCounter) },
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                ) {
-                    Text(text = "-")
-                }
-                Button(
-                    onClick = { viewModel.obtainEvent(DemoFragmentEvent.IncreaseCounter) },
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                ) {
-                    Text(text = "+")
-                }
-            }
-            Text(
-                modifier = Modifier.padding(vertical = 8.dp),
-                text = viewState.numberFact,
-                textAlign = TextAlign.Center
-            )
         }
     }
 
