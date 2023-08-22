@@ -29,7 +29,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-abstract class BaseStoreFragment<Binding : ViewDataBinding> : BaseFragment<Binding>(),
+abstract class BaseMVIFragment<Binding : ViewDataBinding> : BaseFragment<Binding>(),
     ViewEvents<BackPressedStore.BackPressedIntent> {
 
     protected abstract val store: Store<*, *, CommonLabel>
@@ -55,7 +55,7 @@ abstract class BaseStoreFragment<Binding : ViewDataBinding> : BaseFragment<Bindi
 
 
         bind(lifecycle, BinderLifecycleMode.CREATE_DESTROY, mainDispatcher) {
-            this@BaseStoreFragment.events bindTo backPressedStore
+            this@BaseMVIFragment.events bindTo backPressedStore
             backPressedStore.labels.filter {
                 hasBackPressedSubscribers.not()
             } bindTo ::handleNavigationLabel

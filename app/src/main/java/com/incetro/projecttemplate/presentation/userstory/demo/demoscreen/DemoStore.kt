@@ -16,6 +16,9 @@ import com.incetro.projecttemplate.presentation.base.mvikotlin.CommonAction
 import com.incetro.projecttemplate.presentation.base.mvikotlin.CommonLabel
 import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.DemoStore.Message
 import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.DemoStore.State
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -48,14 +51,21 @@ abstract class DemoStore : Store<DemoStore.Intent, DemoStore.State, CommonLabel>
     ) : Parcelable, JvmSerializable
 }
 
-class DemoStoreExecutor @Inject constructor(
-    private val numberFactRepository: NumberFactRepository
+class DemoStoreExecutor @AssistedInject constructor(
+    private val numberFactRepository: NumberFactRepository,
+    @Assisted var firstNumber: Int
 ) : CoroutineExecutor<DemoStore.Intent, CommonAction, State, Message, CommonLabel>() {
+
+    @AssistedFactory
+    interface Factory {
+        fun create(firstNumber: Int): DemoStoreExecutor
+    }
+
     override fun executeAction(action: CommonAction, getState: () -> State) {
+       fetchNumberFact(firstNumber)
     }
 
     override fun executeIntent(intent: DemoStore.Intent, getState: () -> State) {
-        Timber.d("NEW INTENT")
         when (intent) {
             DemoStore.Intent.IncreaseCounter -> {
                 dispatch(Message.IncreaseCounter)
@@ -67,12 +77,10 @@ class DemoStoreExecutor @Inject constructor(
                 fetchNumberFact(getState().counter)
             }
         }
-
     }
 
     private var debounceNumberFactJob: Job? = null
     private fun fetchNumberFact(number: Int) {
-        Timber.d("fetchNumberFact")
         debounceNumberFactJob?.cancel()
         debounceNumberFactJob = scope.launch {
             delay(300)
@@ -90,7 +98,5 @@ class DemoStoreReducer @Inject constructor() : Reducer<State, Message> {
             is Message.NumberFact -> copy(numberFact = msg.fact)
             Message.IncreaseCounter -> copy(counter = counter + 1)
             Message.DecreaseCounter -> copy(counter = counter - 1)
-        }.also {
-            Timber.d("NEW STATE $it")
         }
 }
