@@ -45,9 +45,7 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
-
-    override val layoutRes = R.layout.fragment_demo
+class DemoFragment : BaseMVVMFragment() {
 
     @Inject
     lateinit var viewModelFactory: DemoViewModel.Factory
@@ -62,20 +60,12 @@ class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
 
     override fun release() = Unit
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                val viewState: DemoFragmentViewState by viewModel.getViewState()
-                    .collectAsStateWithLifecycle(DemoFragmentViewState())
-                MaterialTheme() {
-                    Counter(viewState)
-                }
-            }
+    @Composable
+    override fun CreateView() {
+        val viewState: DemoFragmentViewState by viewModel.getViewState()
+            .collectAsStateWithLifecycle(DemoFragmentViewState())
+        MaterialTheme() {
+            Counter(viewState)
         }
     }
 
@@ -163,32 +153,6 @@ class DemoFragment : BaseMVVMFragment<FragmentDemoBinding>() {
                 } else withContext(context) {
                     this@collectAsStateWithLifecycle.collect { this@produceState.value = it }
                 }
-            }
-        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getViewState().collect {
-//                    with(binding) {
-//                        tvCounter.text = it.counter.toString()
-//                        tvNumberFact.text = it.numberFact
-//                    }
-                }
-            }
-        }
-//        initViews()
-    }
-
-    private fun initViews() {
-        with(binding) {
-            btnIncrease.setOnClickListener {
-                viewModel.obtainEvent(DemoFragmentEvent.IncreaseCounter)
-            }
-            btnDecrease.setOnClickListener {
-                viewModel.obtainEvent(DemoFragmentEvent.DecreaseCounter)
             }
         }
     }

@@ -2,11 +2,10 @@ package com.incetro.projecttemplate.presentation.base.mvvm
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.ViewDataBinding
 import es.dmoral.toasty.Toasty
 
 
-abstract class BaseMVVMFragment<TBinding : ViewDataBinding> : BaseFragment<TBinding>() {
+abstract class BaseMVVMFragment : BaseComposeFragment() {
 
     abstract fun getViewModel(): BaseViewModelBinding
 
