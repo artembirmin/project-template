@@ -5,9 +5,9 @@ import android.app.Application
 import android.content.Context
 
 
-abstract class BaseAndroidViewModel<Event>(
+abstract class BaseAndroidViewModel(
     @SuppressLint("StaticFieldLeak") private val app: Application
-) : BaseViewModel<Event>(),
+) : BaseViewModel(),
     BaseViewModelBinding {
 
     /**

@@ -5,59 +5,55 @@ import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.presentation.base.mvvm.BaseViewModel
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.rx3.await
+import org.orbitmvi.orbit.Container
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 
 class DemoViewModel @AssistedInject constructor(
     private val router: AppRouter,
     private val numberFactRepository: NumberFactRepository
-) : BaseViewModel<DemoFragmentEvent>() {
+) : ContainerHost<DemoFragmentViewState, Nothing>, BaseViewModel() {
 
-    private val viewState: MutableStateFlow<DemoFragmentViewState> =
-        MutableStateFlow(DemoFragmentViewState())
+    override val container: Container<DemoFragmentViewState, Nothing> =
+        container(DemoFragmentViewState())
 
-    fun getViewState(): SharedFlow<DemoFragmentViewState> = viewState
-    private val currentState: DemoFragmentViewState
-        get() = viewState.value
+    fun incrementCounter() = intent {
+        reduce {
+            state.copy(counter = state.counter + 1)
+        }
+        getNewFact()
+    }
 
-    override fun obtainEvent(event: DemoFragmentEvent) {
-        reduce(event)
+    fun decrementCounter() = intent {
+        reduce {
+            state.copy(counter = state.counter - 1)
+        }
+        getNewFact()
+    }
+
+    private fun getNewFact() = intent {
+        val numberFact = fetchNumberFact(state.counter)
+        reduce {
+            state.copy(numberFact = numberFact)
+        }
     }
 
     private var debounceNumberFactJob: Job? = null
-    private fun reduce(event: DemoFragmentEvent) {
-        when (event) {
-            DemoFragmentEvent.IncreaseCounter -> {
-                viewState.update {
-                    it.copy(counter = it.counter + 1)
-                }
-                fetchNumberFact()
-            }
-
-            DemoFragmentEvent.DecreaseCounter -> {
-                viewState.update {
-                    it.copy(counter = it.counter - 1)
-                }
-                fetchNumberFact()
-            }
-        }
-    }
-
-    private fun fetchNumberFact() {
+    private suspend fun fetchNumberFact(number: Int): String {
+        var fact: String = container.stateFlow.value.numberFact
         debounceNumberFactJob?.cancel()
         debounceNumberFactJob = viewModelScope.launch {
             delay(300)
-            val fact = numberFactRepository.getNumberFact(currentState.counter).text
-            withContext(Dispatchers.Main) {
-                viewState.update { it.copy(numberFact = fact) }
-            }
+            fact = numberFactRepository.getNumberFact(number).text
         }
+        debounceNumberFactJob?.join()
+        return fact
     }
 
     @AssistedFactory

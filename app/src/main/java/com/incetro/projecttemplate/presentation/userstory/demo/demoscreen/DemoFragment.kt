@@ -1,9 +1,5 @@
 package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,24 +19,19 @@ import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.incetro.projecttemplate.R
-import com.incetro.projecttemplate.databinding.FragmentDemoBinding
 import com.incetro.projecttemplate.presentation.base.mvvm.BaseMVVMFragment
 import com.incetro.projecttemplate.presentation.base.mvvm.BaseViewModel
 import com.incetro.projecttemplate.presentation.userstory.demo.di.DemoComponent
 import com.incetro.projecttemplate.utils.ext.lazyViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.orbitmvi.orbit.compose.collectAsState
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -54,7 +45,7 @@ class DemoFragment : BaseMVVMFragment() {
         viewModelFactory.create()
     }
 
-    override fun getViewModel(): BaseViewModel<DemoFragmentEvent> = viewModel
+    override fun getViewModel(): BaseViewModel = viewModel
 
     override fun inject() = DemoComponent.Manager.getComponent().inject(this)
 
@@ -62,8 +53,7 @@ class DemoFragment : BaseMVVMFragment() {
 
     @Composable
     override fun CreateView() {
-        val viewState: DemoFragmentViewState by viewModel.getViewState()
-            .collectAsStateWithLifecycle(DemoFragmentViewState())
+        val viewState: DemoFragmentViewState by viewModel.collectAsState()
         MaterialTheme() {
             Counter(viewState)
         }
@@ -105,13 +95,13 @@ class DemoFragment : BaseMVVMFragment() {
 
                 Row() {
                     Button(
-                        onClick = { viewModel.obtainEvent(DemoFragmentEvent.DecreaseCounter) },
+                        onClick = { viewModel.decrementCounter() },
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
                         Text(text = "-")
                     }
                     Button(
-                        onClick = { viewModel.obtainEvent(DemoFragmentEvent.IncreaseCounter) },
+                        onClick = { viewModel.incrementCounter() },
                         modifier = Modifier.padding(horizontal = 16.dp)
                     ) {
                         Text(text = "+")

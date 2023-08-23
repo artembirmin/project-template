@@ -88,6 +88,16 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
+    // Orbit
+    def orbit_version = "6.0.0"
+    implementation "org.orbit-mvi:orbit-core:$orbit_version"
+// or, if on Android:
+    implementation "org.orbit-mvi:orbit-viewmodel:$orbit_version"
+// If using Jetpack Compose include
+    implementation "org.orbit-mvi:orbit-compose:$orbit_version"
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-rx3:1.7.1'
+
 //     Compose
     def compose_ui_version = "1.2.0"
     implementation "androidx.compose.ui:ui:$compose_ui_version"
