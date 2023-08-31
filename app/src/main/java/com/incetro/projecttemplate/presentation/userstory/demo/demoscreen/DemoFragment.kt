@@ -6,35 +6,32 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.repeatOnLifecycle
 import com.incetro.projecttemplate.presentation.base.mvvm.BaseMVVMFragment
 import com.incetro.projecttemplate.presentation.base.mvvm.BaseViewModel
 import com.incetro.projecttemplate.presentation.userstory.demo.di.DemoComponent
+import com.incetro.projecttemplate.utils.ext.collectCommonSideEffectsAsState
 import com.incetro.projecttemplate.utils.ext.lazyViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.compose.collectAsState
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 class DemoFragment : BaseMVVMFragment() {
 
@@ -42,7 +39,7 @@ class DemoFragment : BaseMVVMFragment() {
     lateinit var viewModelFactory: DemoViewModel.Factory
 
     private val viewModel: DemoViewModel by lazyViewModel {
-        viewModelFactory.create()
+        DemoViewModel.provideFactory(this, viewModelFactory).create(DemoViewModel::class.java)
     }
 
     override fun getViewModel(): BaseViewModel = viewModel
@@ -56,6 +53,40 @@ class DemoFragment : BaseMVVMFragment() {
         val viewState: DemoFragmentViewState by viewModel.collectAsState()
         MaterialTheme() {
             Counter(viewState)
+        }
+
+        val effects: CommonSideEffect by viewModel.collectCommonSideEffectsAsState()
+        CollectSideEffects(effect = effects)
+    }
+
+    @Composable
+    fun CollectSideEffects(effect: CommonSideEffect) {
+
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun BaseAlertDialog(cancellable: Boolean) {
+        val openDialog = remember { mutableStateOf(true) }
+
+        if (openDialog.value) {
+            AlertDialog(
+                onDismissRequest = {
+                    openDialog.value = false
+                }
+            ) {
+                Surface(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .wrapContentHeight(),
+                    shape = MaterialTheme.shapes.large
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+
+                        //... AlertDialog content
+                    }
+                }
+            }
         }
     }
 
@@ -112,37 +143,6 @@ class DemoFragment : BaseMVVMFragment() {
                     text = viewState.numberFact,
                     textAlign = TextAlign.Center
                 )
-            }
-        }
-    }
-
-    @Composable
-    fun <T> Flow<T>.collectAsStateWithLifecycle(
-        initialValue: T,
-        lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
-        minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-        context: CoroutineContext = EmptyCoroutineContext
-    ): State<T> = collectAsStateWithLifecycle(
-        initialValue = initialValue,
-        lifecycle = lifecycleOwner.lifecycle,
-        minActiveState = minActiveState,
-        context = context
-    )
-
-    @Composable
-    fun <T> Flow<T>.collectAsStateWithLifecycle(
-        initialValue: T,
-        lifecycle: Lifecycle,
-        minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-        context: CoroutineContext = EmptyCoroutineContext
-    ): State<T> {
-        return produceState(initialValue, this, lifecycle, minActiveState, context) {
-            lifecycle.repeatOnLifecycle(minActiveState) {
-                if (context == EmptyCoroutineContext) {
-                    this@collectAsStateWithLifecycle.collect { this@produceState.value = it }
-                } else withContext(context) {
-                    this@collectAsStateWithLifecycle.collect { this@produceState.value = it }
-                }
             }
         }
     }

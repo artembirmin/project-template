@@ -4,7 +4,7 @@
  * Created by artembirmin on 11/8/2023.
  */
 
-package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
+package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.repository
 
 import com.incetro.projecttemplate.entity.number.NumberFactResponse
 

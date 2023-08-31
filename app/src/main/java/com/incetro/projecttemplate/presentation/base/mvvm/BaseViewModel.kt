@@ -13,14 +13,14 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 
 
-abstract class BaseViewModel : ViewModel(), BaseViewModelBinding {
+abstract class BaseViewModel : ViewModel() {
 
     protected val compositeDisposable = CompositeDisposable()
 
-    override fun isLoading(): LiveData<Boolean> = isLoadingLiveData
-    override fun showErrorEvent(): SingleLiveEvent<AppError> = showErrorLiveDataEvent
-    override fun showDialog(): SingleLiveEvent<StylishDialogParams> = showDialogLiveDataEvent
-    override fun showMessage(): SingleLiveEvent<ToastMessageParams> = showToastMessageLiveDataEvent
+    fun isLoading(): LiveData<Boolean> = isLoadingLiveData
+    fun showErrorEvent(): SingleLiveEvent<AppError> = showErrorLiveDataEvent
+    fun showDialog(): SingleLiveEvent<StylishDialogParams> = showDialogLiveDataEvent
+    fun showMessage(): SingleLiveEvent<ToastMessageParams> = showToastMessageLiveDataEvent
 
     private val isLoadingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
     private val showErrorLiveDataEvent: SingleLiveEvent<AppError> = SingleLiveEvent()
@@ -83,6 +83,6 @@ abstract class BaseViewModel : ViewModel(), BaseViewModelBinding {
         compositeDisposable.clear()
     }
 
-    override fun onBackPressed() {}
+    open fun onBackPressed() {}
 
 }

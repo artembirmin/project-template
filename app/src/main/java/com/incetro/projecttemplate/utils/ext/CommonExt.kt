@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.incetro.projecttemplate.presentation.base.mvvm.GenericSavedStateViewModelFactory
 import com.incetro.projecttemplate.presentation.base.mvvm.ViewModelFactory
 
 fun View.showKeyboard() {

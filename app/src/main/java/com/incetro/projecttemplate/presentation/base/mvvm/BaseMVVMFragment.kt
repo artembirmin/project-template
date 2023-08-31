@@ -7,7 +7,7 @@ import es.dmoral.toasty.Toasty
 
 abstract class BaseMVVMFragment : BaseComposeFragment() {
 
-    abstract fun getViewModel(): BaseViewModelBinding
+    abstract fun getViewModel(): BaseViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

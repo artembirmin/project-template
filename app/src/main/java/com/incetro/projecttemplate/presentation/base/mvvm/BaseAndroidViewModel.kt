@@ -7,8 +7,7 @@ import android.content.Context
 
 abstract class BaseAndroidViewModel(
     @SuppressLint("StaticFieldLeak") private val app: Application
-) : BaseViewModel(),
-    BaseViewModelBinding {
+) : BaseViewModel(){
 
     /**
      * Return the application.
