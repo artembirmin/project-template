@@ -10,12 +10,7 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.incetro.projecttemplate.presentation.base.mvvm.GenericSavedStateViewModelFactory
-import com.incetro.projecttemplate.presentation.base.mvvm.ViewModelFactory
 
 fun View.showKeyboard() {
     this.requestFocus()
@@ -39,10 +34,6 @@ fun View.hideKeyboard() {
 fun View.visible(isVisible: Boolean) {
     visibility = if (isVisible) View.VISIBLE else View.GONE
 }
-
-inline fun <reified T : ViewModel> Fragment.lazyViewModel(
-    noinline create: () -> T
-) = viewModels<T> { ViewModelFactory(create) }
 
 fun <T> MutableLiveData<T>.updateValue(block: T.() -> T) {
     this.postValue(this.value?.let { block(it) })

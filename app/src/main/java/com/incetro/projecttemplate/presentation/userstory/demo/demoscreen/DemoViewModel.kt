@@ -1,13 +1,12 @@
 package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
 
-import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.savedstate.SavedStateRegistryOwner
 import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.presentation.base.mvvm.BaseViewModel
+import com.incetro.projecttemplate.presentation.base.mvvm.DEFAULT_STATE_KEY
+import com.incetro.projecttemplate.presentation.base.mvvm.ViewModelAssistedFactory
 import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.repository.NumberFactRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -29,7 +28,14 @@ class DemoViewModel @AssistedInject constructor(
 ) : ContainerHost<DemoFragmentViewState, CommonSideEffect>, BaseViewModel() {
 
     override val container: Container<DemoFragmentViewState, CommonSideEffect> =
-        container(DemoFragmentViewState(), savedStateHandle)
+        container(
+            savedStateHandle.get<DemoFragmentViewState>(DEFAULT_STATE_KEY) ?: DemoFragmentViewState(),
+            savedStateHandle
+        )
+
+    init {
+        getNewFact()
+    }
 
     fun incrementCounter() = intent {
         reduce {
@@ -54,7 +60,6 @@ class DemoViewModel @AssistedInject constructor(
         }
     }
 
-
     private var debounceNumberFactJob: Job? = null
     private suspend fun fetchNumberFact(number: Int): String {
         var fact: String = container.stateFlow.value.numberFact
@@ -67,28 +72,12 @@ class DemoViewModel @AssistedInject constructor(
         return fact
     }
 
-    @AssistedFactory
-    interface Factory {
-        fun create(savedStateHandle: SavedStateHandle): DemoViewModel
-    }
-
     override fun onBackPressed() {
         router.exit()
     }
 
-    companion object {
-        fun provideFactory(
-            owner: SavedStateRegistryOwner,
-            assistedFactory: Factory
-        ): ViewModelProvider.Factory = object : AbstractSavedStateViewModelFactory(owner, null) {
-
-            override fun <T : ViewModel> create(
-                key: String,
-                modelClass: Class<T>,
-                handle: SavedStateHandle
-            ): T {
-                return assistedFactory.create(handle) as T
-            }
-        }
+    @AssistedFactory
+    interface Factory : ViewModelAssistedFactory<DemoViewModel> {
+        override fun create(handle: SavedStateHandle): DemoViewModel
     }
 }

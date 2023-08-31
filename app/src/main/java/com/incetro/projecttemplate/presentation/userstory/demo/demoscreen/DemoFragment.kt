@@ -27,9 +27,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.incetro.projecttemplate.presentation.base.mvvm.BaseMVVMFragment
 import com.incetro.projecttemplate.presentation.base.mvvm.BaseViewModel
+import com.incetro.projecttemplate.presentation.base.mvvm.SavedStateViewModelFactoryImpl
+import com.incetro.projecttemplate.presentation.base.mvvm.lazyViewModelByFactory
 import com.incetro.projecttemplate.presentation.userstory.demo.di.DemoComponent
 import com.incetro.projecttemplate.utils.ext.collectCommonSideEffectsAsState
-import com.incetro.projecttemplate.utils.ext.lazyViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import javax.inject.Inject
 
@@ -38,8 +39,11 @@ class DemoFragment : BaseMVVMFragment() {
     @Inject
     lateinit var viewModelFactory: DemoViewModel.Factory
 
-    private val viewModel: DemoViewModel by lazyViewModel {
-        DemoViewModel.provideFactory(this, viewModelFactory).create(DemoViewModel::class.java)
+    private val viewModel: DemoViewModel by lazyViewModelByFactory {
+        SavedStateViewModelFactoryImpl(
+            this,
+            viewModelFactory
+        )
     }
 
     override fun getViewModel(): BaseViewModel = viewModel
