@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.entity.errors.AppError
-import com.incetro.projecttemplate.presentation.base.messageshowing.StylishDialogParams
-import com.incetro.projecttemplate.presentation.base.messageshowing.ToastMessageParams
+import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
+import com.incetro.projecttemplate.presentation.base.messageshowing.ToastMessageState
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 
@@ -19,13 +19,13 @@ abstract class BaseViewModel : ViewModel() {
 
     fun isLoading(): LiveData<Boolean> = isLoadingLiveData
     fun showErrorEvent(): SingleLiveEvent<AppError> = showErrorLiveDataEvent
-    fun showDialog(): SingleLiveEvent<StylishDialogParams> = showDialogLiveDataEvent
-    fun showMessage(): SingleLiveEvent<ToastMessageParams> = showToastMessageLiveDataEvent
+    fun showDialog(): SingleLiveEvent<AlertDialogState> = showDialogLiveDataEvent
+    fun showMessage(): SingleLiveEvent<ToastMessageState> = showToastMessageLiveDataEvent
 
     private val isLoadingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
     private val showErrorLiveDataEvent: SingleLiveEvent<AppError> = SingleLiveEvent()
-    private val showDialogLiveDataEvent: SingleLiveEvent<StylishDialogParams> = SingleLiveEvent()
-    private val showToastMessageLiveDataEvent: SingleLiveEvent<ToastMessageParams> =
+    private val showDialogLiveDataEvent: SingleLiveEvent<AlertDialogState> = SingleLiveEvent()
+    private val showToastMessageLiveDataEvent: SingleLiveEvent<ToastMessageState> =
         SingleLiveEvent()
 
     protected fun Disposable.addDisposable(): Disposable {
@@ -46,8 +46,8 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     fun showDialog(
-        title: CharSequence = "",
-        body: CharSequence = "",
+        title: String = "",
+        body: String = "",
         @StringRes positiveText: Int = R.string.ok,
         @StringRes negativeText: Int = 0,
         @DrawableRes icon: Int = 0,
@@ -56,7 +56,8 @@ abstract class BaseViewModel : ViewModel() {
         onDismiss: (() -> Unit)? = null,
         cancelable: Boolean = true
     ) {
-        val dialogParams = StylishDialogParams(
+        val dialogParams = AlertDialogState(
+            true,
             title,
             body,
             positiveText,
@@ -70,11 +71,11 @@ abstract class BaseViewModel : ViewModel() {
         showDialog(dialogParams)
     }
 
-    protected fun showDialog(dialogParams: StylishDialogParams) {
+    protected fun showDialog(dialogParams: AlertDialogState) {
         showDialogLiveDataEvent.value = dialogParams
     }
 
-    protected fun showMessage(messageParams: ToastMessageParams) {
+    protected fun showMessage(messageParams: ToastMessageState) {
         showToastMessageLiveDataEvent.value = messageParams
     }
 

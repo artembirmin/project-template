@@ -6,11 +6,15 @@
 
 package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
 
-import android.os.Parcelable
+import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
+import com.incetro.projecttemplate.presentation.base.mvvm.ViewState
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DemoFragmentViewState(
     val counter: Int = 0,
-    val numberFact: String = ""
-) : Parcelable
+    val numberFact: String = "",
+
+    @IgnoredOnParcel override val dialog: AlertDialogState = AlertDialogState()
+) : ViewState()

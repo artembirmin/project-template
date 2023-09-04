@@ -1,7 +1,6 @@
 package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.presentation.base.mvvm.BaseViewModel
@@ -20,6 +19,7 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import timber.log.Timber
 
 class DemoViewModel @AssistedInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
@@ -27,9 +27,15 @@ class DemoViewModel @AssistedInject constructor(
     private val numberFactRepository: NumberFactRepository
 ) : ContainerHost<DemoFragmentViewState, CommonSideEffect>, BaseViewModel() {
 
+    override fun onCleared() {
+        Timber.e("onCleared")
+        super.onCleared()
+    }
+
     override val container: Container<DemoFragmentViewState, CommonSideEffect> =
         container(
-            savedStateHandle.get<DemoFragmentViewState>(DEFAULT_STATE_KEY) ?: DemoFragmentViewState(),
+            savedStateHandle.get<DemoFragmentViewState>(DEFAULT_STATE_KEY)
+                ?: DemoFragmentViewState(),
             savedStateHandle
         )
 
@@ -39,9 +45,31 @@ class DemoViewModel @AssistedInject constructor(
 
     fun incrementCounter() = intent {
         reduce {
-            state.copy(counter = state.counter + 1)
+            val counter = state.counter + 1
+            Timber.e("counter = $counter")
+            val dialogState = if (counter == 10) {
+                Timber.e("if counter = 10 true")
+                state.dialog.copy(
+                    isVisible = true,
+                    title = "1234",
+                    text = "dkdkdkdke",
+                    onPositiveClick = {
+                        reset()
+                    })
+            } else {
+                state.dialog.copy(isVisible = false)
+            }
+
+            state.copy(counter = counter, dialog = dialogState)
         }
         getNewFact()
+    }
+
+    fun reset() = intent {
+        Timber.e("RESET")
+        reduce {
+            state.copy(counter = 0, numberFact = "")
+        }
     }
 
     fun decrementCounter() = intent {
