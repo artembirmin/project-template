@@ -1,10 +1,10 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 11/8/2023.
+ * Created by artembirmin on 4/9/2023.
  */
 
-package com.incetro.projecttemplate.presentation.base.mvvm
+package com.incetro.projecttemplate.presentation.base.mvvm.view
 
 import android.app.AlertDialog
 import android.os.Bundle

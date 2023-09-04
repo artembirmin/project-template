@@ -1,10 +1,10 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 11/8/2023.
+ * Created by artembirmin on 4/9/2023.
  */
 
-package com.incetro.projecttemplate.presentation.base.mvvm
+package com.incetro.projecttemplate.presentation.base.mvvm.view
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -12,37 +12,47 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.app.AppActivity
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentManager
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsStore
+import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.entity.errors.AppError
 import com.incetro.projecttemplate.presentation.base.BaseView
+import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
 import com.incetro.projecttemplate.presentation.base.messageshowing.ErrorHandler
 import com.incetro.projecttemplate.presentation.base.messageshowing.LoadingIndicator
+import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
+import com.incetro.projecttemplate.presentation.base.messageshowing.ToastMessageState
+import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModel
+import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.BaseAlertDialog
 import es.dmoral.toasty.Toasty
-import moxy.MvpAppCompatFragment
+import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
  * Contains basic functionality for all [Fragment]s.
  */
-abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(), BaseView {
-
-    /**
-     * Instance of [ViewDataBinding] class implementation for fragment.
-     */
-    protected lateinit var binding: Binding
+abstract class BaseComposeFragment : Fragment(), BaseView {
 
     @Inject
     lateinit var errorHandler: ErrorHandler
 
-    /** Layout id from res/layout. */
-    abstract val layoutRes: Int
+    @Inject
+    lateinit var router: AppRouter
+
+    abstract fun getViewModel(): BaseViewModel<out ViewState, out SideEffect>
 
     private val loadingIndicator: LoadingIndicator by lazy { LoadingIndicator(requireActivity()) }
 
@@ -50,6 +60,9 @@ abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(),
      * True, when [onSaveInstanceState] called.
      */
     private var isInstanceStateSaved: Boolean = false
+
+    @Composable
+    abstract fun CreateView()
 
     /**
      * Does dependency injection.
@@ -75,13 +88,64 @@ abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(),
         super.onCreate(savedInstanceState)
     }
 
+    protected open val viewCompositionStrategy =
+        ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, layoutRes, container, false)
-        return binding.root
+
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(viewCompositionStrategy)
+            setContent {
+                var sideEffects by remember { mutableStateOf<SideEffect>(SideEffect.None) }
+                getViewModel().collectSideEffect {
+                    Timber.e("Side effect $it")
+                    sideEffects = it
+                }
+//
+                CollectSideEffects(sideEffect = sideEffects)
+
+                val viewState: ViewState by getViewModel().collectAsState()
+                CollectBaseState(viewState = viewState)
+
+                CreateView()
+            }
+        }
+    }
+
+    @Composable
+    open fun CollectSideEffects(sideEffect: SideEffect) {
+        Timber.e("CollectSideEffects = $sideEffect")
+        when (sideEffect) {
+            is AlertDialogState -> {
+                BaseAlertDialog(sideEffect)
+            }
+
+            is ToastMessageState -> {}
+            SideEffect.ShowLoading -> {
+
+            }
+
+            SideEffect.HideLoading -> {
+
+            }
+
+            is SideEffect.ErrorDialog -> {}
+            SideEffect.None -> {}
+        }
+    }
+
+    @Composable
+    open fun CollectBaseState(viewState: ViewState) {
+        if (viewState.hasLoader) {
+
+        }
+        if (viewState.dialog.isVisible) {
+            BaseAlertDialog(viewState.dialog)
+        }
     }
 
     override fun onResume() {
@@ -97,9 +161,11 @@ abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(),
     override fun onDestroy() {
         super.onDestroy()
         if (needCloseScope()) {
+            onCloseScope()
             release()
         }
     }
+
 
     /**
      * Checks if the component needs to be released.
@@ -116,7 +182,9 @@ abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(),
      */
     fun isRealRemoving(): Boolean =
         (isRemoving && !isInstanceStateSaved) //because isRemoving == true for fragment in backstack on screen rotation
-                || ((parentFragment as? BaseFragment<*>)?.isRealRemoving() ?: false)
+                || ((parentFragment as? BaseComposeFragment)?.isRealRemoving() ?: false)
+
+    protected open fun onCloseScope() {}
 
     override fun showError(error: Throwable) {
         showError(AppError(error))

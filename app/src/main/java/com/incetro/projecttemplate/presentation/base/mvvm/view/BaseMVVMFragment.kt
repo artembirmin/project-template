@@ -1,4 +1,10 @@
-package com.incetro.projecttemplate.presentation.base.mvvm
+/*
+ * ProjectTemplate
+ *
+ * Created by artembirmin on 4/9/2023.
+ */
+
+package com.incetro.projecttemplate.presentation.base.mvvm.view
 
 import android.os.Bundle
 import android.view.View
@@ -7,13 +13,9 @@ import es.dmoral.toasty.Toasty
 
 abstract class BaseMVVMFragment : BaseComposeFragment() {
 
-    abstract fun getViewModel(): BaseViewModel
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        binding.lifecycleOwner = viewLifecycleOwner
-//        getViewModel().showDialog()
-//            .observe(viewLifecycleOwner) { it?.let { showMessageByAlertDialog(it) } }
         getViewModel().isLoading().observe(viewLifecycleOwner) {
             it?.let {
                 if (it) showProgress()

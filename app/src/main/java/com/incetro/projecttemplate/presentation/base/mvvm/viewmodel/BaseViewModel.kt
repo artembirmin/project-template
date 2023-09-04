@@ -1,4 +1,10 @@
-package com.incetro.projecttemplate.presentation.base.mvvm
+/*
+ * ProjectTemplate
+ *
+ * Created by artembirmin on 4/9/2023.
+ */
+
+package com.incetro.projecttemplate.presentation.base.mvvm.viewmodel
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -9,22 +15,32 @@ import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.entity.errors.AppError
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
 import com.incetro.projecttemplate.presentation.base.messageshowing.ToastMessageState
+import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
+import com.incetro.projecttemplate.presentation.base.mvvm.view.SingleLiveEvent
+import com.incetro.projecttemplate.presentation.base.mvvm.view.ViewState
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.CoroutineExceptionHandler
+import org.orbitmvi.orbit.ContainerHost
+import timber.log.Timber
 
 
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel<S : ViewState, E : SideEffect> : ViewModel(),
+    ContainerHost<S, E> {
 
     protected val compositeDisposable = CompositeDisposable()
 
+    protected val coroutineExceptionHandler: CoroutineExceptionHandler =
+        CoroutineExceptionHandler { _, error ->
+            Timber.e(error)
+        }
+
     fun isLoading(): LiveData<Boolean> = isLoadingLiveData
     fun showErrorEvent(): SingleLiveEvent<AppError> = showErrorLiveDataEvent
-    fun showDialog(): SingleLiveEvent<AlertDialogState> = showDialogLiveDataEvent
     fun showMessage(): SingleLiveEvent<ToastMessageState> = showToastMessageLiveDataEvent
 
     private val isLoadingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
     private val showErrorLiveDataEvent: SingleLiveEvent<AppError> = SingleLiveEvent()
-    private val showDialogLiveDataEvent: SingleLiveEvent<AlertDialogState> = SingleLiveEvent()
     private val showToastMessageLiveDataEvent: SingleLiveEvent<ToastMessageState> =
         SingleLiveEvent()
 
@@ -43,36 +59,6 @@ abstract class BaseViewModel : ViewModel() {
 
     protected fun showError(error: Throwable) {
         showErrorLiveDataEvent.value = AppError(error)
-    }
-
-    fun showDialog(
-        title: String = "",
-        body: String = "",
-        @StringRes positiveText: Int = R.string.ok,
-        @StringRes negativeText: Int = 0,
-        @DrawableRes icon: Int = 0,
-        onPositiveClick: (() -> Unit)? = null,
-        onNegativeClick: (() -> Unit)? = null,
-        onDismiss: (() -> Unit)? = null,
-        cancelable: Boolean = true
-    ) {
-        val dialogParams = AlertDialogState(
-            true,
-            title,
-            body,
-            positiveText,
-            negativeText,
-            icon,
-            onPositiveClick,
-            onNegativeClick,
-            onDismiss,
-            cancelable
-        )
-        showDialog(dialogParams)
-    }
-
-    protected fun showDialog(dialogParams: AlertDialogState) {
-        showDialogLiveDataEvent.value = dialogParams
     }
 
     protected fun showMessage(messageParams: ToastMessageState) {

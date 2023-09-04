@@ -1,10 +1,10 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 22/8/2023.
+ * Created by artembirmin on 4/9/2023.
  */
 
-package com.incetro.projecttemplate.presentation.base.mvvm
+package com.incetro.projecttemplate.presentation.base.mvvm.view
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -12,33 +12,37 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.app.AppActivity
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentManager
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsStore
-import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.entity.errors.AppError
 import com.incetro.projecttemplate.presentation.base.BaseView
 import com.incetro.projecttemplate.presentation.base.messageshowing.ErrorHandler
 import com.incetro.projecttemplate.presentation.base.messageshowing.LoadingIndicator
 import es.dmoral.toasty.Toasty
+import moxy.MvpAppCompatFragment
 import javax.inject.Inject
 
 /**
  * Contains basic functionality for all [Fragment]s.
  */
-abstract class BaseComposeFragment : Fragment(), BaseView {
+abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(), BaseView {
+
+    /**
+     * Instance of [ViewDataBinding] class implementation for fragment.
+     */
+    protected lateinit var binding: Binding
 
     @Inject
     lateinit var errorHandler: ErrorHandler
 
-    @Inject
-    lateinit var router: AppRouter
+    /** Layout id from res/layout. */
+    abstract val layoutRes: Int
 
     private val loadingIndicator: LoadingIndicator by lazy { LoadingIndicator(requireActivity()) }
 
@@ -46,9 +50,6 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
      * True, when [onSaveInstanceState] called.
      */
     private var isInstanceStateSaved: Boolean = false
-
-    @Composable
-    abstract fun CreateView()
 
     /**
      * Does dependency injection.
@@ -74,20 +75,13 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
         super.onCreate(savedInstanceState)
     }
 
-    protected open val viewCompositionStrategy =
-        ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(viewCompositionStrategy)
-            setContent {
-                CreateView()
-            }
-        }
+        binding = DataBindingUtil.inflate(inflater, layoutRes, container, false)
+        return binding.root
     }
 
     override fun onResume() {
@@ -103,11 +97,9 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
     override fun onDestroy() {
         super.onDestroy()
         if (needCloseScope()) {
-            onCloseScope()
             release()
         }
     }
-
 
     /**
      * Checks if the component needs to be released.
@@ -124,9 +116,7 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
      */
     fun isRealRemoving(): Boolean =
         (isRemoving && !isInstanceStateSaved) //because isRemoving == true for fragment in backstack on screen rotation
-                || ((parentFragment as? BaseComposeFragment)?.isRealRemoving() ?: false)
-
-    protected open fun onCloseScope() {}
+                || ((parentFragment as? BaseFragment<*>)?.isRealRemoving() ?: false)
 
     override fun showError(error: Throwable) {
         showError(AppError(error))

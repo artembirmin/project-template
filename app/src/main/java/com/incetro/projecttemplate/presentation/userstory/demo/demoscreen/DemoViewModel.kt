@@ -3,9 +3,11 @@ package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.incetro.projecttemplate.common.navigation.AppRouter
-import com.incetro.projecttemplate.presentation.base.mvvm.BaseViewModel
-import com.incetro.projecttemplate.presentation.base.mvvm.DEFAULT_STATE_KEY
-import com.incetro.projecttemplate.presentation.base.mvvm.ViewModelAssistedFactory
+import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
+import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
+import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModel
+import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.DEFAULT_STATE_KEY
+import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.ViewModelAssistedFactory
 import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.repository.NumberFactRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -14,7 +16,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
-import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
@@ -25,43 +26,60 @@ class DemoViewModel @AssistedInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
     private val router: AppRouter,
     private val numberFactRepository: NumberFactRepository
-) : ContainerHost<DemoFragmentViewState, CommonSideEffect>, BaseViewModel() {
+) : BaseViewModel<DemoFragmentViewState, SideEffect>() {
 
-    override fun onCleared() {
-        Timber.e("onCleared")
-        super.onCleared()
-    }
-
-    override val container: Container<DemoFragmentViewState, CommonSideEffect> =
+    override val container: Container<DemoFragmentViewState, SideEffect> =
         container(
-            savedStateHandle.get<DemoFragmentViewState>(DEFAULT_STATE_KEY)
+            initialState = savedStateHandle.get<DemoFragmentViewState>(DEFAULT_STATE_KEY)
                 ?: DemoFragmentViewState(),
-            savedStateHandle
+            savedStateHandle = savedStateHandle,
+            buildSettings = {
+                exceptionHandler = coroutineExceptionHandler
+            },
+            onCreate = {
+                getNewFact()
+            }
         )
 
-    init {
-        getNewFact()
+    // DELETEME
+    override fun onCleared() {
+        container.sideEffectFlow
+        Timber.e("onCleared")
+        super.onCleared()
     }
 
     fun incrementCounter() = intent {
         reduce {
             val counter = state.counter + 1
             Timber.e("counter = $counter")
-            val dialogState = if (counter == 10) {
-                Timber.e("if counter = 10 true")
-                state.dialog.copy(
-                    isVisible = true,
-                    title = "1234",
-                    text = "dkdkdkdke",
-                    onPositiveClick = {
-                        reset()
-                    })
-            } else {
-                state.dialog.copy(isVisible = false)
-            }
 
-            state.copy(counter = counter, dialog = dialogState)
+
+            state.copy(counter = counter)
         }
+        if (state.counter == 10) {
+            Timber.e("if counter = 10 true")
+            val alertDialogState = AlertDialogState(
+                isVisible = true,
+                title = "1234",
+                text = "dkdkdkdke",
+                onPositiveClick = {
+                    reset()
+                })
+            postSideEffect(alertDialogState)
+
+//            delay(1000)
+//
+//            val dialog = AlertDialogState(
+//                isVisible = true,
+//                title = "234565432",
+//                text = "dkdkdkdke",
+//                onPositiveClick = {
+//                    reset()
+//                })
+//
+//            postSideEffect(dialog)
+        }
+
         getNewFact()
     }
 
@@ -80,9 +98,9 @@ class DemoViewModel @AssistedInject constructor(
     }
 
     private fun getNewFact() = intent {
-        postSideEffect(CommonSideEffect.ShowLoading)
+//        postSideEffect(SideEffect.ShowLoading)
         val numberFact = fetchNumberFact(state.counter)
-        postSideEffect(CommonSideEffect.HideLoading)
+//        postSideEffect(SideEffect.HideLoading)
         reduce {
             state.copy(numberFact = numberFact)
         }

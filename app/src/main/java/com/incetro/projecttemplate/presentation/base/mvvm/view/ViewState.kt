@@ -1,23 +1,30 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 31/8/2023.
+ * Created by artembirmin on 4/9/2023.
  */
 
-package com.incetro.projecttemplate.presentation.base.mvvm
+package com.incetro.projecttemplate.presentation.base.mvvm.view
 
 import android.os.Bundle
 import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
-import com.incetro.projecttemplate.presentation.base.messageshowing.ToastMessageState
-import kotlinx.parcelize.IgnoredOnParcel
 
 
 abstract class ViewState : Parcelable {
-    open val hasLoader: Boolean = false
-    open val dialog: AlertDialogState = AlertDialogState()
-    open val toast: ToastMessageState = ToastMessageState()
+    var hasLoader: Boolean = false
+    var dialog: AlertDialogState = AlertDialogState()
+}
+
+fun ViewState.updateDialog(reduce: (AlertDialogState) -> AlertDialogState): ViewState {
+    this.dialog = reduce(this.dialog)
+    return this
+}
+
+fun ViewState.updateLoader(hasLoading: Boolean): ViewState {
+    this.hasLoader = hasLoading
+    return this
 }
 
 /**

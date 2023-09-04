@@ -1,4 +1,10 @@
-package com.incetro.projecttemplate.presentation.base.mvvm
+/*
+ * ProjectTemplate
+ *
+ * Created by artembirmin on 4/9/2023.
+ */
+
+package com.incetro.projecttemplate.presentation.base.mvvm.viewmodel
 
 import android.os.Bundle
 import android.os.Parcelable

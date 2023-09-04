@@ -1,4 +1,4 @@
-package com.incetro.projecttemplate.presentation.base.mvvm
+package com.incetro.projecttemplate.presentation.base.mvvm.view
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

@@ -13,21 +13,31 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
-import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.CommonSideEffect
+import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
+import com.incetro.projecttemplate.presentation.base.mvvm.view.ViewState
+import kotlinx.coroutines.flow.onEach
 import org.orbitmvi.orbit.ContainerHost
+import timber.log.Timber
 
 
 @Composable
-public fun <STATE : Any>
-        ContainerHost<STATE, CommonSideEffect>.collectCommonSideEffectsAsState(
-    lifecycleState: Lifecycle.State = Lifecycle.State.STARTED
-): State<CommonSideEffect> {
+fun <S : ViewState, E : SideEffect> ContainerHost<S, E>.collectSideEffectsAsState(
+    lifecycleState: Lifecycle.State = Lifecycle.State.CREATED
+): State<SideEffect> {
     val stateFlow = container.sideEffectFlow
+//        .onEach {
+//        Timber.e("1" + it.toString())
+//        it
+//    }
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val stateFlowLifecycleAware = remember(stateFlow, lifecycleOwner) {
         stateFlow.flowWithLifecycle(lifecycleOwner.lifecycle, lifecycleState)
     }
+//        .onEach {
+//        Timber.e("2" + it.toString())
+//        it
+//    }
 
-    return stateFlowLifecycleAware.collectAsState(CommonSideEffect.None)
+    return stateFlowLifecycleAware.collectAsState(SideEffect.None)
 }
