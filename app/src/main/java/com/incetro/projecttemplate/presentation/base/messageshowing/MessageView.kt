@@ -29,5 +29,5 @@ interface MessageView {
         onDismiss: (() -> Unit)? = null
     )
 
-    fun showMessage(message: String, icon: Int?, length: Int?)
+    fun showToastMessage(message: String, icon: Int?, length: Int?)
 }

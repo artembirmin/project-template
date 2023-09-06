@@ -43,48 +43,40 @@ class DemoViewModel @AssistedInject constructor(
 
     // DELETEME
     override fun onCleared() {
-        container.sideEffectFlow
         Timber.e("onCleared")
         super.onCleared()
     }
 
     fun incrementCounter() = intent {
+        postSideEffect(SideEffect.ToastMessageState("${state.counter}"))
+
         reduce {
             val counter = state.counter + 1
-            Timber.e("counter = $counter")
-
-
             state.copy(counter = counter)
         }
-        if (state.counter == 10) {
-            Timber.e("if counter = 10 true")
-            val alertDialogState = AlertDialogState(
-                isVisible = true,
-                title = "1234",
-                text = "dkdkdkdke",
-                onPositiveClick = {
-                    reset()
-                })
-            postSideEffect(alertDialogState)
 
-//            delay(1000)
-//
-//            val dialog = AlertDialogState(
-//                isVisible = true,
-//                title = "234565432",
-//                text = "dkdkdkdke",
-//                onPositiveClick = {
-//                    reset()
-//                })
-//
-//            postSideEffect(dialog)
+        if(state.counter == 5)
+            throw Exception("Error message")
+
+        val alertDialogState = AlertDialogState(
+            isVisible = true,
+            title = "1234",
+            text = "dkdkdkdke",
+            onPositiveClick = {
+                onDismissDialog()
+//                reset()
+            },
+            onDismiss = {
+            })
+
+        reduce {
+            state.copy(dialog = alertDialogState)
         }
 
         getNewFact()
     }
 
     fun reset() = intent {
-        Timber.e("RESET")
         reduce {
             state.copy(counter = 0, numberFact = "")
         }
@@ -98,9 +90,7 @@ class DemoViewModel @AssistedInject constructor(
     }
 
     private fun getNewFact() = intent {
-//        postSideEffect(SideEffect.ShowLoading)
         val numberFact = fetchNumberFact(state.counter)
-//        postSideEffect(SideEffect.HideLoading)
         reduce {
             state.copy(numberFact = numberFact)
         }
@@ -110,7 +100,7 @@ class DemoViewModel @AssistedInject constructor(
     private suspend fun fetchNumberFact(number: Int): String {
         var fact: String = container.stateFlow.value.numberFact
         debounceNumberFactJob?.cancel()
-        debounceNumberFactJob = viewModelScope.launch {
+        debounceNumberFactJob = viewModelScope.launch(coroutineExceptionHandler) {
             delay(300)
             fact = numberFactRepository.getNumberFact(number).text
         }

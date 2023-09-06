@@ -26,7 +26,7 @@ abstract class BaseMVVMFragment : BaseComposeFragment() {
             it?.let { showError(it) }
         }
         getViewModel().showMessage().observe(viewLifecycleOwner) {
-            it?.let { showMessage(it.text, it.icon, Toasty.LENGTH_SHORT) }
+            it?.let { showToastMessage(it.text, it.icon, Toasty.LENGTH_SHORT) }
         }
     }
 

@@ -27,4 +27,4 @@ data class AlertDialogState(
     val onNegativeClick: (() -> Unit)? = null,
     val onDismiss: (() -> Unit)? = null,
     val cancelable: Boolean = true
-): SideEffect
+)

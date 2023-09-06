@@ -14,9 +14,6 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.content.ContextCompat
@@ -28,11 +25,9 @@ import com.incetro.projecttemplate.common.di.componentmanager.ComponentsStore
 import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.entity.errors.AppError
 import com.incetro.projecttemplate.presentation.base.BaseView
-import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
 import com.incetro.projecttemplate.presentation.base.messageshowing.ErrorHandler
 import com.incetro.projecttemplate.presentation.base.messageshowing.LoadingIndicator
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
-import com.incetro.projecttemplate.presentation.base.messageshowing.ToastMessageState
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModel
 import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.BaseAlertDialog
 import es.dmoral.toasty.Toasty
@@ -96,20 +91,24 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(viewCompositionStrategy)
             setContent {
-                var sideEffects by remember { mutableStateOf<SideEffect>(SideEffect.None) }
                 getViewModel().collectSideEffect {
-                    Timber.e("Side effect $it")
-                    sideEffects = it
+                    Timber.e("collectSideEffect = $it")
+
+                    when (it) {
+                        is SideEffect.ToastMessageState -> {
+                            showToastMessage(it.text, it.icon, it.text.length)
+                        }
+
+                        SideEffect.None -> {}
+                    }
                 }
-//
-                CollectSideEffects(sideEffect = sideEffects)
 
                 val viewState: ViewState by getViewModel().collectAsState()
                 CollectBaseState(viewState = viewState)
+
 
                 CreateView()
             }
@@ -117,32 +116,13 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
     }
 
     @Composable
-    open fun CollectSideEffects(sideEffect: SideEffect) {
-        Timber.e("CollectSideEffects = $sideEffect")
-        when (sideEffect) {
-            is AlertDialogState -> {
-                BaseAlertDialog(sideEffect)
-            }
-
-            is ToastMessageState -> {}
-            SideEffect.ShowLoading -> {
-
-            }
-
-            SideEffect.HideLoading -> {
-
-            }
-
-            is SideEffect.ErrorDialog -> {}
-            SideEffect.None -> {}
-        }
-    }
-
-    @Composable
     open fun CollectBaseState(viewState: ViewState) {
+        Timber.e("CollectBaseState = $viewState,  dialog = ${viewState.dialog}")
         if (viewState.hasLoader) {
 
         }
+
+        Timber.e("CollectBaseState = $viewState")
         if (viewState.dialog.isVisible) {
             BaseAlertDialog(viewState.dialog)
         }
@@ -215,7 +195,7 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
             .show()
     }
 
-    override fun showMessage(message: String, icon: Int?, length: Int?) {
+    override fun showToastMessage(message: String, icon: Int?, length: Int?) {
         val colorBG = ContextCompat.getColor(requireContext(), R.color.black_transparent_62)
         val colorText = ContextCompat.getColor(requireContext(), R.color.white)
 

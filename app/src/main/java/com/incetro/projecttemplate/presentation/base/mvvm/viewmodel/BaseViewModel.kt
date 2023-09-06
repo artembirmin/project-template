@@ -6,42 +6,63 @@
 
 package com.incetro.projecttemplate.presentation.base.mvvm.viewmodel
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.entity.errors.AppError
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
-import com.incetro.projecttemplate.presentation.base.messageshowing.ToastMessageState
+import com.incetro.projecttemplate.presentation.base.messageshowing.ErrorHandler
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
 import com.incetro.projecttemplate.presentation.base.mvvm.view.SingleLiveEvent
 import com.incetro.projecttemplate.presentation.base.mvvm.view.ViewState
+import com.incetro.projecttemplate.presentation.base.mvvm.view.updateDialog
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.CoroutineExceptionHandler
 import org.orbitmvi.orbit.ContainerHost
-import timber.log.Timber
-
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
+import javax.inject.Inject
 
 abstract class BaseViewModel<S : ViewState, E : SideEffect> : ViewModel(),
     ContainerHost<S, E> {
 
     protected val compositeDisposable = CompositeDisposable()
 
+    @Inject
+    lateinit var errorHandler: ErrorHandler
+
     protected val coroutineExceptionHandler: CoroutineExceptionHandler =
         CoroutineExceptionHandler { _, error ->
-            Timber.e(error)
+            // TODO Implement error handler
+            intent {
+                reduce {
+                    state.updateDialog {
+                        AlertDialogState(
+                            isVisible = true,
+                            title = "Error",
+                            text = error.message.toString(),
+                            onDismiss = { onDismissDialog() })
+                    }
+                }
+            }
         }
+
+    fun onDismissDialog() = intent {
+        reduce {
+            state.updateDialog {
+                AlertDialogState()
+            }
+        }
+    }
 
     fun isLoading(): LiveData<Boolean> = isLoadingLiveData
     fun showErrorEvent(): SingleLiveEvent<AppError> = showErrorLiveDataEvent
-    fun showMessage(): SingleLiveEvent<ToastMessageState> = showToastMessageLiveDataEvent
+    fun showMessage(): SingleLiveEvent<SideEffect.ToastMessageState> = showToastMessageLiveDataEvent
 
     private val isLoadingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
     private val showErrorLiveDataEvent: SingleLiveEvent<AppError> = SingleLiveEvent()
-    private val showToastMessageLiveDataEvent: SingleLiveEvent<ToastMessageState> =
+    private val showToastMessageLiveDataEvent: SingleLiveEvent<SideEffect.ToastMessageState> =
         SingleLiveEvent()
 
     protected fun Disposable.addDisposable(): Disposable {
@@ -61,7 +82,7 @@ abstract class BaseViewModel<S : ViewState, E : SideEffect> : ViewModel(),
         showErrorLiveDataEvent.value = AppError(error)
     }
 
-    protected fun showMessage(messageParams: ToastMessageState) {
+    protected fun showMessage(messageParams: SideEffect.ToastMessageState) {
         showToastMessageLiveDataEvent.value = messageParams
     }
 

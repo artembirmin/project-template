@@ -10,16 +10,26 @@ import android.os.Bundle
 import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
+import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.DemoFragmentViewState
 
 
 abstract class ViewState : Parcelable {
-    var hasLoader: Boolean = false
-    var dialog: AlertDialogState = AlertDialogState()
+//    open var commonStateValues: CommonStateValues = CommonStateValues()
+    open var hasLoader: Boolean = false
+    open var dialog: AlertDialogState = AlertDialogState()
+
+    abstract fun copyState(): ViewState
 }
 
-fun ViewState.updateDialog(reduce: (AlertDialogState) -> AlertDialogState): ViewState {
-    this.dialog = reduce(this.dialog)
-    return this
+data class CommonStateValues(
+    var hasLoader: Boolean = false,
+    var dialog: AlertDialogState = AlertDialogState()
+)
+
+fun <S : ViewState> S.updateDialog(reduce: (AlertDialogState) -> AlertDialogState): S {
+    return this.copyState().apply {
+        dialog = reduce(this.dialog)
+    } as S
 }
 
 fun ViewState.updateLoader(hasLoading: Boolean): ViewState {

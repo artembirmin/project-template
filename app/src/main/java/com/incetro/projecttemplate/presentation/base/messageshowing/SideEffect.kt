@@ -6,13 +6,14 @@
 
 package com.incetro.projecttemplate.presentation.base.messageshowing
 
+import androidx.annotation.DrawableRes
+
 sealed interface SideEffect {
 
-    data class ErrorDialog(val error: Throwable) : SideEffect
-
-    object ShowLoading : SideEffect
-
-    object HideLoading : SideEffect
+    data class ToastMessageState(
+        val text: String = "",
+        @DrawableRes val icon: Int? = null
+    ): SideEffect
 
     object None : SideEffect
 }

@@ -147,7 +147,7 @@ abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(),
             .show()
     }
 
-    override fun showMessage(message: String, icon: Int?, length: Int?) {
+    override fun showToastMessage(message: String, icon: Int?, length: Int?) {
         val colorBG = ContextCompat.getColor(requireContext(), R.color.black_transparent_62)
         val colorText = ContextCompat.getColor(requireContext(), R.color.white)
 
