@@ -14,8 +14,9 @@ import com.incetro.projecttemplate.presentation.base.mvvm.view.ViewState
 
 
 abstract class BaseAndroidViewModel<S : ViewState, E : SideEffect>(
-    @SuppressLint("StaticFieldLeak") private val app: Application
-) : BaseViewModel<S, E>() {
+    @SuppressLint("StaticFieldLeak") private val app: Application,
+    dependencies: BaseViewModelDependencies
+) : BaseViewModel<S, E>(dependencies) {
 
     /**
      * Return the application.

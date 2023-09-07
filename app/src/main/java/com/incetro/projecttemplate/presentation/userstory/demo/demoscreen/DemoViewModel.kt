@@ -6,6 +6,7 @@ import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModel
+import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModelDependencies
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.DEFAULT_STATE_KEY
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.ViewModelAssistedFactory
 import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.repository.NumberFactRepository
@@ -25,8 +26,9 @@ import timber.log.Timber
 class DemoViewModel @AssistedInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
     private val router: AppRouter,
-    private val numberFactRepository: NumberFactRepository
-) : BaseViewModel<DemoFragmentViewState, SideEffect>() {
+    private val numberFactRepository: NumberFactRepository,
+    baseViewModelDependencies: BaseViewModelDependencies
+) : BaseViewModel<DemoFragmentViewState, SideEffect>(baseViewModelDependencies) {
 
     override val container: Container<DemoFragmentViewState, SideEffect> =
         container(
@@ -41,12 +43,6 @@ class DemoViewModel @AssistedInject constructor(
             }
         )
 
-    // DELETEME
-    override fun onCleared() {
-        Timber.e("onCleared")
-        super.onCleared()
-    }
-
     fun incrementCounter() = intent {
         postSideEffect(SideEffect.ToastMessageState("${state.counter}"))
 
@@ -55,7 +51,7 @@ class DemoViewModel @AssistedInject constructor(
             state.copy(counter = counter)
         }
 
-        if(state.counter == 5)
+        if (state.counter == 5)
             throw Exception("Error message")
 
         val alertDialogState = AlertDialogState(

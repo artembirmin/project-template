@@ -10,12 +10,17 @@ import android.content.Context
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.incetro.projecttemplate.app.App
 import com.incetro.projecttemplate.app.AppLauncher
-import com.incetro.projecttemplate.common.di.app.module.*
+import com.incetro.projecttemplate.common.di.app.module.AppModule
+import com.incetro.projecttemplate.common.di.app.module.AppNavigationModule
+import com.incetro.projecttemplate.common.di.app.module.CommonAppModule
+import com.incetro.projecttemplate.common.di.app.module.DatabaseModule
+import com.incetro.projecttemplate.common.di.app.module.NetworkModule
 import com.incetro.projecttemplate.common.manager.ResourcesManager
 import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.model.database.AppDatabase
 import com.incetro.projecttemplate.model.database.demo.DemoDao
 import com.incetro.projecttemplate.model.network.api.DemoApi
+import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModelDependencies
 import dagger.Component
 import javax.inject.Singleton
 
@@ -36,6 +41,7 @@ interface AppComponent {
     // AppModule
     fun provideContext(): Context
     fun provideAppLauncher(): AppLauncher
+    fun provideDeps(): BaseViewModelDependencies
 
     // CommonAppModule
 

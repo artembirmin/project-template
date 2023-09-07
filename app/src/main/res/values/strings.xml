@@ -9,4 +9,7 @@
     <string name="ok">Ok</string>
     <string name="demo_title">Demo</string>
     <string name="demo_hello_world">Hello world</string>
+    <string name="error_common_text">"Something went wrong. Check your internet connection and try again later"</string>
+    <string name="error_title">"Error"</string>
+
 </resources>

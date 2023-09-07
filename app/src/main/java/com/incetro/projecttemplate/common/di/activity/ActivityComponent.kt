@@ -17,6 +17,7 @@ import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.model.database.AppDatabase
 import com.incetro.projecttemplate.model.database.demo.DemoDao
 import com.incetro.projecttemplate.model.network.api.DemoApi
+import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModelDependencies
 import dagger.Component
 
 @ActivityScope
@@ -31,6 +32,7 @@ interface ActivityComponent {
 
     // AppModule
     fun provideContext(): Context
+    fun provideDeps(): BaseViewModelDependencies
 
     // AppNavigationModule from AppComponent
     fun provideAppRouter(): AppRouter

@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.incetro.projecttemplate.entity.errors.AppError
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
-import com.incetro.projecttemplate.presentation.base.messageshowing.ErrorHandler
+import com.incetro.projecttemplate.presentation.base.messageshowing.ErrorAlertStateFactory
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
 import com.incetro.projecttemplate.presentation.base.mvvm.view.SingleLiveEvent
 import com.incetro.projecttemplate.presentation.base.mvvm.view.ViewState
@@ -22,27 +22,22 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
-import javax.inject.Inject
 
-abstract class BaseViewModel<S : ViewState, E : SideEffect> : ViewModel(),
-    ContainerHost<S, E> {
+
+abstract class BaseViewModel<S : ViewState, E : SideEffect>(
+    private val dependencies: BaseViewModelDependencies
+) : ViewModel(), ContainerHost<S, E> {
 
     protected val compositeDisposable = CompositeDisposable()
 
-    @Inject
-    lateinit var errorHandler: ErrorHandler
-
     protected val coroutineExceptionHandler: CoroutineExceptionHandler =
         CoroutineExceptionHandler { _, error ->
-            // TODO Implement error handler
             intent {
                 reduce {
+                    val errorAlertState =
+                        ErrorAlertStateFactory.handleError(error, dependencies.resourcesManager)
                     state.updateDialog {
-                        AlertDialogState(
-                            isVisible = true,
-                            title = "Error",
-                            text = error.message.toString(),
-                            onDismiss = { onDismissDialog() })
+                        errorAlertState.copy(onDismiss = { onDismissDialog() })
                     }
                 }
             }
