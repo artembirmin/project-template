@@ -6,19 +6,15 @@
 
 package com.incetro.projecttemplate.presentation.base.mvvm.view
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.incetro.projecttemplate.R
-import com.incetro.projecttemplate.entity.errors.AppError
-import com.incetro.projecttemplate.presentation.base.BaseView
 import com.incetro.projecttemplate.presentation.base.messageshowing.ErrorHandler
 import es.dmoral.toasty.Toasty
 import moxy.MvpDelegate
@@ -27,8 +23,7 @@ import javax.inject.Inject
 
 abstract class BaseBottomSheetDialogFragment<Binding : ViewDataBinding> :
     BottomSheetDialogFragment(),
-    MvpDelegateHolder,
-    BaseView {
+    MvpDelegateHolder {
 
     protected lateinit var binding: Binding
 
@@ -112,38 +107,9 @@ abstract class BaseBottomSheetDialogFragment<Binding : ViewDataBinding> :
 
     private val isRealRemoving: Boolean =
         (isRemoving && !isInstanceStateSaved) //because isRemoving == true for fragment in backstack on screen rotation
-                || ((parentFragment as? BaseFragment<*>)?.isRealRemoving() ?: false)
+                || ((parentFragment as? BaseComposeFragment)?.isRealRemoving() ?: false)
 
-    override fun showError(error: Throwable) {
-        showError(AppError(error))
-    }
-
-    override fun showError(error: AppError) {
-        errorHandler.showError(error, requireContext())
-    }
-
-    override fun showMessageByAlertDialog(
-        @StringRes title: Int?,
-        @StringRes message: Int?,
-        @StringRes positiveText: Int,
-        @StringRes negativeText: Int?,
-        onPositiveButtonClick: (() -> Unit)?,
-        onNegativeButtonClick: (() -> Unit)?,
-        onDismiss: (() -> Unit)?
-    ) {
-        AlertDialog.Builder(requireContext())
-            .setMessage(message?.let { requireContext().getString(it) })
-            .apply {
-                negativeText?.let { setNegativeButton(it) { _, _ -> onNegativeButtonClick?.invoke() } }
-                title?.let { setTitle(requireContext().getString(it)) }
-            }
-            .setPositiveButton(positiveText) { _, _ -> onPositiveButtonClick?.invoke() }
-            .setOnDismissListener { onDismiss?.invoke() }
-            .create()
-            .show()
-    }
-
-    override fun showToastMessage(message: String, icon: Int?, length: Int?) {
+    fun showToastMessage(message: String, icon: Int?, length: Int?) {
         val colorBG = ContextCompat.getColor(requireContext(), R.color.black_transparent_62)
         val colorText = ContextCompat.getColor(requireContext(), R.color.white)
 

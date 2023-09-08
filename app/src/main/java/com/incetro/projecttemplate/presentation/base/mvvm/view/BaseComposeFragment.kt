@@ -6,12 +6,10 @@
 
 package com.incetro.projecttemplate.presentation.base.mvvm.view
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
@@ -22,10 +20,6 @@ import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.app.AppActivity
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentManager
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsStore
-import com.incetro.projecttemplate.common.navigation.AppRouter
-import com.incetro.projecttemplate.entity.errors.AppError
-import com.incetro.projecttemplate.presentation.base.BaseView
-import com.incetro.projecttemplate.presentation.base.messageshowing.ErrorHandler
 import com.incetro.projecttemplate.presentation.base.messageshowing.LoadingIndicator
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModel
@@ -34,19 +28,11 @@ import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.Loader
 import es.dmoral.toasty.Toasty
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
-import timber.log.Timber
-import javax.inject.Inject
 
 /**
  * Contains basic functionality for all [Fragment]s.
  */
-abstract class BaseComposeFragment : Fragment(), BaseView {
-
-    @Inject
-    lateinit var errorHandler: ErrorHandler
-
-    @Inject
-    lateinit var router: AppRouter
+abstract class BaseComposeFragment : Fragment() {
 
     abstract fun getViewModel(): BaseViewModel<out ViewState, out SideEffect>
 
@@ -96,8 +82,6 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
             setViewCompositionStrategy(viewCompositionStrategy)
             setContent {
                 getViewModel().collectSideEffect {
-                    Timber.e("collectSideEffect = $it")
-
                     when (it) {
                         is SideEffect.ToastMessageState -> {
                             showToastMessage(it.text, it.icon, it.text.length)
@@ -110,7 +94,6 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
                 val viewState: ViewState by getViewModel().collectAsState()
                 CollectBaseState(viewState = viewState)
 
-
                 CreateView()
             }
         }
@@ -119,8 +102,7 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
     @Composable
     open fun CollectBaseState(viewState: ViewState) {
         Loader(loaderState = viewState.loaderState)
-
-        BaseAlertDialog(viewState.dialog)
+        BaseAlertDialog(dialogState = viewState.dialogState)
     }
 
     override fun onResume() {
@@ -161,36 +143,7 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
 
     protected open fun onCloseScope() {}
 
-    override fun showError(error: Throwable) {
-        showError(AppError(error))
-    }
-
-    override fun showError(error: AppError) {
-        errorHandler.showError(error, requireContext())
-    }
-
-    override fun showMessageByAlertDialog(
-        @StringRes title: Int?,
-        @StringRes message: Int?,
-        @StringRes positiveText: Int,
-        @StringRes negativeText: Int?,
-        onPositiveButtonClick: (() -> Unit)?,
-        onNegativeButtonClick: (() -> Unit)?,
-        onDismiss: (() -> Unit)?
-    ) {
-        AlertDialog.Builder(requireContext())
-            .setMessage(message?.let { requireContext().getString(it) })
-            .apply {
-                negativeText?.let { setNegativeButton(it) { _, _ -> onNegativeButtonClick?.invoke() } }
-                title?.let { setTitle(requireContext().getString(it)) }
-            }
-            .setPositiveButton(positiveText) { _, _ -> onPositiveButtonClick?.invoke() }
-            .setOnDismissListener { onDismiss?.invoke() }
-            .create()
-            .show()
-    }
-
-    override fun showToastMessage(message: String, icon: Int?, length: Int?) {
+    fun showToastMessage(message: String, icon: Int?, length: Int?) {
         val colorBG = ContextCompat.getColor(requireContext(), R.color.black_transparent_62)
         val colorText = ContextCompat.getColor(requireContext(), R.color.white)
 
@@ -212,18 +165,5 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
         )
 
         toasty.show()
-    }
-
-
-    override fun showProgress() {
-        loadingIndicator.show()
-    }
-
-    override fun hideProgress() {
-        loadingIndicator.dismiss()
-    }
-
-    override fun hideProgressForce() {
-        loadingIndicator.forceDismiss()
     }
 }

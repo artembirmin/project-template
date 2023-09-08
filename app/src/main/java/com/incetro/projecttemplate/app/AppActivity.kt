@@ -13,7 +13,7 @@ import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.common.di.activity.ActivityComponent
-import com.incetro.projecttemplate.presentation.base.mvvm.view.BaseFragment
+import com.incetro.projecttemplate.presentation.base.mvvm.view.BaseComposeFragment
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import javax.inject.Inject
@@ -29,8 +29,8 @@ class AppActivity : AppCompatActivity() {
     /**
      * Instance of currently displayed fragment
      */
-    private val currentFragment: BaseFragment<*>?
-        get() = supportFragmentManager.findFragmentById(R.id.fragment_container) as? BaseFragment<*>
+    private val currentFragment: BaseComposeFragment?
+        get() = supportFragmentManager.findFragmentById(R.id.fragment_container) as? BaseComposeFragment
 
     private val navigator: Navigator = AppNavigator(this, R.id.fragment_container)
 

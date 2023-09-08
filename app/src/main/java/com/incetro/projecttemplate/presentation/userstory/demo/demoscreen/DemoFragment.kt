@@ -19,14 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.incetro.projecttemplate.presentation.base.mvvm.view.BaseMVVMFragment
+import com.incetro.projecttemplate.presentation.base.mvvm.view.BaseComposeFragment
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.SavedStateViewModelFactoryImpl
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.lazyViewModelByFactory
 import com.incetro.projecttemplate.presentation.userstory.demo.di.DemoComponent
 import org.orbitmvi.orbit.compose.collectAsState
 import javax.inject.Inject
 
-class DemoFragment : BaseMVVMFragment() {
+class DemoFragment : BaseComposeFragment() {
 
     @Inject
     lateinit var viewModelFactory: DemoViewModel.Factory

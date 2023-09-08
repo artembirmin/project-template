@@ -38,9 +38,7 @@ class DemoViewModel @AssistedInject constructor(
             buildSettings = {
                 exceptionHandler = coroutineExceptionHandler
             },
-            onCreate = {
-                getNewFact()
-            }
+            onCreate = { getNewFact() }
         )
 
     fun incrementCounter() = intent {

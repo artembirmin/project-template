@@ -51,34 +51,9 @@ abstract class BaseViewModel<S : ViewState, E : SideEffect>(
         }
     }
 
-    fun isLoading(): LiveData<Boolean> = isLoadingLiveData
-    fun showErrorEvent(): SingleLiveEvent<AppError> = showErrorLiveDataEvent
-    fun showMessage(): SingleLiveEvent<SideEffect.ToastMessageState> = showToastMessageLiveDataEvent
-
-    private val isLoadingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
-    private val showErrorLiveDataEvent: SingleLiveEvent<AppError> = SingleLiveEvent()
-    private val showToastMessageLiveDataEvent: SingleLiveEvent<SideEffect.ToastMessageState> =
-        SingleLiveEvent()
-
     protected fun Disposable.addDisposable(): Disposable {
         compositeDisposable.add(this)
         return this
-    }
-
-    protected fun setLoading(isLoading: Boolean) {
-        isLoadingLiveData.value = isLoading
-    }
-
-    protected fun showError(appError: AppError) {
-        showErrorLiveDataEvent.value = appError
-    }
-
-    protected fun showError(error: Throwable) {
-        showErrorLiveDataEvent.value = AppError(error)
-    }
-
-    protected fun showMessage(messageParams: SideEffect.ToastMessageState) {
-        showToastMessageLiveDataEvent.value = messageParams
     }
 
     override fun onCleared() {

@@ -14,7 +14,7 @@ import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogS
 
 abstract class ViewState : Parcelable {
     open var loaderState: LoaderState = LoaderState()
-    open var dialog: AlertDialogState = AlertDialogState()
+    open var dialogState: AlertDialogState = AlertDialogState()
 
     abstract fun copyState(): ViewState
 }
@@ -28,7 +28,7 @@ data class LoaderState(val hasLoading: Boolean = false, val isCancellable: Boole
 
 fun <S : ViewState> S.updateDialog(reduce: (AlertDialogState) -> AlertDialogState): S {
     return this.copyState().apply {
-        dialog = reduce(this.dialog)
+        dialogState = reduce(this.dialogState)
     } as S
 }
 

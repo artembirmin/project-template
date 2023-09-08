@@ -16,7 +16,7 @@ import kotlinx.parcelize.Parcelize
 data class DemoFragmentViewState(
     val counter: Int = 0,
     val numberFact: String = "",
-    @IgnoredOnParcel override var dialog: AlertDialogState = AlertDialogState(),
+    @IgnoredOnParcel override var dialogState: AlertDialogState = AlertDialogState(),
     @IgnoredOnParcel override var loaderState: LoaderState = LoaderState()
 ) : ViewState() {
     override fun copyState(): DemoFragmentViewState = this.copy()
