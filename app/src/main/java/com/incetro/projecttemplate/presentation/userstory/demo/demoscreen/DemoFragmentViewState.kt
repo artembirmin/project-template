@@ -7,6 +7,7 @@
 package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
 
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
+import com.incetro.projecttemplate.presentation.base.mvvm.view.LoaderState
 import com.incetro.projecttemplate.presentation.base.mvvm.view.ViewState
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
@@ -16,7 +17,7 @@ data class DemoFragmentViewState(
     val counter: Int = 0,
     val numberFact: String = "",
     @IgnoredOnParcel override var dialog: AlertDialogState = AlertDialogState(),
-    @IgnoredOnParcel override var hasLoader: Boolean = false
+    @IgnoredOnParcel override var loaderState: LoaderState = LoaderState()
 ) : ViewState() {
     override fun copyState(): DemoFragmentViewState = this.copy()
 }

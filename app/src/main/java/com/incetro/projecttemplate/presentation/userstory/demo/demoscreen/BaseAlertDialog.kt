@@ -6,7 +6,6 @@
 
 package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
 
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -16,14 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.window.DialogProperties
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
-import timber.log.Timber
 
 @Composable
 fun BaseAlertDialog(dialogState: AlertDialogState) {
-    // TODO implement not cancelable dialog
-    val properties: DialogProperties = DialogProperties()
     if (dialogState.isVisible) {
         AlertDialog(
             onDismissRequest = {

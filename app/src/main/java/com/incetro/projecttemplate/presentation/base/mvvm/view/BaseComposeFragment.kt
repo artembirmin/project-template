@@ -30,6 +30,7 @@ import com.incetro.projecttemplate.presentation.base.messageshowing.LoadingIndic
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModel
 import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.BaseAlertDialog
+import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.Loader
 import es.dmoral.toasty.Toasty
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -117,15 +118,9 @@ abstract class BaseComposeFragment : Fragment(), BaseView {
 
     @Composable
     open fun CollectBaseState(viewState: ViewState) {
-        Timber.e("CollectBaseState = $viewState,  dialog = ${viewState.dialog}")
-        if (viewState.hasLoader) {
+        Loader(loaderState = viewState.loaderState)
 
-        }
-
-        Timber.e("CollectBaseState = $viewState")
-        if (viewState.dialog.isVisible) {
-            BaseAlertDialog(viewState.dialog)
-        }
+        BaseAlertDialog(viewState.dialog)
     }
 
     override fun onResume() {

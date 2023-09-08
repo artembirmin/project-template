@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
+import com.incetro.projecttemplate.presentation.base.mvvm.view.LoaderState
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModel
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModelDependencies
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.DEFAULT_STATE_KEY
@@ -21,7 +22,6 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
-import timber.log.Timber
 
 class DemoViewModel @AssistedInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
@@ -65,9 +65,9 @@ class DemoViewModel @AssistedInject constructor(
             onDismiss = {
             })
 
-        reduce {
-            state.copy(dialog = alertDialogState)
-        }
+//        reduce {
+//            state.copy(dialog = alertDialogState)
+//        }
 
         getNewFact()
     }
@@ -86,9 +86,12 @@ class DemoViewModel @AssistedInject constructor(
     }
 
     private fun getNewFact() = intent {
+        reduce {
+            state.copy(loaderState = LoaderState.Loading)
+        }
         val numberFact = fetchNumberFact(state.counter)
         reduce {
-            state.copy(numberFact = numberFact)
+            state.copy(numberFact = numberFact, loaderState = LoaderState.Dismiss)
         }
     }
 
