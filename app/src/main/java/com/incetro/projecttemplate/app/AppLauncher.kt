@@ -8,6 +8,7 @@ package com.incetro.projecttemplate.app
 
 import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.common.navigation.Screens
+import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.DemoFragmentViewState
 
 class AppLauncher(
     private val router: AppRouter,
@@ -16,6 +17,6 @@ class AppLauncher(
      *  Initialized and launches application.
      */
     fun start() {
-        router.newRootScreen(Screens.DemoScreen())
+        router.newRootScreen(Screens.DemoScreen(DemoFragmentViewState(screenNo = 1)))
     }
 }

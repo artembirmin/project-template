@@ -1,16 +1,19 @@
 package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
 
+import android.os.Bundle
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.incetro.projecttemplate.common.navigation.AppRouter
+import com.incetro.projecttemplate.common.navigation.Screens
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
 import com.incetro.projecttemplate.presentation.base.mvvm.view.LoaderState
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModel
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModelDependencies
-import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.DEFAULT_STATE_KEY
+import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.INITIAL_STATE_KEY
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.ViewModelAssistedFactory
 import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.repository.NumberFactRepository
+import com.incetro.projecttemplate.ui.Theme
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -32,7 +35,7 @@ class DemoViewModel @AssistedInject constructor(
 
     override val container: Container<DemoFragmentViewState, SideEffect> =
         container(
-            initialState = savedStateHandle.get<DemoFragmentViewState>(DEFAULT_STATE_KEY)
+            initialState = savedStateHandle.get<DemoFragmentViewState>(INITIAL_STATE_KEY)
                 ?: DemoFragmentViewState(),
             savedStateHandle = savedStateHandle,
             buildSettings = {
@@ -49,19 +52,16 @@ class DemoViewModel @AssistedInject constructor(
             state.copy(counter = counter)
         }
 
-        if (state.counter == 5)
-            throw Exception("Error message")
+        if (state.counter == 5) throw Exception("Error message")
 
-        val alertDialogState = AlertDialogState(
-            isVisible = true,
+        val alertDialogState = AlertDialogState(isVisible = true,
             title = "1234",
             text = "dkdkdkdke",
             onPositiveClick = {
                 onDismissDialog()
 //                reset()
             },
-            onDismiss = {
-            })
+            onDismiss = {})
 
 //        reduce {
 //            state.copy(dialog = alertDialogState)
@@ -84,12 +84,9 @@ class DemoViewModel @AssistedInject constructor(
     }
 
     private fun getNewFact() = intent {
-        reduce {
-            state.copy(loaderState = LoaderState.Loading)
-        }
         val numberFact = fetchNumberFact(state.counter)
         reduce {
-            state.copy(numberFact = numberFact, loaderState = LoaderState.Dismiss)
+            state.copy(numberFact = numberFact)
         }
     }
 
@@ -108,6 +105,26 @@ class DemoViewModel @AssistedInject constructor(
     override fun onBackPressed() {
         router.exit()
     }
+
+    fun onCopyScreen() {
+        router.navigateTo(
+            Screens.DemoScreen(
+                DemoFragmentViewState(screenNo = container.stateFlow.value.screenNo + 1)
+            )
+        )
+    }
+
+//    fun onChangeTheme() = intent {
+//        reduce {
+//            val currentTheme = state.newTheme
+//            state.copy(
+//                newTheme = when(currentTheme){
+//                Theme.LIGHT -> Theme.DARK
+//                Theme.DARK -> Theme.LIGHT
+//                Theme.GRAY -> Theme.LIGHT
+//            })
+//        }
+//    }
 
     @AssistedFactory
     interface Factory : ViewModelAssistedFactory<DemoViewModel> {

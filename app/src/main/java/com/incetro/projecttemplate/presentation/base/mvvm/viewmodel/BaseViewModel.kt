@@ -6,14 +6,11 @@
 
 package com.incetro.projecttemplate.presentation.base.mvvm.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.incetro.projecttemplate.entity.errors.AppError
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
 import com.incetro.projecttemplate.presentation.base.messageshowing.ErrorAlertStateFactory
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
-import com.incetro.projecttemplate.presentation.base.mvvm.view.SingleLiveEvent
+import com.incetro.projecttemplate.presentation.base.mvvm.view.LoaderState
 import com.incetro.projecttemplate.presentation.base.mvvm.view.ViewState
 import com.incetro.projecttemplate.presentation.base.mvvm.view.updateDialog
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -38,6 +35,8 @@ abstract class BaseViewModel<S : ViewState, E : SideEffect>(
                         ErrorAlertStateFactory.handleError(error, dependencies.resourcesManager)
                     state.updateDialog {
                         errorAlertState.copy(onDismiss = { onDismissDialog() })
+                    }.apply {
+                        loaderState = LoaderState(hasLoading = false)
                     }
                 }
             }

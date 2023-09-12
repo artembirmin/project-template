@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
 
 @Composable
@@ -59,4 +60,10 @@ fun BaseAlertDialog(dialogState: AlertDialogState) {
             }
         )
     }
+}
+
+@Composable
+@Preview
+fun BaseAlertDialogPreview() {
+    BaseAlertDialog(dialogState = AlertDialogState(isVisible = true))
 }

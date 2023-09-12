@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.savedstate.SavedStateRegistryOwner
 
-const val DEFAULT_STATE_KEY = "DEFAULT_STATE_KEY"
+const val INITIAL_STATE_KEY = "DEFAULT_STATE_KEY"
 
 class ViewModelFactory<T : ViewModel>(
     private val create: () -> T
@@ -37,7 +37,7 @@ class SavedStateViewModelFactoryImpl<out T : ViewModel>(
     params: Parcelable? = null
 ) : AbstractSavedStateViewModelFactory(
     owner,
-    Bundle().apply { putParcelable(DEFAULT_STATE_KEY, params) }
+    Bundle().apply { putParcelable(INITIAL_STATE_KEY, params) }
 ) {
     override fun <T : ViewModel> create(
         key: String,
