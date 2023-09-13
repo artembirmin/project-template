@@ -9,7 +9,6 @@ package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
 import com.incetro.projecttemplate.presentation.base.mvvm.view.LoaderState
 import com.incetro.projecttemplate.presentation.base.mvvm.view.ViewState
-import com.incetro.projecttemplate.ui.Theme
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 

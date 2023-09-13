@@ -8,8 +8,6 @@ package com.incetro.projecttemplate.common.di.app.module
 
 import android.app.Application
 import android.content.Context
-import com.incetro.projecttemplate.app.AppLauncher
-import com.incetro.projecttemplate.common.navigation.AppRouter
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -21,13 +19,5 @@ class AppModule(private val context: Application) {
     @Singleton
     internal fun provideContext(): Context {
         return context.applicationContext
-    }
-
-    @Provides
-    @Singleton
-    fun provideAppLauncher(
-        router: AppRouter,
-    ): AppLauncher {
-        return AppLauncher(router)
     }
 }

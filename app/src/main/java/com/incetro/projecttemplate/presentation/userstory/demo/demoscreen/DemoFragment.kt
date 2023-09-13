@@ -8,33 +8,33 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.incetro.projecttemplate.app.App
 import com.incetro.projecttemplate.presentation.base.mvvm.view.BaseComposeFragment
 import com.incetro.projecttemplate.presentation.base.mvvm.view.getInitParams
 import com.incetro.projecttemplate.presentation.base.mvvm.view.provideInitParams
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.SavedStateViewModelFactoryImpl
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.lazyViewModelByFactory
 import com.incetro.projecttemplate.presentation.userstory.demo.di.DemoComponent
+import com.incetro.projecttemplate.ui.gen.AppTheme
+import com.incetro.projecttemplate.ui.gen.Theme
 import org.orbitmvi.orbit.compose.collectAsState
 import timber.log.Timber
 import javax.inject.Inject
@@ -62,8 +62,8 @@ class DemoFragment : BaseComposeFragment() {
     @Composable
     override fun CreateView() {
         val viewState: DemoFragmentViewState by _viewModel.collectAsState()
-        MaterialTheme {
-            Scaffold(topBar = { Toolbar() }) { innerPadding ->
+        AppTheme {
+            Scaffold(topBar = { Toolbar(viewState) }) { innerPadding ->
                 Counter(viewState, innerPadding)
             }
         }
@@ -86,9 +86,7 @@ class DemoFragment : BaseComposeFragment() {
                 IconButton(onClick = { _viewModel.onBackPressed() }) {
                     Icon(Icons.Filled.ArrowBack, "")
                 }
-            },
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.DarkGray)
-        )
+            })
     }
 
 
@@ -101,7 +99,7 @@ class DemoFragment : BaseComposeFragment() {
         padding: PaddingValues
     ) {
         Timber.e("Padding = $padding")
-        Surface(color = Color.LightGray, modifier = Modifier.padding(padding)) {
+        Surface(modifier = Modifier.padding(padding)) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -109,17 +107,14 @@ class DemoFragment : BaseComposeFragment() {
             ) {
 
                 Card(
-                    elevation = 8.dp,
                     modifier = Modifier.padding(bottom = 16.dp),
-                    shape = RoundedCornerShape(8.dp),
-                    backgroundColor = Color.Magenta,
+                    shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(
                         modifier = Modifier
                             .padding(8.dp)
                             .defaultMinSize(minWidth = 120.dp),
                         text = viewState.counter.toString(),
-                        color = Color.White,
                         textAlign = TextAlign.Center
                     )
                 }
@@ -151,13 +146,19 @@ class DemoFragment : BaseComposeFragment() {
                     ) {
                         Text(text = "Copy")
                     }
-                    if (viewState.screenNo == 1) {
-//                        Button(
-//                            onClick = { _viewModel.onChangeTheme() },
-//                            modifier = Modifier.padding(horizontal = 16.dp)
-//                        ) {
-//                            Text(text = "Change theme")
-//                        }
+                    if (viewState.screenNo == 3) {
+                        Button(
+                            onClick = {
+                                App.theme.value = when (App.theme.value) {
+                                    Theme.LIGHT -> Theme.DARK
+                                    Theme.DARK -> Theme.LIGHT
+                                    Theme.SYSTEM -> Theme.LIGHT
+                                }
+                            },
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        ) {
+                            Text(text = "Change theme")
+                        }
                     }
                 }
             }

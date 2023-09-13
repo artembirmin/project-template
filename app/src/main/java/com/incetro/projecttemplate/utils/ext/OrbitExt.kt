@@ -15,9 +15,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
 import com.incetro.projecttemplate.presentation.base.mvvm.view.ViewState
-import kotlinx.coroutines.flow.onEach
 import org.orbitmvi.orbit.ContainerHost
-import timber.log.Timber
 
 
 @Composable

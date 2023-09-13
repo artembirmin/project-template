@@ -13,7 +13,7 @@ sealed interface SideEffect {
     data class ToastMessageState(
         val text: String = "",
         @DrawableRes val icon: Int? = null
-    ): SideEffect
+    ) : SideEffect
 
     object None : SideEffect
 }

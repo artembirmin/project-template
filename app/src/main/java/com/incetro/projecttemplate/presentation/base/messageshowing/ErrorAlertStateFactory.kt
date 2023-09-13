@@ -44,7 +44,8 @@ class ErrorAlertStateFactory {
 
                 is HttpException -> {
                     val errorBody = error.parseHttpError()
-                    val errorMessage = errorBody.errors ?: resourcesManager.getString(R.string.error_common_text)
+                    val errorMessage =
+                        errorBody.errors ?: resourcesManager.getString(R.string.error_common_text)
                     errorCode = errorBody.code
 //                when (errorCode) {
 //                    else -> errorMessage
