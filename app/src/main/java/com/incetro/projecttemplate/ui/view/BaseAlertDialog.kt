@@ -1,10 +1,10 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 4/9/2023.
+ * Created by artembirmin on 16/9/2023.
  */
 
-package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen
+package com.incetro.projecttemplate.ui.view
 
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.AlertDialog

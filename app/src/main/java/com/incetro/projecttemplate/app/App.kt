@@ -10,7 +10,7 @@ import android.app.Application
 import androidx.compose.runtime.mutableStateOf
 import com.incetro.projecttemplate.BuildConfig
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsManager
-import com.incetro.projecttemplate.ui.gen.Theme
+import com.incetro.projecttemplate.ui.theme.Theme
 import com.incetro.projecttemplate.utils.FileLoggingTree
 import timber.log.Timber
 

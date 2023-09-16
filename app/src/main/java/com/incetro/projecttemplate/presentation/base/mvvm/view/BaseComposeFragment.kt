@@ -23,8 +23,8 @@ import com.incetro.projecttemplate.common.di.componentmanager.ComponentsStore
 import com.incetro.projecttemplate.presentation.base.messageshowing.LoadingIndicator
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModel
-import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.BaseAlertDialog
-import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.Loader
+import com.incetro.projecttemplate.ui.view.BaseAlertDialog
+import com.incetro.projecttemplate.ui.view.Loader
 import es.dmoral.toasty.Toasty
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect

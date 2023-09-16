@@ -4,13 +4,13 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.common.navigation.Screens
+import com.incetro.projecttemplate.model.repository.NumberFactRepository
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModel
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModelDependencies
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.INITIAL_STATE_KEY
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.ViewModelAssistedFactory
-import com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.repository.NumberFactRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject

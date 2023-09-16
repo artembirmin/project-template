@@ -1,10 +1,10 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 29/8/2023.
+ * Created by artembirmin on 16/9/2023.
  */
 
-package com.incetro.projecttemplate.presentation.userstory.demo.demoscreen.repository
+package com.incetro.projecttemplate.model.repository
 
 import com.incetro.projecttemplate.common.di.scope.FeatureScope
 import com.incetro.projecttemplate.entity.number.NumberFactResponse

@@ -33,8 +33,8 @@ import com.incetro.projecttemplate.presentation.base.mvvm.view.provideInitParams
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.SavedStateViewModelFactoryImpl
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.lazyViewModelByFactory
 import com.incetro.projecttemplate.presentation.userstory.demo.di.DemoComponent
-import com.incetro.projecttemplate.ui.gen.AppTheme
-import com.incetro.projecttemplate.ui.gen.Theme
+import com.incetro.projecttemplate.ui.theme.AppTheme
+import com.incetro.projecttemplate.ui.theme.Theme
 import org.orbitmvi.orbit.compose.collectAsState
 import timber.log.Timber
 import javax.inject.Inject
