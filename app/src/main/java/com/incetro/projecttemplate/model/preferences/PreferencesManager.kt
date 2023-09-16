@@ -2,7 +2,7 @@ package com.incetro.projecttemplate.model.preferences
 
 import android.content.Context
 import com.google.gson.Gson
-import com.incetro.projecttemplate.ui.theme.Theme
+import com.incetro.projecttemplate.presentation.ui.theme.Theme
 import javax.inject.Inject
 import javax.inject.Singleton
 

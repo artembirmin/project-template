@@ -4,7 +4,7 @@
  * Created by artembirmin on 16/9/2023.
  */
 
-package com.incetro.projecttemplate.ui.view
+package com.incetro.projecttemplate.presentation.ui.view
 
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.AlertDialog

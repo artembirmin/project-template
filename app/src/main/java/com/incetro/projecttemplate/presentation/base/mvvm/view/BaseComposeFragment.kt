@@ -20,11 +20,10 @@ import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.app.AppActivity
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentManager
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsStore
-import com.incetro.projecttemplate.presentation.base.messageshowing.LoadingIndicator
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModel
-import com.incetro.projecttemplate.ui.view.BaseAlertDialog
-import com.incetro.projecttemplate.ui.view.Loader
+import com.incetro.projecttemplate.presentation.ui.view.BaseAlertDialog
+import com.incetro.projecttemplate.presentation.ui.view.Loader
 import es.dmoral.toasty.Toasty
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -35,8 +34,6 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 abstract class BaseComposeFragment : Fragment() {
 
     abstract fun getViewModel(): BaseViewModel<out ViewState, out SideEffect>
-
-    private val loadingIndicator: LoadingIndicator by lazy { LoadingIndicator(requireActivity()) }
 
     /**
      * True, when [onSaveInstanceState] called.
@@ -143,7 +140,7 @@ abstract class BaseComposeFragment : Fragment() {
 
     protected open fun onCloseScope() {}
 
-    fun showToastMessage(message: String, icon: Int?, length: Int?) {
+    protected fun showToastMessage(message: String, icon: Int?, length: Int?) {
         val colorBG = ContextCompat.getColor(requireContext(), R.color.black_transparent_62)
         val colorText = ContextCompat.getColor(requireContext(), R.color.white)
 

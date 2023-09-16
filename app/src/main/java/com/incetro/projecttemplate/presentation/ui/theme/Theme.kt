@@ -1,4 +1,10 @@
-package com.incetro.projecttemplate.ui.theme
+/*
+ * ProjectTemplate
+ *
+ * Created by artembirmin on 16/9/2023.
+ */
+
+package com.incetro.projecttemplate.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

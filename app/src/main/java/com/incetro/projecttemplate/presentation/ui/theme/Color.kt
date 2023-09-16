@@ -1,4 +1,4 @@
-package com.incetro.projecttemplate.ui.theme
+package com.incetro.projecttemplate.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
