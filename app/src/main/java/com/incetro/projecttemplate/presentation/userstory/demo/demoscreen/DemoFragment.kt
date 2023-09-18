@@ -18,7 +18,7 @@ class DemoFragment : BaseComposeFragment() {
     @Inject
     lateinit var viewModelFactory: DemoViewModel.Factory
 
-    private val viewModel: DemoViewModel by lazyViewModelByFactory {
+    private val _viewModel: DemoViewModel by lazyViewModelByFactory {
         SavedStateViewModelFactoryImpl(
             this,
             viewModelFactory,
@@ -26,7 +26,7 @@ class DemoFragment : BaseComposeFragment() {
         )
     }
 
-    override fun getViewModel(): DemoViewModel = viewModel
+    override fun getViewModel(): DemoViewModel = _viewModel
 
     override fun inject() = DemoComponent.Manager.getComponent().inject(this)
 
@@ -35,14 +35,14 @@ class DemoFragment : BaseComposeFragment() {
     @Preview
     @Composable
     override fun CreateView() {
-        val viewState: DemoFragmentViewState by viewModel.collectAsState()
+        val viewState: DemoFragmentViewState by _viewModel.collectAsState()
         AppTheme {
 
         }
     }
 
     override fun onBackPressed() {
-        viewModel.onBackPressed()
+        _viewModel.onBackPressed()
     }
 
     companion object {

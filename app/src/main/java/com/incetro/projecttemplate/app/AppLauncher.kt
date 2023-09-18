@@ -24,6 +24,6 @@ class AppLauncher @Inject constructor(
     fun start() {
         App.theme.value = preferencesManager.appTheme
 
-        router.newRootScreen(Screens.DemoScreen(DemoFragmentViewState(screenNo = 1)))
+        router.newRootScreen(Screens.DemoScreen(DemoFragmentViewState()))
     }
 }
