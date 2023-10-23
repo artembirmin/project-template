@@ -24,7 +24,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         const val DB_NAME = BuildConfig.DB_NAME
-        const val VERSION = 31
+        const val VERSION = 1
     }
 
     abstract fun demoDao(): DemoDao
