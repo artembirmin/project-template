@@ -59,8 +59,8 @@ class ErrorAlertStateFactory {
             }
 
             val state = AlertDialogState(
-                title = resourcesManager.getString(R.string.error_title),
-                text = errorMessage,
+                title = DialogString.StringResText(R.string.error_title),
+                text = DialogString.StringText(errorMessage),
                 icon = R.drawable.ic_dialog_warning,
                 isVisible = true
             )

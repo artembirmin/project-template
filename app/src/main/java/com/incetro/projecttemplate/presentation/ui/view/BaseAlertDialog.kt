@@ -15,8 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import com.incetro.projecttemplate.presentation.base.messageshowing.AlertDialogState
+import com.incetro.projecttemplate.presentation.base.messageshowing.DialogString
 
 @Composable
 fun BaseAlertDialog(dialogState: AlertDialogState) {
@@ -26,10 +28,36 @@ fun BaseAlertDialog(dialogState: AlertDialogState) {
                 dialogState.onDismiss?.invoke()
             },
             title = {
-                Text(text = dialogState.title)
+                val dialogTitle = when (val title = dialogState.title) {
+                    is DialogString.AnnotatedStringText -> title.value
+                    is DialogString.StringText -> buildAnnotatedString { this.append(title.value) }
+                    is DialogString.StringResText -> buildAnnotatedString {
+                        this.append(
+                            stringResource(id = title.value)
+                        )
+                    }
+
+                    null -> null
+                }
+                if (dialogTitle != null) {
+                    Text(text = dialogTitle)
+                }
             },
             text = {
-                Text(text = dialogState.text, Modifier.wrapContentHeight())
+                val dialogText = when (val text = dialogState.text) {
+                    is DialogString.AnnotatedStringText -> text.value
+                    is DialogString.StringText -> buildAnnotatedString { this.append(text.value) }
+                    is DialogString.StringResText -> buildAnnotatedString {
+                        this.append(
+                            stringResource(id = text.value)
+                        )
+                    }
+
+                    null -> null
+                }
+                if (dialogText != null) {
+                    Text(text = dialogText, Modifier.wrapContentHeight())
+                }
             },
             icon = {
                 dialogState.icon?.let {

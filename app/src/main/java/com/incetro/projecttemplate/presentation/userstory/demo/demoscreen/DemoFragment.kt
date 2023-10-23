@@ -32,12 +32,11 @@ class DemoFragment : BaseComposeFragment() {
 
     override fun release() = Unit
 
-    @Preview
     @Composable
     override fun CreateView() {
         val viewState: DemoFragmentViewState by _viewModel.collectAsState()
         AppTheme {
-
+            ScreenContent(viewState)
         }
     }
 
@@ -49,4 +48,15 @@ class DemoFragment : BaseComposeFragment() {
         fun newInstance(initialState: DemoFragmentViewState) =
             DemoFragment().provideInitParams(initialState) as DemoFragment
     }
+}
+
+@Composable
+fun ScreenContent(viewState: DemoFragmentViewState) {
+
+}
+
+@Preview
+@Composable
+fun ScreenContentPreview() {
+    ScreenContent(DemoFragmentViewState())
 }

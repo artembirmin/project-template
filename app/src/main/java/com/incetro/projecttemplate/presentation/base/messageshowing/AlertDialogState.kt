@@ -8,6 +8,7 @@ package com.incetro.projecttemplate.presentation.base.messageshowing
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.ui.text.AnnotatedString
 import com.incetro.projecttemplate.R
 
 /**
@@ -15,11 +16,8 @@ import com.incetro.projecttemplate.R
  */
 data class AlertDialogState(
     val isVisible: Boolean = false,
-    /**
-     * If you want to use SpannableString, you should use [androidx.compose.ui.text.AnnotatedString].
-     */
-    val title: String = "",
-    val text: String = "",
+    val title: DialogString? = null,
+    val text: DialogString? = null,
     @StringRes val positiveText: Int? = R.string.ok,
     @StringRes val negativeText: Int? = null,
     @DrawableRes val icon: Int? = null,
@@ -28,3 +26,9 @@ data class AlertDialogState(
     val onDismiss: (() -> Unit)? = null,
     val cancelable: Boolean = true
 )
+
+sealed interface DialogString {
+    data class StringText(val value: String) : DialogString
+    data class StringResText(@StringRes val value: Int) : DialogString
+    data class AnnotatedStringText(val value: AnnotatedString) : DialogString
+}

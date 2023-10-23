@@ -17,6 +17,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce
+import timber.log.Timber
 
 
 abstract class BaseViewModel<S : ViewState, E : SideEffect>(
@@ -25,6 +26,7 @@ abstract class BaseViewModel<S : ViewState, E : SideEffect>(
 
     protected val coroutineExceptionHandler: CoroutineExceptionHandler =
         CoroutineExceptionHandler { _, error ->
+            Timber.e(error)
             intent {
                 reduce {
                     val errorAlertState =

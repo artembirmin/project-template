@@ -12,6 +12,7 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.incetro.projecttemplate.app.App
 
@@ -86,10 +87,11 @@ enum class Theme {
 
 @Composable
 fun AppTheme(
+    manualTheme: Theme? = null,
     content: @Composable () -> Unit
 ) {
     val theme by remember {
-        App.theme
+        if (manualTheme == null) App.theme else mutableStateOf(manualTheme)
     }
 
     val colors = when (theme) {
