@@ -31,7 +31,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 /**
  * Contains basic functionality for all [Fragment]s.
  */
-abstract class BaseComposeFragment : Fragment() {
+abstract class BaseComposeFragment : Fragment(), BackPressedListener {
 
     abstract fun getViewModel(): BaseViewModel<out ViewState, out SideEffect>
 
@@ -60,7 +60,7 @@ abstract class BaseComposeFragment : Fragment() {
     /**
      * Called in [AppActivity.onBackPressed].
      */
-    open fun onBackPressed() {}
+    override fun onBackPressed() {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         inject()
@@ -119,7 +119,6 @@ abstract class BaseComposeFragment : Fragment() {
             release()
         }
     }
-
 
     /**
      * Checks if the component needs to be released.

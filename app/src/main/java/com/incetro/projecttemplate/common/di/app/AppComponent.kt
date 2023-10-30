@@ -14,9 +14,13 @@ import com.incetro.projecttemplate.common.di.app.module.AppModule
 import com.incetro.projecttemplate.common.di.app.module.AppNavigationModule
 import com.incetro.projecttemplate.common.di.app.module.CommonAppModule
 import com.incetro.projecttemplate.common.di.app.module.DatabaseModule
+import com.incetro.projecttemplate.common.di.app.module.FlowNavigationModule
 import com.incetro.projecttemplate.common.di.app.module.NetworkModule
+import com.incetro.projecttemplate.common.di.qualifier.AppNavigation
+import com.incetro.projecttemplate.common.di.qualifier.FlowNavigation
 import com.incetro.projecttemplate.common.manager.ResourcesManager
 import com.incetro.projecttemplate.common.navigation.AppRouter
+import com.incetro.projecttemplate.common.navigation.FlowRouter
 import com.incetro.projecttemplate.model.database.AppDatabase
 import com.incetro.projecttemplate.model.database.demo.DemoDao
 import com.incetro.projecttemplate.model.network.api.DemoApi
@@ -30,6 +34,7 @@ import javax.inject.Singleton
         AppModule::class,
         CommonAppModule::class,
         AppNavigationModule::class,
+        FlowNavigationModule::class,
         DatabaseModule::class,
         NetworkModule::class,
     ]
@@ -46,8 +51,14 @@ interface AppComponent {
     // CommonAppModule
 
     // AppNavigationModule
-    fun provideNavigationHolder(): NavigatorHolder
+    @AppNavigation
+    fun provideAppNavigationHolder(): NavigatorHolder
     fun provideAppRouter(): AppRouter
+
+    // FlowNavigationModule
+    @FlowNavigation
+    fun provideFlowNavigationHolder(): NavigatorHolder
+    fun provideFlowRouter(): FlowRouter
 
     // Database module
     fun provideAppDatabase(): AppDatabase

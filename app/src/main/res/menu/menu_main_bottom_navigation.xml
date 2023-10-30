@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Ruvpro
+  ~
+  ~ Created by artembirmin on 3/5/2022.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_tab1"
+        android:icon="@drawable/ic_info_outline_white_24dp"
+        android:title="Tab1" />
+
+    <item
+        android:id="@+id/menu_tab2"
+        android:icon="@drawable/ic_info_outline_white_24dp"
+        android:title="Tab2" />
+
+    <item
+        android:id="@+id/menu_tab3"
+        android:icon="@drawable/ic_info_outline_white_24dp"
+        android:title="Tab3" />
+
+    <item
+        android:id="@+id/menu_tab4"
+        android:icon="@drawable/ic_info_outline_white_24dp"
+        android:title="Tab4" />
+
+</menu>

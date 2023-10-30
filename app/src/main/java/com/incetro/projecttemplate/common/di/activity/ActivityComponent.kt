@@ -7,17 +7,22 @@
 package com.incetro.projecttemplate.common.di.activity
 
 import android.content.Context
+import com.github.terrakok.cicerone.NavigatorHolder
 import com.incetro.projecttemplate.app.AppActivity
 import com.incetro.projecttemplate.common.di.app.AppComponent
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentManager
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsManager
+import com.incetro.projecttemplate.common.di.qualifier.AppNavigation
+import com.incetro.projecttemplate.common.di.qualifier.FlowNavigation
 import com.incetro.projecttemplate.common.di.scope.ActivityScope
 import com.incetro.projecttemplate.common.manager.ResourcesManager
 import com.incetro.projecttemplate.common.navigation.AppRouter
+import com.incetro.projecttemplate.common.navigation.FlowRouter
 import com.incetro.projecttemplate.model.database.AppDatabase
 import com.incetro.projecttemplate.model.database.demo.DemoDao
 import com.incetro.projecttemplate.model.network.api.DemoApi
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModelDependencies
+import com.incetro.projecttemplate.presentation.userstory.tabs.tabfragment.TabNavigationFragment
 import dagger.Component
 
 @ActivityScope
@@ -35,7 +40,14 @@ interface ActivityComponent {
     fun provideDeps(): BaseViewModelDependencies
 
     // AppNavigationModule from AppComponent
+    @AppNavigation
+    fun provideAppNavigationHolder(): NavigatorHolder
     fun provideAppRouter(): AppRouter
+
+    // FlowNavigationModule
+    @FlowNavigation
+    fun provideFlowNavigationHolder(): NavigatorHolder
+    fun provideFlowRouter(): FlowRouter
 
     // Database module
     fun provideAppDatabase(): AppDatabase
@@ -46,6 +58,7 @@ interface ActivityComponent {
 
     // Other
     fun provideResourcesManager(): ResourcesManager
+    fun inject(tabNavigationFragment: TabNavigationFragment)
 
     @Component.Builder
     interface Builder {

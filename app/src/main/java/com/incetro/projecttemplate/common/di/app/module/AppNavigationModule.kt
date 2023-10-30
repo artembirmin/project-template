@@ -9,6 +9,7 @@ package com.incetro.projecttemplate.common.di.app.module
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Cicerone.Companion.create
 import com.github.terrakok.cicerone.NavigatorHolder
+import com.incetro.projecttemplate.common.di.qualifier.AppNavigation
 import com.incetro.projecttemplate.common.navigation.AppRouter
 import dagger.Module
 import dagger.Provides
@@ -25,6 +26,7 @@ class AppNavigationModule {
     fun provideAppRouter(appCicerone: Cicerone<AppRouter>): AppRouter = appCicerone.router
 
     @Provides
+    @AppNavigation
     @Singleton
     fun provideNavigationHolder(appCicerone: Cicerone<AppRouter>): NavigatorHolder =
         appCicerone.getNavigatorHolder()
