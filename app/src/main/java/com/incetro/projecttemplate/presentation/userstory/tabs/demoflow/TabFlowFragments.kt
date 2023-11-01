@@ -9,12 +9,13 @@ package com.incetro.projecttemplate.presentation.userstory.tabs.demoflow
 import com.github.terrakok.cicerone.Screen
 import com.incetro.projecttemplate.common.navigation.Screens
 import com.incetro.projecttemplate.presentation.base.mvvm.view.FlowFragment
+import com.incetro.projecttemplate.presentation.base.mvvm.view.TabFlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoscreen.DemoFragmentViewState
 import com.incetro.projecttemplate.presentation.userstory.tabs.di.DemoComponent
 
-class Tab1FlowFragment : FlowFragment() {
+class Tab1FlowFragment : TabFlowFragment() {
 
-    override var launchScreen: Screen = Screens.DemoScreen(DemoFragmentViewState(1))
+    override var launchScreen: Screen = Screens.Flow1Screen()
 
     override fun inject() = DemoComponent.Manager.getComponent().inject(this)
     override fun release() = DemoComponent.Manager.releaseComponent()
@@ -24,9 +25,9 @@ class Tab1FlowFragment : FlowFragment() {
     }
 }
 
-class Tab2FlowFragment : FlowFragment() {
+class Tab2FlowFragment : TabFlowFragment() {
 
-    override var launchScreen: Screen = Screens.DemoScreen(DemoFragmentViewState(1))
+    override var launchScreen: Screen = Screens.Flow1Screen()
 
     override fun inject() = DemoComponent.Manager.getComponent().inject(this)
     override fun release() = DemoComponent.Manager.releaseComponent()
@@ -36,9 +37,9 @@ class Tab2FlowFragment : FlowFragment() {
     }
 }
 
-class Tab3FlowFragment : FlowFragment() {
+class Tab3FlowFragment : TabFlowFragment() {
 
-    override var launchScreen: Screen = Screens.DemoScreen(DemoFragmentViewState(1))
+    override var launchScreen: Screen = Screens.Flow1Screen()
 
     override fun inject() = DemoComponent.Manager.getComponent().inject(this)
     override fun release() = DemoComponent.Manager.releaseComponent()
@@ -48,9 +49,9 @@ class Tab3FlowFragment : FlowFragment() {
     }
 }
 
-class Tab4FlowFragment : FlowFragment() {
+class Tab4FlowFragment : TabFlowFragment() {
 
-    override var launchScreen: Screen = Screens.DemoScreen(DemoFragmentViewState(1))
+    override var launchScreen: Screen = Screens.Flow1Screen()
 
     override fun inject() = DemoComponent.Manager.getComponent().inject(this)
     override fun release() = DemoComponent.Manager.releaseComponent()
@@ -60,7 +61,7 @@ class Tab4FlowFragment : FlowFragment() {
     }
 }
 
-class Tab5FlowFragment : FlowFragment() {
+class FlowFragment1 : FlowFragment() {
 
     override var launchScreen: Screen = Screens.DemoScreen(DemoFragmentViewState(1))
 
@@ -68,6 +69,6 @@ class Tab5FlowFragment : FlowFragment() {
     override fun release() = DemoComponent.Manager.releaseComponent()
 
     companion object {
-        fun newInstance(): Tab5FlowFragment = Tab5FlowFragment()
+        fun newInstance(): FlowFragment1 = FlowFragment1()
     }
 }

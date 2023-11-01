@@ -15,6 +15,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class DemoFragmentViewState(
     val screenNumber: Int = 0,
+    val isHomeTab: Boolean = false,
     @IgnoredOnParcel override var dialogState: AlertDialogState = AlertDialogState(),
     @IgnoredOnParcel override var loaderState: LoaderState = LoaderState()
 ) : ViewState() {

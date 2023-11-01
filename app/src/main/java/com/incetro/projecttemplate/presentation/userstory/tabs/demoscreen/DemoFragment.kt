@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,8 +23,11 @@ import com.incetro.projecttemplate.presentation.base.mvvm.view.provideInitParams
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.SavedStateViewModelFactoryImpl
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.lazyViewModelByFactory
 import com.incetro.projecttemplate.presentation.ui.theme.AppTheme
+import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab1FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.di.DemoComponent
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
 import javax.inject.Inject
 
 class DemoFragment : BaseComposeFragment() {
@@ -51,6 +55,14 @@ class DemoFragment : BaseComposeFragment() {
         AppTheme {
             val currentTabFragmentName =
                 parentFragment?.tag ?: "null"
+            LaunchedEffect(true) {
+                val isHomeTab = parentFragment?.parentFragment is Tab1FlowFragment
+                _viewModel.intent {
+                    reduce {
+                        state.copy(isHomeTab = isHomeTab)
+                    }
+                }
+            }
             ScreenContent(
                 viewState,
                 _viewModel::onNavigateClick,

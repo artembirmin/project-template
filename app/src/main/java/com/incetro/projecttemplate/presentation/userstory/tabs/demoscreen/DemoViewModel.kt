@@ -1,9 +1,12 @@
 package com.incetro.projecttemplate.presentation.userstory.tabs.demoscreen
 
 import androidx.lifecycle.SavedStateHandle
+import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.common.navigation.FlowRouter
 import com.incetro.projecttemplate.common.navigation.Screens
+import com.incetro.projecttemplate.presentation.base.messageshowing.DialogString
 import com.incetro.projecttemplate.presentation.base.messageshowing.SideEffect
+import com.incetro.projecttemplate.presentation.base.mvvm.view.updateDialog
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModel
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModelDependencies
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.INITIAL_STATE_KEY
@@ -13,8 +16,8 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
-import timber.log.Timber
 
 class DemoViewModel @AssistedInject constructor(
     @Assisted savedStateHandle: SavedStateHandle,
@@ -34,8 +37,30 @@ class DemoViewModel @AssistedInject constructor(
         )
 
     override fun onBackPressed() {
-        Timber.e("DemoViewModel onBackPressed")
-        router.exit()
+        intent {
+            if (state.screenNumber == 1 && state.isHomeTab) {
+                reduce {
+                    state.updateDialog { dialogState ->
+                        dialogState.copy(
+                            isVisible = true,
+                            title = DialogString.StringText("Do you really wont to exit?"),
+                            positiveText = R.string.exit,
+                            negativeText = R.string.cancel,
+                            onPositiveClick = { router.exit() },
+                            onDismiss = {
+                                intent {
+                                    reduce {
+                                        state.updateDialog { it.copy(isVisible = false) }
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+            } else {
+                router.exit()
+            }
+        }
     }
 
     fun onNavigateClick() {
@@ -46,7 +71,7 @@ class DemoViewModel @AssistedInject constructor(
 
     fun onNavigateFlow() {
         intent {
-            router.startFlow(Screens.Tab5FlowScreen())
+            router.startFlow(Screens.Flow1Screen())
         }
     }
 

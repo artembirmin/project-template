@@ -1,3 +1,9 @@
+/*
+ * ProjectTemplate
+ *
+ * Created by artembirmin on 31/10/2023.
+ */
+
 package com.incetro.projecttemplate.presentation.base.mvvm.view
 
 import android.os.Bundle
@@ -10,14 +16,14 @@ import com.github.terrakok.cicerone.Replace
 import com.github.terrakok.cicerone.Screen
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import com.incetro.projecttemplate.R
-import com.incetro.projecttemplate.common.di.qualifier.FlowNavigation
-import com.incetro.projecttemplate.common.navigation.FlowRouter
+import com.incetro.projecttemplate.common.di.qualifier.TabNavigation
+import com.incetro.projecttemplate.common.navigation.TabRouter
 import com.incetro.projecttemplate.databinding.LayoutContainerBinding
 import timber.log.Timber
 import javax.inject.Inject
 
 
-abstract class FlowFragment : BaseFragment<LayoutContainerBinding>() {
+abstract class TabFlowFragment : BaseFragment<LayoutContainerBinding>() {
 
     override val layoutRes: Int = R.layout.layout_container
 
@@ -27,11 +33,11 @@ abstract class FlowFragment : BaseFragment<LayoutContainerBinding>() {
         get() = childFragmentManager.findFragmentById(R.id.fragment_container)
 
     @Inject
-    @FlowNavigation
+    @TabNavigation
     lateinit var navigatorHolder: NavigatorHolder
 
     @Inject
-    lateinit var router: FlowRouter
+    lateinit var router: TabRouter
 
     private val navigator: Navigator by lazy {
         object : AppNavigator(requireActivity(), R.id.fragment_container, childFragmentManager) {
@@ -68,7 +74,7 @@ abstract class FlowFragment : BaseFragment<LayoutContainerBinding>() {
     }
 
     override fun onBackPressed() {
-        Timber.e("Flow onBackPressed. currentFragment = $currentFragment")
+        Timber.e("TabFlow onBackPressed. currentFragment = $currentFragment")
         (currentFragment as? BackPressedListener)?.onBackPressed() ?: super.onBackPressed()
     }
 

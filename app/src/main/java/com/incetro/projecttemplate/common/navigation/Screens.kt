@@ -9,15 +9,14 @@
 package com.incetro.projecttemplate.common.navigation
 
 import com.github.terrakok.cicerone.androidx.FragmentScreen
+import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.FlowFragment1
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab1FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab2FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab3FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab4FlowFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab5FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoscreen.DemoFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoscreen.DemoFragmentViewState
 import com.incetro.projecttemplate.presentation.userstory.tabs.tabfragment.TabNavigationFragment
-import kotlin.random.Random
 
 /**
  * App screens for navigation with Cicerone.
@@ -53,9 +52,11 @@ object Screens {
             Tab4FlowFragment.newInstance()
         }
 
-    fun Tab5FlowScreen(): FragmentScreen =
-        FragmentScreen("Tab5FlowScreen${Random.nextInt()}") {
-            Tab5FlowFragment.newInstance()
+    var flowNumber = 1
+
+    fun Flow1Screen(): FragmentScreen =
+        FragmentScreen("Tab5FlowScreen${flowNumber++}") {
+            FlowFragment1.newInstance()
         }
 
 

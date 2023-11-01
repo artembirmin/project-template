@@ -14,10 +14,12 @@ import com.incetro.projecttemplate.common.di.componentmanager.ComponentManager
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsManager
 import com.incetro.projecttemplate.common.di.qualifier.AppNavigation
 import com.incetro.projecttemplate.common.di.qualifier.FlowNavigation
+import com.incetro.projecttemplate.common.di.qualifier.TabNavigation
 import com.incetro.projecttemplate.common.di.scope.ActivityScope
 import com.incetro.projecttemplate.common.manager.ResourcesManager
 import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.common.navigation.FlowRouter
+import com.incetro.projecttemplate.common.navigation.TabRouter
 import com.incetro.projecttemplate.model.database.AppDatabase
 import com.incetro.projecttemplate.model.database.demo.DemoDao
 import com.incetro.projecttemplate.model.network.api.DemoApi
@@ -48,6 +50,11 @@ interface ActivityComponent {
     @FlowNavigation
     fun provideFlowNavigationHolder(): NavigatorHolder
     fun provideFlowRouter(): FlowRouter
+
+    // TabNavigationModule
+    @TabNavigation
+    fun provideTabNavigationHolder(): NavigatorHolder
+    fun provideTabRouter(): TabRouter
 
     // Database module
     fun provideAppDatabase(): AppDatabase

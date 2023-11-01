@@ -16,6 +16,10 @@ import com.incetro.projecttemplate.databinding.FragmentMainNavigationBinding
 import com.incetro.projecttemplate.presentation.base.mvvm.view.BackPressedListener
 import com.incetro.projecttemplate.presentation.base.mvvm.view.BaseFragment
 import com.incetro.projecttemplate.presentation.base.mvvm.view.HasBottomNavigation
+import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab1FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab2FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab3FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab4FlowFragment
 import com.incetro.projecttemplate.utils.ext.visible
 import timber.log.Timber
 
@@ -25,7 +29,7 @@ class TabNavigationFragment : BaseFragment<FragmentMainNavigationBinding>(),
     override val layoutRes = R.layout.fragment_main_navigation
 
     private val currentTabFlowFragment: Fragment?
-        get() = childFragmentManager.fragments.firstOrNull { !it.isHidden } as Fragment?
+        get() = childFragmentManager.fragments.firstOrNull { !it.isHidden }
 
     override fun inject() = ActivityComponent.Manager.getComponent().inject(this)
 
@@ -89,22 +93,30 @@ class TabNavigationFragment : BaseFragment<FragmentMainNavigationBinding>(),
     override fun onBackPressed() {
         val hasOpenInnerFragments =
             (currentTabFlowFragment?.childFragmentManager?.backStackEntryCount ?: 0) > 0
+        val flowFragmentBackStackSize =
+            currentTabFlowFragment?.childFragmentManager?.backStackEntryCount
+        val fragmentBackStackSize =
+            currentTabFlowFragment?.childFragmentManager?.fragments?.firstOrNull()?.childFragmentManager?.backStackEntryCount
+                ?: 0
+
+        val tabFlowBackPressedListener = currentTabFlowFragment as? BackPressedListener
 
         Timber.e("TabNavFragment onBackPressed hasOpenTabs = $hasOpenInnerFragments")
         if (hasOpenInnerFragments) {
-            (currentTabFlowFragment as? BackPressedListener)?.onBackPressed()
+            tabFlowBackPressedListener?.onBackPressed()
+            return
+        } else if (fragmentBackStackSize > 0) {
+            tabFlowBackPressedListener?.onBackPressed()
             return
         }
 
-//        when (currentTabFlowFragment) {
-//            is TeamFlowFragment -> navigateToHome()
-//            is KnowledgeBaseFlowFragment -> navigateToHome()
-//            is StatisticsFlowFragment -> navigateToHome()
-//            is HistoryFlowFragment -> navigateToHome()
-//            is ProfileFlowFragment -> navigateToHome()
-//            else -> currentTabFlowFragment?.onBackPressed()
-//        }
-        (currentTabFlowFragment as? BackPressedListener)?.onBackPressed()
+        when (currentTabFlowFragment) {
+            is Tab1FlowFragment -> tabFlowBackPressedListener?.onBackPressed()
+            is Tab2FlowFragment -> navigateToHome()
+            is Tab3FlowFragment -> navigateToHome()
+            is Tab4FlowFragment -> navigateToHome()
+            else -> tabFlowBackPressedListener?.onBackPressed()
+        }
     }
 
     private fun navigateToHome() {
