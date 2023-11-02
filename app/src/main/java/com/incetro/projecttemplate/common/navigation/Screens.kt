@@ -9,6 +9,7 @@
 package com.incetro.projecttemplate.common.navigation
 
 import com.github.terrakok.cicerone.androidx.FragmentScreen
+import com.incetro.projecttemplate.presentation.userstory.start.StartFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.FlowFragmentInsideTab
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.SeparateFlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab1FlowFragment
@@ -31,6 +32,11 @@ object Screens {
     fun TabNavigationScreen(): FragmentScreen =
         FragmentScreen() {
             TabNavigationFragment.newInstance()
+        }
+
+    fun StartScreen(): FragmentScreen =
+        FragmentScreen() {
+            StartFragment.newInstance()
         }
 
     fun Tab1FlowScreen(): FragmentScreen =

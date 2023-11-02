@@ -23,6 +23,6 @@ class AppLauncher @Inject constructor(
     fun start() {
         App.theme.value = preferencesManager.appTheme
 
-        router.newRootScreen(Screens.TabNavigationScreen())
+        router.newRootScreen(Screens.StartScreen())
     }
 }
