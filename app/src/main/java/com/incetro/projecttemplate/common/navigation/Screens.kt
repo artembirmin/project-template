@@ -10,14 +10,13 @@ package com.incetro.projecttemplate.common.navigation
 
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import com.incetro.projecttemplate.presentation.userstory.start.StartFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.FlowFragmentInsideTab
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.SeparateFlowFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab1FlowFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab2FlowFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab3FlowFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab4FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoscreen.DemoFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoscreen.DemoFragmentViewState
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.FlowFragmentImpl
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab1FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab2FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab3FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab4FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.tabfragment.TabNavigationFragment
 
 /**
@@ -62,18 +61,7 @@ object Screens {
     var flowNumber = 1
 
     fun FlowInsideTabScreen(isInsideTab: Boolean = true): FragmentScreen =
-        FragmentScreen("Tab5FlowScreen${flowNumber++}") {
-            FlowFragmentInsideTab.newInstance(isInsideTab)
+        FragmentScreen("FlowScreen${flowNumber++}") {
+            FlowFragmentImpl.newInstance(isInsideTab)
         }
-
-    fun SeparateFlowScreen(): FragmentScreen =
-        FragmentScreen("Tab5FlowScreen${flowNumber++}") {
-            SeparateFlowFragment.newInstance()
-        }
-
-
-//    fun DemoFlowScreen(initParams: DemoFlowFragmentState): FragmentScreen =
-//        FragmentScreen("DemoFlowScreen") {
-//            DemoFlowFragment.newInstance(initParams)
-//        }
 }

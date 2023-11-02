@@ -23,8 +23,8 @@ import com.incetro.projecttemplate.presentation.base.mvvm.view.provideInitParams
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.SavedStateViewModelFactoryImpl
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.lazyViewModelByFactory
 import com.incetro.projecttemplate.presentation.ui.theme.AppTheme
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab1FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.di.DemoComponent
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab1FlowFragment
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.reduce

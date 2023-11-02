@@ -1,5 +1,5 @@
 /*
- * ruvpro
+ * ProjectTemplate
  *
  * Created by artembirmin on 23/10/2023.
  */

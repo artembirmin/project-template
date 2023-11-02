@@ -1,5 +1,5 @@
 /*
- * Ruvpro
+ * ProjectTemplate
  *
  * Created by artembirmin on 29/4/2022.
  */

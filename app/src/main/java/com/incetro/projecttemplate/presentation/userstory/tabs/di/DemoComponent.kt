@@ -10,13 +10,12 @@ import com.incetro.projecttemplate.common.di.activity.ActivityComponent
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentManager
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsManager
 import com.incetro.projecttemplate.common.di.scope.FeatureScope
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.FlowFragmentInsideTab
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.SeparateFlowFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab1FlowFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab2FlowFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab3FlowFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab4FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoscreen.DemoFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.FlowFragmentImpl
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab1FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab2FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab3FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab4FlowFragment
 import dagger.Component
 
 @FeatureScope
@@ -32,8 +31,7 @@ interface DemoComponent {
     fun inject(tab2FlowFragment: Tab2FlowFragment)
     fun inject(tab3FlowFragment: Tab3FlowFragment)
     fun inject(tab4FlowFragment: Tab4FlowFragment)
-    fun inject(flowFragmentInsideTab: FlowFragmentInsideTab)
-    fun inject(separateFlowFragment: SeparateFlowFragment)
+    fun inject(flowFragmentImpl: FlowFragmentImpl)
 
     @Component.Builder
     interface Builder {
