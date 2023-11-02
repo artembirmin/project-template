@@ -9,6 +9,7 @@ package com.incetro.projecttemplate.common.di.app.module
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.incetro.projecttemplate.common.di.qualifier.FlowNavigation
+import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.common.navigation.FlowRouter
 import com.incetro.projecttemplate.common.navigation.TabRouter
 import dagger.Module
@@ -20,8 +21,11 @@ class FlowNavigationModule {
 
     @Provides
     @Singleton
-    fun provideFlowCicerone(tabNavigationRouter: TabRouter): Cicerone<FlowRouter> =
-        Cicerone.create(FlowRouter(tabNavigationRouter))
+    fun provideFlowCicerone(
+        appRouter: AppRouter,
+        tabNavigationRouter: TabRouter
+    ): Cicerone<FlowRouter> =
+        Cicerone.create(FlowRouter(appRouter, tabNavigationRouter))
 
     @Provides
     @Singleton

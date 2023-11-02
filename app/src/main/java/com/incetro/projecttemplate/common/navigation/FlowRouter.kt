@@ -10,18 +10,30 @@ import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.Screen
 
 
-class FlowRouter(private val mainRouter: Router) : Router() {
+class FlowRouter(private val appRouter: AppRouter, private val tabRouter: Router) : Router() {
 
     fun startFlow(screen: Screen) {
-        mainRouter.navigateTo(screen)
+        appRouter.navigateTo(screen)
     }
 
     fun newRootFlow(screen: Screen) {
-        mainRouter.newRootScreen(screen)
+        appRouter.newRootScreen(screen)
     }
 
     fun finishFlow() {
-        mainRouter.exit()
+        appRouter.exit()
+    }
+
+    fun startFlowInsideTab(screen: Screen) {
+        tabRouter.navigateTo(screen)
+    }
+
+    fun newRootFlowInsideTab(screen: Screen) {
+        tabRouter.newRootScreen(screen)
+    }
+
+    fun finishFlowInsideTab() {
+        tabRouter.exit()
     }
 
     fun exitTwice() {

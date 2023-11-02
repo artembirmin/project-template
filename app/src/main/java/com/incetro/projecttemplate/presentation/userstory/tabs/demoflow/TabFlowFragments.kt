@@ -15,7 +15,7 @@ import com.incetro.projecttemplate.presentation.userstory.tabs.di.DemoComponent
 
 class Tab1FlowFragment : TabFlowFragment() {
 
-    override var launchScreen: Screen = Screens.Flow1Screen()
+    override var launchScreen: Screen = Screens.FlowInsideTabScreen()
 
     override fun inject() = DemoComponent.Manager.getComponent().inject(this)
     override fun release() = DemoComponent.Manager.releaseComponent()
@@ -27,7 +27,7 @@ class Tab1FlowFragment : TabFlowFragment() {
 
 class Tab2FlowFragment : TabFlowFragment() {
 
-    override var launchScreen: Screen = Screens.Flow1Screen()
+    override var launchScreen: Screen = Screens.FlowInsideTabScreen()
 
     override fun inject() = DemoComponent.Manager.getComponent().inject(this)
     override fun release() = DemoComponent.Manager.releaseComponent()
@@ -39,7 +39,7 @@ class Tab2FlowFragment : TabFlowFragment() {
 
 class Tab3FlowFragment : TabFlowFragment() {
 
-    override var launchScreen: Screen = Screens.Flow1Screen()
+    override var launchScreen: Screen = Screens.FlowInsideTabScreen()
 
     override fun inject() = DemoComponent.Manager.getComponent().inject(this)
     override fun release() = DemoComponent.Manager.releaseComponent()
@@ -51,7 +51,7 @@ class Tab3FlowFragment : TabFlowFragment() {
 
 class Tab4FlowFragment : TabFlowFragment() {
 
-    override var launchScreen: Screen = Screens.Flow1Screen()
+    override var launchScreen: Screen = Screens.FlowInsideTabScreen()
 
     override fun inject() = DemoComponent.Manager.getComponent().inject(this)
     override fun release() = DemoComponent.Manager.releaseComponent()
@@ -61,7 +61,7 @@ class Tab4FlowFragment : TabFlowFragment() {
     }
 }
 
-class FlowFragment1 : FlowFragment() {
+class FlowFragmentInsideTab(override val isFlowInsideTab: Boolean) : FlowFragment() {
 
     override var launchScreen: Screen = Screens.DemoScreen(DemoFragmentViewState(1))
 
@@ -69,6 +69,19 @@ class FlowFragment1 : FlowFragment() {
     override fun release() = DemoComponent.Manager.releaseComponent()
 
     companion object {
-        fun newInstance(): FlowFragment1 = FlowFragment1()
+        fun newInstance(isFlowInsideTab: Boolean = false): FlowFragmentInsideTab =
+            FlowFragmentInsideTab(isFlowInsideTab)
+    }
+}
+
+class SeparateFlowFragment : FlowFragment() {
+
+    override var launchScreen: Screen = Screens.DemoScreen(DemoFragmentViewState(1))
+
+    override fun inject() = DemoComponent.Manager.getComponent().inject(this)
+    override fun release() = DemoComponent.Manager.releaseComponent()
+
+    companion object {
+        fun newInstance(): SeparateFlowFragment = SeparateFlowFragment()
     }
 }

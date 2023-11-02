@@ -53,21 +53,28 @@ class DemoFragment : BaseComposeFragment() {
     override fun CreateView() {
         val viewState: DemoFragmentViewState by _viewModel.collectAsState()
         AppTheme {
-            val currentTabFragmentName =
-                parentFragment?.tag ?: "null"
             LaunchedEffect(true) {
                 val isHomeTab = parentFragment?.parentFragment is Tab1FlowFragment
+                val isFirstFlowFragmenInTab =
+                    parentFragment?.parentFragment?.childFragmentManager?.backStackEntryCount == 0
                 _viewModel.intent {
                     reduce {
-                        state.copy(isHomeTab = isHomeTab)
+                        state.copy(
+                            isHomeTab = isHomeTab,
+                            isFirstFlowFragmenInTab = isFirstFlowFragmenInTab
+                        )
                     }
                 }
             }
+            val currentTabFlowFragmentName =
+                parentFragment?.tag ?: "null"
+
             ScreenContent(
                 viewState,
                 _viewModel::onNavigateClick,
-                _viewModel::onNavigateFlow,
-                currentTabFragmentName
+                _viewModel::onNavigateFlowInsideTab,
+                _viewModel::onNavigateSeparateFlow,
+                currentTabFlowFragmentName
             )
         }
     }
@@ -87,7 +94,8 @@ fun ScreenContent(
     viewState: DemoFragmentViewState,
     navigateToNextScreen: () -> Unit,
     navigateToNextFlow: () -> Unit,
-    currentTabFragmentName: String
+    navigateToSeparateFlow: () -> Unit,
+    currentTabFlowFragmentName: String
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -111,7 +119,7 @@ fun ScreenContent(
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                "Flow ${currentTabFragmentName}",
+                "Flow $currentTabFlowFragmentName",
                 style = MaterialTheme.typography.titleLarge
             )
             Spacer(modifier = Modifier.height(16.dp))
@@ -121,7 +129,15 @@ fun ScreenContent(
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Text("Go to another flow")
+                Text("Go to another flow inside tab")
+            }
+            Button(
+                onClick = navigateToSeparateFlow,
+                Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text("Go to separate flow")
             }
         }
     }
@@ -130,5 +146,11 @@ fun ScreenContent(
 @Preview
 @Composable
 fun ScreenContentPreview() {
-    ScreenContent(DemoFragmentViewState(), {}, {}, "currentTabFragmentName")
+    ScreenContent(
+        DemoFragmentViewState(),
+        {},
+        {},
+        {},
+        "currentTabFragmentName"
+    )
 }

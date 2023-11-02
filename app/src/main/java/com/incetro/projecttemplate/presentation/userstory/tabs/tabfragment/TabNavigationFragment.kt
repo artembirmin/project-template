@@ -21,7 +21,6 @@ import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab2Flow
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab3FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab4FlowFragment
 import com.incetro.projecttemplate.utils.ext.visible
-import timber.log.Timber
 
 class TabNavigationFragment : BaseFragment<FragmentMainNavigationBinding>(),
     HasBottomNavigation {
@@ -93,15 +92,12 @@ class TabNavigationFragment : BaseFragment<FragmentMainNavigationBinding>(),
     override fun onBackPressed() {
         val hasOpenInnerFragments =
             (currentTabFlowFragment?.childFragmentManager?.backStackEntryCount ?: 0) > 0
-        val flowFragmentBackStackSize =
-            currentTabFlowFragment?.childFragmentManager?.backStackEntryCount
         val fragmentBackStackSize =
             currentTabFlowFragment?.childFragmentManager?.fragments?.firstOrNull()?.childFragmentManager?.backStackEntryCount
                 ?: 0
 
         val tabFlowBackPressedListener = currentTabFlowFragment as? BackPressedListener
 
-        Timber.e("TabNavFragment onBackPressed hasOpenTabs = $hasOpenInnerFragments")
         if (hasOpenInnerFragments) {
             tabFlowBackPressedListener?.onBackPressed()
             return

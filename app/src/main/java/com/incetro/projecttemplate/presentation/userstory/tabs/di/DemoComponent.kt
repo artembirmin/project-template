@@ -10,7 +10,8 @@ import com.incetro.projecttemplate.common.di.activity.ActivityComponent
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentManager
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsManager
 import com.incetro.projecttemplate.common.di.scope.FeatureScope
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.FlowFragment1
+import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.FlowFragmentInsideTab
+import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.SeparateFlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab1FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab2FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.demoflow.Tab3FlowFragment
@@ -31,7 +32,8 @@ interface DemoComponent {
     fun inject(tab2FlowFragment: Tab2FlowFragment)
     fun inject(tab3FlowFragment: Tab3FlowFragment)
     fun inject(tab4FlowFragment: Tab4FlowFragment)
-    fun inject(flowFragment1: FlowFragment1)
+    fun inject(flowFragmentInsideTab: FlowFragmentInsideTab)
+    fun inject(separateFlowFragment: SeparateFlowFragment)
 
     @Component.Builder
     interface Builder {

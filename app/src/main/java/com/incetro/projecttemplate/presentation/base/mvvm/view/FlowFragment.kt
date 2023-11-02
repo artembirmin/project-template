@@ -21,6 +21,8 @@ abstract class FlowFragment : BaseFragment<LayoutContainerBinding>() {
 
     override val layoutRes: Int = R.layout.layout_container
 
+    open val isFlowInsideTab: Boolean = false
+
     abstract var launchScreen: Screen
 
     private val currentFragment: Fragment?
@@ -36,7 +38,11 @@ abstract class FlowFragment : BaseFragment<LayoutContainerBinding>() {
     private val navigator: Navigator by lazy {
         object : AppNavigator(requireActivity(), R.id.fragment_container, childFragmentManager) {
             override fun activityBack() {
-                router.finishFlow()
+                if (isFlowInsideTab) {
+                    router.finishFlowInsideTab()
+                } else {
+                    router.finishFlow()
+                }
             }
         }
     }

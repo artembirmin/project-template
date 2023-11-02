@@ -38,7 +38,7 @@ class DemoViewModel @AssistedInject constructor(
 
     override fun onBackPressed() {
         intent {
-            if (state.screenNumber == 1 && state.isHomeTab) {
+            if (state.screenNumber == 1 && state.isHomeTab && state.isFirstFlowFragmenInTab) {
                 reduce {
                     state.updateDialog { dialogState ->
                         dialogState.copy(
@@ -69,9 +69,15 @@ class DemoViewModel @AssistedInject constructor(
         }
     }
 
-    fun onNavigateFlow() {
+    fun onNavigateFlowInsideTab() {
         intent {
-            router.startFlow(Screens.Flow1Screen())
+            router.startFlowInsideTab(Screens.FlowInsideTabScreen())
+        }
+    }
+
+    fun onNavigateSeparateFlow() {
+        intent {
+            router.startFlow(Screens.FlowInsideTabScreen(isInsideTab = false))
         }
     }
 
