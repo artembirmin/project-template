@@ -1,8 +1,11 @@
 package com.incetro.projecttemplate.presentation.userstory.tabs.demoscreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.incetro.projecttemplate.presentation.base.mvvm.view.BaseComposeFragment
 import com.incetro.projecttemplate.presentation.base.mvvm.view.getInitParams
 import com.incetro.projecttemplate.presentation.base.mvvm.view.provideInitParams
@@ -98,46 +102,54 @@ fun ScreenContent(
     currentTabFlowFragmentName: String
 ) {
     Scaffold { innerPadding ->
-        Column(
-            Modifier.padding(innerPadding),
-            verticalArrangement = Arrangement.SpaceAround,
-            horizontalAlignment = Alignment.CenterHorizontally
+        Box(
+            Modifier
+                .padding(innerPadding)
+                .background(MaterialTheme.colorScheme.tertiary)
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                "Screen number ${viewState.screenNumber}",
-                style = MaterialTheme.typography.titleLarge
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = navigateToNextScreen,
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
+            Column(
+                Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.SpaceAround,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Go to another screen")
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                "Flow $currentTabFlowFragmentName",
-                style = MaterialTheme.typography.titleLarge
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = navigateToNextFlow,
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                Text("Go to another flow inside tab")
-            }
-            Button(
-                onClick = navigateToSeparateFlow,
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                Text("Go to separate flow")
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    "Screen number ${viewState.screenNumber}",
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = navigateToNextScreen,
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Text("Go to another screen")
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    "Flow $currentTabFlowFragmentName",
+                    style = MaterialTheme.typography.titleLarge
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = navigateToNextFlow,
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Text("Go to another flow inside tab")
+                }
+                Button(
+                    onClick = navigateToSeparateFlow,
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Text("Go to separate flow")
+                }
+                Spacer(modifier = Modifier.weight(1f))
+                Text("Bottom", fontSize = 60.sp)
             }
         }
     }

@@ -49,7 +49,6 @@ abstract class FlowFragment : BaseFragment<LayoutContainerBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.e("${this::class.java.simpleName}. navigator = $navigator, navHolder = $navigatorHolder, router = $router")
         if (childFragmentManager.fragments.isEmpty()) {
             setFlowLaunchScreen(launchScreen)
         }
@@ -80,12 +79,10 @@ abstract class FlowFragment : BaseFragment<LayoutContainerBinding>() {
 
     override fun onResume() {
         super.onResume()
-        Timber.e("setNavigator $navigator")
         navigatorHolder.setNavigator(navigator)
     }
 
     override fun onPause() {
-        Timber.e("removeNavigator")
         navigatorHolder.removeNavigator()
         super.onPause()
     }

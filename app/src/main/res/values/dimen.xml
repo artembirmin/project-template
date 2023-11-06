@@ -6,6 +6,6 @@
 
 <resources>
 
-    <dimen name="bottom_bar_height">56dp</dimen>
+    <dimen name="bottom_bar_height">80dp</dimen>
 
 </resources>
