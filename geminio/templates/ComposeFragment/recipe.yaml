@@ -1,0 +1,27 @@
+requiredParams:
+  name: Compose Fragment
+  description: Create Compose Fragment
+
+widgets:
+  - stringParameter:
+      id: fragmentName
+      name: Fragment Name
+      help: The name of the fragment class to create
+      constraints:
+        - class
+        - nonempty
+        - unique
+      default: Blank
+
+recipe:
+  - instantiateAndOpen:
+      from: root/src/Fragment.kt.ftl
+      to: ${srcOut}/${fragmentName}Fragment.kt
+
+  - instantiateAndOpen:
+      from: root/src/FragmentViewState.kt.ftl
+      to: ${srcOut}/${fragmentName}FragmentViewState.kt
+
+  - instantiateAndOpen:
+      from: root/src/ViewModel.kt.ftl
+      to: ${srcOut}/${fragmentName}ViewModel.kt

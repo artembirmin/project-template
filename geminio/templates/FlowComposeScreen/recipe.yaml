@@ -1,0 +1,35 @@
+requiredParams:
+  name: Compose Fragment
+  description: Create Compose Fragment
+
+widgets:
+  - stringParameter:
+      id: flowFragmentName
+      name: Flow fragment name
+      help: The name of the fragment class to create
+      constraints:
+        - class
+        - nonempty
+      default: Blank
+
+  - stringParameter:
+      id: launchFragmentName
+      name: Launch fragment name
+      help: The name of the fragment class to create
+      constraints:
+        - class
+        - nonempty
+      default: Blank
+
+recipe:
+  - instantiateAndOpen:
+      from: root/src/FlowFragment.kt.ftl
+      to: ${srcOut}/${flowFragmentName}FlowFragment.kt
+
+  - instantiateAndOpen:
+      from: root/src/DaggerComponent.kt.ftl
+      to: ${srcOut}/di/${flowFragmentName}Component.kt
+
+  - instantiateAndOpen:
+      from: root/src/DaggerModule.kt.ftl
+      to: ${srcOut}/di/${flowFragmentName}Module.kt
