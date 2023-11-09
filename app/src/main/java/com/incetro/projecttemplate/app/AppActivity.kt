@@ -7,6 +7,7 @@
 package com.incetro.projecttemplate.app
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.terrakok.cicerone.Navigator
@@ -18,7 +19,6 @@ import com.incetro.projecttemplate.common.di.qualifier.AppNavigation
 import com.incetro.projecttemplate.presentation.base.mvvm.view.BackPressedListener
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import timber.log.Timber
 import javax.inject.Inject
 
 class AppActivity : AppCompatActivity() {
@@ -49,15 +49,24 @@ class AppActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             appLauncher.start()
         }
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressedClick()
+            }
+        }
+        onBackPressedDispatcher.addCallback(
+            owner = this,
+            onBackPressedCallback = callback
+        )
     }
 
     private fun inject() {
         ActivityComponent.Manager.getComponent().inject(this)
     }
 
-    override fun onBackPressed() {
-        Timber.e("AppActivity onBackPressed. CurrentFragment = $currentFragment")
-        (currentFragment as? BackPressedListener)?.onBackPressed() ?: super.onBackPressed()
+    fun onBackPressedClick() {
+        (currentFragment as? BackPressedListener)?.onBackPressed() ?: finish()
     }
 
     override fun onDestroy() {
