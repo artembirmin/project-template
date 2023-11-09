@@ -57,7 +57,7 @@ abstract class BaseFragment<Binding : ViewDataBinding> : MvpAppCompatFragment(),
     abstract fun release()
 
     /**
-     * Called in [AppActivity.onBackPressed].
+     * Called in [AppActivity.onBackPressedClick].
      */
     override fun onBackPressed() {}
 
