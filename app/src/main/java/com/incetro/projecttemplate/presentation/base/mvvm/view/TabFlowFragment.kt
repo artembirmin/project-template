@@ -19,7 +19,6 @@ import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.common.di.qualifier.TabNavigation
 import com.incetro.projecttemplate.common.navigation.TabRouter
 import com.incetro.projecttemplate.databinding.LayoutContainerBinding
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -73,7 +72,6 @@ abstract class TabFlowFragment : BaseFragment<LayoutContainerBinding>() {
     }
 
     override fun onBackPressed() {
-        Timber.e("TabFlow onBackPressed. currentFragment = $currentFragment")
         (currentFragment as? BackPressedListener)?.onBackPressed() ?: super.onBackPressed()
     }
 

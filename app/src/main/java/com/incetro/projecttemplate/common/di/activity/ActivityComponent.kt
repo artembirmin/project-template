@@ -24,6 +24,10 @@ import com.incetro.projecttemplate.model.database.AppDatabase
 import com.incetro.projecttemplate.model.database.demo.DemoDao
 import com.incetro.projecttemplate.model.network.api.DemoApi
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModelDependencies
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab1FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab2FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab3FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab4FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.tabfragment.TabNavigationFragment
 import dagger.Component
 
@@ -36,6 +40,11 @@ import dagger.Component
 )
 interface ActivityComponent {
     fun inject(appActivity: AppActivity)
+    fun inject(tabNavigationFragment: TabNavigationFragment)
+    fun inject(tab1FlowFragment: Tab1FlowFragment)
+    fun inject(tab2FlowFragment: Tab2FlowFragment)
+    fun inject(tab3FlowFragment: Tab3FlowFragment)
+    fun inject(tab4FlowFragment: Tab4FlowFragment)
 
     // AppModule
     fun provideContext(): Context
@@ -65,7 +74,6 @@ interface ActivityComponent {
 
     // Other
     fun provideResourcesManager(): ResourcesManager
-    fun inject(tabNavigationFragment: TabNavigationFragment)
 
     @Component.Builder
     interface Builder {

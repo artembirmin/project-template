@@ -9,10 +9,8 @@
 package com.incetro.projecttemplate.common.navigation
 
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import com.incetro.projecttemplate.presentation.userstory.start.StartFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoscreen.DemoFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoscreen.DemoFragmentViewState
-import com.incetro.projecttemplate.presentation.userstory.tabs.flows.FlowFragmentImpl
+import com.incetro.projecttemplate.presentation.userstory.demofragment.demoscreen.DemoFragment
+import com.incetro.projecttemplate.presentation.userstory.demofragment.demoscreen.DemoFragmentViewState
 import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab1FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab2FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab3FlowFragment
@@ -33,11 +31,6 @@ object Screens {
             TabNavigationFragment.newInstance()
         }
 
-    fun StartScreen(): FragmentScreen =
-        FragmentScreen() {
-            StartFragment.newInstance()
-        }
-
     fun Tab1FlowScreen(): FragmentScreen =
         FragmentScreen() {
             Tab1FlowFragment.newInstance()
@@ -56,12 +49,5 @@ object Screens {
     fun Tab4FlowScreen(): FragmentScreen =
         FragmentScreen() {
             Tab4FlowFragment.newInstance()
-        }
-
-    var flowNumber = 1
-
-    fun FlowInsideTabScreen(isInsideTab: Boolean = true): FragmentScreen =
-        FragmentScreen("FlowScreen${flowNumber++}") {
-            FlowFragmentImpl.newInstance(isInsideTab)
         }
 }

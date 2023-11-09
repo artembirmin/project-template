@@ -1,21 +1,16 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 6/11/2022.
+ * Created by artembirmin on 9/11/2023.
  */
 
-package com.incetro.projecttemplate.presentation.userstory.tabs.di
+package com.incetro.projecttemplate.presentation.userstory.demofragment.di
 
 import com.incetro.projecttemplate.common.di.activity.ActivityComponent
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentManager
 import com.incetro.projecttemplate.common.di.componentmanager.ComponentsManager
 import com.incetro.projecttemplate.common.di.scope.FeatureScope
-import com.incetro.projecttemplate.presentation.userstory.tabs.demoscreen.DemoFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.flows.FlowFragmentImpl
-import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab1FlowFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab2FlowFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab3FlowFragment
-import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab4FlowFragment
+import com.incetro.projecttemplate.presentation.userstory.demofragment.demoscreen.DemoFragment
 import dagger.Component
 
 @FeatureScope
@@ -27,11 +22,6 @@ import dagger.Component
 )
 interface DemoComponent {
     fun inject(demoFragment: DemoFragment)
-    fun inject(tab1FlowFragment: Tab1FlowFragment)
-    fun inject(tab2FlowFragment: Tab2FlowFragment)
-    fun inject(tab3FlowFragment: Tab3FlowFragment)
-    fun inject(tab4FlowFragment: Tab4FlowFragment)
-    fun inject(flowFragmentImpl: FlowFragmentImpl)
 
     @Component.Builder
     interface Builder {
