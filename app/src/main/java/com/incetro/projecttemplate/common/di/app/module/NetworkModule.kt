@@ -11,8 +11,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import com.google.gson.JsonSyntaxException
 import com.incetro.projecttemplate.BuildConfig
-import com.incetro.projecttemplate.model.network.api.DemoApi
-import com.incetro.projecttemplate.model.network.interceptor.AppInfoInterceptor
+import com.incetro.projecttemplate.model.data.network.api.DemoApi
+import com.incetro.projecttemplate.model.data.network.interceptor.AppInfoInterceptor
 import com.incetro.projecttemplate.utils.FileLoggingTree
 import dagger.Module
 import dagger.Provides

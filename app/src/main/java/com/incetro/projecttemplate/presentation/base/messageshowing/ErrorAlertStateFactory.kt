@@ -11,7 +11,7 @@ import com.incetro.projecttemplate.BuildConfig
 import com.incetro.projecttemplate.R
 import com.incetro.projecttemplate.common.manager.ResourcesManager
 import com.incetro.projecttemplate.entity.errors.ErrorBody
-import com.incetro.projecttemplate.model.network.NetworkConnectionError
+import com.incetro.projecttemplate.model.data.network.NetworkConnectionError
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException

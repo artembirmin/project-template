@@ -20,9 +20,9 @@ import com.incetro.projecttemplate.common.manager.ResourcesManager
 import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.common.navigation.FlowRouter
 import com.incetro.projecttemplate.common.navigation.TabRouter
-import com.incetro.projecttemplate.model.database.AppDatabase
-import com.incetro.projecttemplate.model.database.demo.DemoDao
-import com.incetro.projecttemplate.model.network.api.DemoApi
+import com.incetro.projecttemplate.model.data.database.AppDatabase
+import com.incetro.projecttemplate.model.data.database.demo.DemoDao
+import com.incetro.projecttemplate.model.data.network.api.DemoApi
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.BaseViewModelDependencies
 import com.incetro.projecttemplate.presentation.userstory.tabs.tabfragment.TabNavigationFragment
 import dagger.Component

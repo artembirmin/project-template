@@ -8,7 +8,7 @@ package com.incetro.projecttemplate.app
 
 import com.incetro.projecttemplate.common.navigation.AppRouter
 import com.incetro.projecttemplate.common.navigation.Screens
-import com.incetro.projecttemplate.model.preferences.PreferencesManager
+import com.incetro.projecttemplate.model.data.preferences.PreferencesManager
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -4,7 +4,7 @@
  * Created by artembirmin on 21/6/2022.
  */
 
-package com.incetro.projecttemplate.model.database
+package com.incetro.projecttemplate.model.data.database
 
 import androidx.room.Delete
 import androidx.room.Insert
