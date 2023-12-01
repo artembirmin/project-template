@@ -8,8 +8,8 @@ package com.incetro.projecttemplate.common.di.app.module
 
 import android.content.Context
 import androidx.room.Room
-import com.incetro.projecttemplate.model.database.AppDatabase
-import com.incetro.projecttemplate.model.database.demo.DemoDao
+import com.incetro.projecttemplate.model.data.database.AppDatabase
+import com.incetro.projecttemplate.model.data.database.demo.DemoDao
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable

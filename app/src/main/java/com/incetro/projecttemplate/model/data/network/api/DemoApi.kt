@@ -4,7 +4,7 @@
  * Created by artembirmin on 20/7/2022.
  */
 
-package com.incetro.projecttemplate.model.network.api
+package com.incetro.projecttemplate.model.data.network.api
 
 import com.incetro.projecttemplate.entity.number.NumberFactResponse
 import retrofit2.http.GET

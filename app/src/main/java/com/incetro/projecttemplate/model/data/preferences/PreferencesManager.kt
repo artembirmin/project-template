@@ -1,4 +1,4 @@
-package com.incetro.projecttemplate.model.preferences
+package com.incetro.projecttemplate.model.data.preferences
 
 import android.content.Context
 import com.google.gson.Gson

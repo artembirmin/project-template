@@ -1,14 +1,14 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 2/5/2022.
+ * Created by artembirmin on 15/11/2023.
  */
 
-package com.incetro.projecttemplate.model.network.interceptor
+package com.incetro.projecttemplate.model.data.network.interceptor
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.incetro.projecttemplate.model.network.NetworkConnectionError
+import com.incetro.projecttemplate.model.data.network.NetworkConnectionError
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject

@@ -24,6 +24,7 @@ import com.incetro.projecttemplate.presentation.base.mvvm.view.BaseFragment
 import com.incetro.projecttemplate.presentation.base.mvvm.view.HasBottomNavigation
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.SavedStateViewModelFactoryImpl
 import com.incetro.projecttemplate.presentation.base.mvvm.viewmodel.lazyViewModelByFactory
+import com.incetro.projecttemplate.presentation.ui.theme.AppTheme
 import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab1FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab2FlowFragment
 import com.incetro.projecttemplate.presentation.userstory.tabs.flows.Tab3FlowFragment
@@ -58,11 +59,13 @@ class TabNavigationFragment : BaseFragment<FragmentMainNavigationBinding>(),
 
         binding.bottomAppBar.setContent {
             val viewState: TabFragmentViewState by _viewModel.collectAsState()
-            BottomNavigation(currentTab = viewState.currentTab,
-                onSelectTab = { tab ->
-                    selectTab(tab)
-                    _viewModel.onSelectTab(tab)
-                })
+            AppTheme {
+                BottomNavigation(currentTab = viewState.currentTab,
+                    onSelectTab = { tab ->
+                        selectTab(tab)
+                        _viewModel.onSelectTab(tab)
+                    })
+            }
         }
 
 //        with(binding) {

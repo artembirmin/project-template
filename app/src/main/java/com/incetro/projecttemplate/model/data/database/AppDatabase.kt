@@ -1,17 +1,17 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 21/6/2022.
+ * Created by artembirmin on 15/11/2023.
  */
 
-package com.incetro.projecttemplate.model.database
+package com.incetro.projecttemplate.model.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.incetro.projecttemplate.BuildConfig
-import com.incetro.projecttemplate.model.database.demo.DemoDao
-import com.incetro.projecttemplate.model.database.demo.DemoDto
+import com.incetro.projecttemplate.model.data.database.demo.DemoDao
+import com.incetro.projecttemplate.model.data.database.demo.DemoDto
 
 @Database(
     entities = [

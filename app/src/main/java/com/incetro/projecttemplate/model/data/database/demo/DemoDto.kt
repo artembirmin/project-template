@@ -1,10 +1,10 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 21/6/2022.
+ * Created by artembirmin on 15/11/2023.
  */
 
-package com.incetro.projecttemplate.model.database.demo
+package com.incetro.projecttemplate.model.data.database.demo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

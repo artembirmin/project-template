@@ -1,10 +1,10 @@
 /*
  * ProjectTemplate
  *
- * Created by artembirmin on 2/5/2022.
+ * Created by artembirmin on 15/11/2023.
  */
 
-package com.incetro.projecttemplate.model.network.interceptor
+package com.incetro.projecttemplate.model.data.network.interceptor
 
 import com.incetro.projecttemplate.BuildConfig
 import okhttp3.Interceptor
