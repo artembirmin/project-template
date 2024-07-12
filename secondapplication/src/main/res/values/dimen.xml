@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ProjectTemplate
+  ~
+  ~ Created by artembirmin on 20/7/2022.
+  -->
+
+<resources>
+
+    <dimen name="bottom_bar_height">80dp</dimen>
+
+</resources>

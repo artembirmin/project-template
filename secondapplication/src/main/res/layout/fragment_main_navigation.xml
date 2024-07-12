@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ ProjectTemplate
+  ~
+  ~ Created by artembirmin on 3/5/2022.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/mainScreenContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/bottom_bar_height" />
+
+        <!-- TODO Use ComposeView BottomNavigation -->
+
+        <androidx.compose.ui.platform.ComposeView
+            android:id="@+id/bottomAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:windowSoftInputMode="adjustPan"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp" />
+
+        <!--        <com.google.android.material.bottomappbar.BottomAppBar-->
+        <!--            android:id="@+id/bottomAppBar"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/bottom_bar_height"-->
+        <!--            android:layout_gravity="bottom"-->
+        <!--            android:windowSoftInputMode="adjustPan"-->
+        <!--            app:contentInsetStart="0dp"-->
+        <!--            app:contentInsetStartWithNavigation="0dp">-->
+
+        <!--            <com.google.android.material.bottomnavigation.BottomNavigationView-->
+        <!--                android:id="@+id/navigationMenu"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:background="?android:colorBackground"-->
+        <!--                android:windowSoftInputMode="adjustPan"-->
+        <!--                app:itemIconSize="30dp"-->
+        <!--                app:itemIconTint="@color/bottom_navigation_icon_color_selector"-->
+        <!--                app:labelVisibilityMode="labeled"-->
+        <!--                app:menu="@menu/menu_main_bottom_navigation" />-->
+        <!--        </com.google.android.material.bottomappbar.BottomAppBar>-->
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

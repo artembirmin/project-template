@@ -23,4 +23,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "projecttemplate"
-include ':app'
+include ':firstapplication'
+include ':secondapplication'

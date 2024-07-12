@@ -1,0 +1,17 @@
+<!--
+  ~ ProjectTemplate
+  ~
+  ~ Created by artembirmin on 3/11/2022.
+  -->
+
+<resources>
+
+    <string name="ok">Ok</string>
+    <string name="exit">Exit</string>
+    <string name="cancel">Cancel</string>
+    <string name="demo_title">Demo</string>
+    <string name="demo_hello_world">Hello world</string>
+    <string name="error_common_text">"Something went wrong. Check your internet connection and try again later"</string>
+    <string name="error_title">"Error"</string>
+
+</resources>
